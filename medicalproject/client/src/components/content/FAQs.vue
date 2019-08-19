@@ -1,0 +1,237 @@
+<template>
+  <div class="container-fluid">
+    <div class="row containerCus">
+      <div class="col-md-12 title">
+        Câu Hỏi Thường Gặp
+      </div>
+
+      <!-- About Company -->
+      <div class="col-md-12 title-faqs">
+        VỀ CÔNG TY
+      </div>
+
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(1)">
+        <div class="question">
+          <span class="question">EHR MedicalBlock là gì ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_1.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_1.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(2)">
+        <div class="question">
+          <span class="question">EHR MedicalBlock cung cấp những loại dịch vụ nào ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_2.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_2.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(3)">
+        <div class="question">
+          <span class="question">Sự khác biệt của bạn đối với các công ty đối thủ là gì ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_3.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_3.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(4)">
+        <div class="question">
+          <span class="question">EHR MedicalBlock có cung cấp thông tin của chúng bên thứ ba ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_4.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_4.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+
+      <!-- About Services -->
+
+      <div class="col-md-12 title-faqs">
+        VỀ DỊCH VỤ
+      </div>
+
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(5)">
+        <div class="question">
+          <span class="question">EHR MedicalBlock cung cấp gì cho khách hàng ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_5.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_5.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(6)">
+        <div class="question">
+          <span class="question">Thông tin hồ sơ bệnh án của tôi có được lưu trữ an toàn không ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_6.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_6.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(7)">
+        <div class="question">
+          <span class="question">Ai là người ghi lại lịch sử hồ sơ bệnh án của tôi ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_7.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_7.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+      <div class="col-md-12 wrapper-faqs " @click="EisShowAnswer(8)">
+        <div class="question">
+          <span class="question">Phí dịch vụ có miễn phí không ?</span>
+          <span class="down-arrow"><img :src="ShowDownUp_8.image"/></span>
+        </div>
+        <transition name="fade">
+          <div class="answer" v-show="ShowDownUp_8.isShow">
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has survived
+            not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in
+            the 1960s
+          </div>
+        </transition>
+      </div>
+
+      <div class="space10 col-md-12"></div>
+      <!-- trick  :((  -->
+      <span class="down-arrow " v-if="true" v-show="false"
+        ><img src="@/assets/images/down-arrow.svg"
+      /></span>
+      <span class="down-arrow " v-if="true" v-show="false"
+        ><img src="@/assets/images/up-arrow.svg"
+      /></span>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters} from "vuex";
+
+export default {
+  methods: {
+    EisShowAnswer(idQuestion) {
+      this.$store.dispatch("EisShowAnswer", idQuestion);
+    }
+  },
+  computed: {
+    ...mapGetters(
+      ["ShowDownUp_1",
+      "ShowDownUp_2",
+      "ShowDownUp_3",
+      "ShowDownUp_4",
+      "ShowDownUp_5",
+      "ShowDownUp_6",
+      "ShowDownUp_7",
+      "ShowDownUp_8"]
+    )
+  }
+};
+</script>
+<style scoped>
+* {
+  font-size: 11px;
+}
+.containerCus {
+  margin-top: 10vh;
+  margin-left: 9vw;
+  margin-right: 16vw;
+}
+.title {
+  font-size: 2.8em;
+}
+
+.wrapper-faqs {
+  box-shadow: 0 2px 4px 0 rgba(81, 85, 133, 0.28);
+  border-radius: 5px;
+  padding: 25px 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  /* display: inline-block; */
+}
+
+.down-arrow img {
+  height: 1rem;
+  width: 1rem;
+  float: right;
+  padding-top: 0.1rem;
+}
+.title-faqs {
+  color: #3f4cec;
+  letter-spacing: 1.6px;
+  margin: 30px 0 10px;
+}
+.question {
+  color: #0b0f41;
+  font-size: 16px;
+
+  /* font-family: SpaceGrotesk-Regular; */
+}
+
+.answer {
+  color: #515584;
+  line-height: 1.75;
+  margin-top: 10px;
+}
+.fade-enter-active {
+  transition: all .3s ease;
+}
+.fade-leave-active {
+  transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-enter, .fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(10px);
+  opacity: 0;
+}
+.space10 {
+  height: 10vh;
+}
+</style>

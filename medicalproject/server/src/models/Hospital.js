@@ -2,7 +2,11 @@ module.exports = (sequelize, DataTypes) => {
     const Hospital = sequelize.define('Hospital', {
         id_account:{
             type:DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: 'Account',
+                key: 'id',
+            }
         },
         name_hospital:{
             type:DataTypes.STRING,

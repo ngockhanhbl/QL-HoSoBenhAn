@@ -64,8 +64,6 @@ computed: {
         const id_patient = this.user.id
         const payload = (await PatientService.show(id_patient)).data
         if(payload.length > 0){
-          alert('huhu')
-          console.log('no vo ne khanh oi timeline 1')
             this.$store.dispatch("update_inforRecordsPatientDetail",payload)
             const lengthRecord = payload.length
             const idDoctorWriteRecord = []

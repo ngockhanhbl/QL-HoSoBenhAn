@@ -74,7 +74,7 @@
                             <div class=" Custominput3 pr2"   >
                                 <input type="password"  style="width:100%;"  v-model="password" >
                             </div>
-                            <div class="block mt-5">Tôi muốn chế độ hồ sơ bệnh án của mình ở chế độ:</div>
+                        <div class="block mt-5">Tôi muốn chế độ hồ sơ bệnh án của mình ở chế độ:</div>
                             <div class=" Custominput3 pr2"    >
                                 <div class="block"><input type="radio" name="right" value="public" v-model="right">&ensp; Công khai</div>                         
                                 <div class="block pt-1">
@@ -116,28 +116,24 @@ export default {
     data(){
         return{
             id_account:'',
-            roles:1
+            roles:1,
+            checked : false,
+            url: null,
+            error:'',
+            firstname:'',
+            lastname:'',
+            day:'',
+            month:'',
+            year:'',
+            phone:'',
+            sex:'',
+            address:'',
+            cmnd:'',
+            email:'',
+            password:'',
         }
     },
-    computed:{
-         ...mapGetters(
-      ["url"]),
-      error: {
-           get(){ 
-               return this.$store.getters.error
-            },
-           set(payload){  
-                this.$store.dispatch("error", payload);
-           }
-        },
-        checked: {
-           get(){ 
-               return this.$store.getters.checked
-            },
-           set(payload){  
-                this.$store.dispatch("checked", payload);
-           }
-        },
+    computed: {
         right: {
            get(){
                return this.$store.getters.right
@@ -149,128 +145,7 @@ export default {
                 } );
            }
         },
-        cmnd: {
-           get(){
-               return this.$store.getters.cmnd
-            },
-           set(payload){
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'cmnd'
-                } );
-           }
-        },
-        firstname: {
-           get(){
-               return this.$store.getters.firstname
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'firstname'
-                } );
-           }
-        },
-        lastname: {
-           get(){
-               return this.$store.getters.lastname
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'lastname'
-                } );
-           }
-        },
-        day: {
-           get(){
-               return this.$store.getters.day
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'day'
-                } );
-           }
-        },
-        month: {
-           get(){
-               return this.$store.getters.month
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'month'
-                } );
-           }
-       },
-        year: {
-           get(){
-               return this.$store.getters.year
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'year'
-                } );
-           }
-       },
-       phone: {
-           get(){
-               return this.$store.getters.phone
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'phone'
-                } );
-           }
-       },
-       sex: {
-           get(){
-               return this.$store.getters.sex
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'sex'
-                } );
-           }
-       },
-       address: {
-           get(){
-               return this.$store.getters.address
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'address'
-                } );
-           }
-       },
-       email: {
-           get(){
-               return this.$store.getters.email
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'email'
-                } );
-           }
-       },
-        password: {
-           get(){
-               return this.$store.getters.password
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'password'
-                } );
-           }
-       },
-       valueRight: {
+        valueRight: {
            get(){
                return this.$store.getters.valueRight
             },
@@ -281,13 +156,11 @@ export default {
                 } );
            }
        },
-
-    },
-    mounted() {
     },
     methods: {
         onFileChange(e) {
-            this.$store.dispatch("onFileChange", e);
+            const file = e.target.files[0];
+            state.url = URL.createObjectURL(file);
         },
         async register () {
             if(!this.id_account){
@@ -324,18 +197,37 @@ export default {
                     phone:this.phone,
                     image:this.url
                 })
-                this.$store.dispatch("resetRegiserPatient")                
+                this.resetRegiserPatient();
                 this.$router.push({
-                        name:'patient',
-                        params:{id: this.id_account}
+                    name:'patient',
+                    params:{id: this.id_account}
                 })
-
-            }catch (error) {              
+                this.$store.dispatch("resetRight")             
+            }catch (error) {             
                 this.error = error.response.data.error
-                }
-        }
+            }
+        },
+        resetRegiserPatient() {
+            this.checked = false,
+            this.right= false, 
+            this.url= null,
+            this.error='',
+            this.firstname='',
+            this.lastname='',
+            this.day='',
+            this.month='',
+            this.year='',
+            this.phone='',
+            this.sex='',
+            this.address='',
+            this.cmnd='',
+            this.email='',
+            this.password='',
+            this.valueRight=''
+        },
     }
 }
+
 </script>
 
 <style scoped>
@@ -445,3 +337,4 @@ p{
     line-height: 24px;
 }
 </style>
+

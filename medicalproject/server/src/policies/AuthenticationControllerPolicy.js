@@ -98,9 +98,7 @@ module.exports = {
   patient (req, res, next) {
     const schema = {
       firstname: Joi.string().required(),
-      lastname: Joi.string().regex(
-        new RegExp('([\w\p{L}0-9@#%&\'\-\s\.\,*]*)')
-      ),
+      lastname: Joi.string().trim(),
       phone:Joi.string().regex(
         new RegExp('^[0-9]{9,10}$')
       ),

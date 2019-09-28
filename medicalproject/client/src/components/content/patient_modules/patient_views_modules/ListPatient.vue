@@ -153,7 +153,6 @@ import DrugService from '@/services/DrugService'
       if(this.user.roles == 1){
         this.condition = true
         if(this.patient_records.length){
-          console.log('no vo ne khanh oi list 1')
           for(let index = 0 ;index<this.patient_records.length;index++){
           for(let i = 0;i<this.nameDoctorWrite_records.length;i++){
             if(this.nameDoctorWrite_records[i].id_account == this.patient_records[index].id_doctor){   
@@ -202,7 +201,6 @@ import DrugService from '@/services/DrugService'
           const payload = (await PatientService.show(id_patient)).data
           const lengthRecord = payload.length
           if(lengthRecord){
-            console.log('no vo ne khanh oi roles 3 list')
             const idDoctorWriteRecord = []
             for(let i = 0 ;i<lengthRecord;i++){
               idDoctorWriteRecord[i]= payload[i].id_doctor

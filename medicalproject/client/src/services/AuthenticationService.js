@@ -5,6 +5,7 @@ export default {
     return Api().post('register', credentials)
   },
   patient (credentials) {
+
     return Api().post('patient', credentials)
   },
   hospital (credentials) {

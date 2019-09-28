@@ -24,7 +24,7 @@ module.exports = {
         })
       } catch (err) {
         res.status(400).send({
-          error: 'Tài khoản email đã được sử dụng '
+          error: 'Tài khoản email đã được sử dụng ' +err
         })
       }
     },
@@ -37,18 +37,21 @@ module.exports = {
         })
       } catch (err) {
         res.status(400).send({
-          error: 'Tài khoản email đã được sử dụng '
+          error: 'Tài khoản email đã được sử dụng '+ err
         })
       }
     },
     async patient (req, res) {
       try {       
         const patient = await Patient.create(req.body)
+        console.log(req.body)
+        console.log(req.body)
+        console.log(req.body)
         const patientJson = patient.toJSON()
         res.send(patientJson)
       } catch (err) {
         res.status(400).send({
-          error: 'Tài khoản email đã được sử dụng'
+          error: 'Có lỗi xãy ra ' + err
         })
       }
     },
@@ -59,7 +62,7 @@ module.exports = {
         res.send(hospitalJson)
       } catch (err) {
         res.status(400).send({
-          error: 'Tài khoản email đã được sử dụng'
+          error: 'Có lỗi xãy ra '+err
         })
       }
     },

@@ -9,13 +9,11 @@ import RegisterHospital from "./modules/registerhospital";
 import Doctor from "./modules/doctor";
 import Patient from "./modules/patient";
 import General from "./modules/general";
-import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
-  plugins: [createPersistedState()],
   modules: {
     FAQs,
     Header,

@@ -2,19 +2,11 @@ module.exports = (sequelize, DataTypes) => {
     const Doctor = sequelize.define('Doctor', {
         id_hospital:{
             type:DataTypes.STRING,
-            allowNull: false,
-            references: {
-                model: 'Hospital',
-                key: 'id_account',
-            }
+            allowNull: false
         },
         id_account:{
             type:DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Account',
-                key: 'id',
-            }
+            allowNull: false
         },
         department:{
             type:DataTypes.STRING,

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-home">
     <!-- section main -->
     <div
       id="main-section"
@@ -20,25 +20,6 @@
       </p>
     </div>
 
-    <!-- section 1 video-->
-    <!-- <div class="d-flex justiy-content-around" id="introduce">
-      <div class="introduce ">
-        <video controls>
-          <source src="movie.ogg" type="video/ogg" />
-        </video>
-      </div>
-      <div class="introduce-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sem
-        dolor, bibendum nec aliquet id, tristique et diam. Nullam laoreet metus
-        ante, et faucibus elit aliquet id. Pellentesque non mi efficitur,
-        scelerisque magna eu, lacinia magna. Morbi non aliquet nisi, vitae
-        varius dui. Vestibulum eget nunc ipsum. Morbi non fringilla lorem.
-        Praesent suscipit fermentum libero. Morbi convallis nulla sit amet lorem
-        rhoncus, non volutpat erat ornare. Vivamus blandit ante vel eleifend
-        vestibulum. Proin tristique urna et dolor pretium mollis.
-      </div>
-    </div> -->
-    <!-- cac nha hop tac -->
     <div class="container-fluid" id="cooperation">
       <div class="cooperation-unit-title containerCus pt-1">
         <h3>Đơn Vị Hợp Tác</h3>
@@ -65,7 +46,7 @@
           Tất cả mọi thông tin của người bệnh như thông tin cá nhân, nhóm máu,
           lịch sử bệnh án, lịch sử khám chữa bệnh và nhiều thông tin khác nữa
           đều sẽ được lưu trữ trong một hồ sơ được xây dựng dưới công nghệ
-          Blockchain.
+          của EHR MedicalBlock.
         </p>
         <div class="d-flex justify-content-center pb-3">
           <a href="#" class="btn btn-primary get-started">Bắt Đầu</a>
@@ -120,7 +101,7 @@
 
           <div class="benefit-content col-md-8">
             <samp>
-              Hồ sơ bệnh án được lưu trữ tại Blockchain sẽ do chính bệnh nhân sở
+              Hồ sơ bệnh án sẽ do chính bệnh nhân sở
               hữu, quản lý, không cần trung gian thứ 3. Điều này giúp người bệnh
               có thể theo dõi hiệu quả bệnh án của mình. Đồng thời, các cơ sở y
               tế cũng tiết kiệm được chi phí khi không cần nhân sự cho việc quản
@@ -173,7 +154,7 @@
 
           <div class="benefit-content col-md-8">
             <samp>
-              Công nghệ Blockchain còn có thể giúp truy xuất nguồn gốc dược phẩm
+              EHR MedicalBlock còn có thể giúp truy xuất nguồn gốc dược phẩm
               một cách hiệu quả nhất. Giúp tránh được các vấn đề thuốc giả,
               thuốc kém chất lượng… trong lĩnh vực y tế.
             </samp>
@@ -301,6 +282,38 @@ video {
 #benefit-4 .benefit-content {
   color: #555555;
 }
+
+/*@media screen and (min-width: 480px) and (max-width: 767px)  {
+  #main-home{
+    max-width: 766px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  #main-section h2{
+    color:red;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1600px)  {
+  #main-home{
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px)  {
+  #main-home{
+    max-width: 1023px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+}*/
+
+
+
 
 
 </style>

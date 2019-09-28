@@ -1,6 +1,6 @@
 <template>
   <header>
-    <b-navbar toggleable="lg" type="light" variant="faded" class="fixed-top removePTPB" v-bind:class="{ wapper_header: isScroll }" >
+    <b-navbar toggleable="lg" type="light" variant="faded" class="fixed-top removePTPB navbarCus" v-bind:class="{ wapper_header: isScroll }" >
    <router-link to="/"><b-navbar-brand class="logo"><img src="@/assets/images/logo705.png"></b-navbar-brand></router-link>
 
       <b-navbar-toggle target="nav-collapse "></b-navbar-toggle>
@@ -49,11 +49,17 @@ export default {
   color:red;
   background-color: rgba(248, 249, 250, 0.8);
 }
+
+
 .removePTPB{
     padding-bottom: 0;
     padding-top: 0;
 }
-div ul a li a{
+
+div ul a li a {
   color:#0b385b;
 }
+
+
+
 </style>

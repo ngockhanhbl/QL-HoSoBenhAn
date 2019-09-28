@@ -42,13 +42,14 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900");
+
 #app {
   font-family: "Roboto Condensed", sans-serif;
 }
-/* html,body{overflow-x: hidden;
-  overflow-y: auto;} */
 
-   .modal-open .navbar-fixed-top {
-        right: 15px;
-    }
+.modal-open .navbar-fixed-top {
+    right: 15px;
+}
+
+
 </style>

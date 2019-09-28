@@ -2,11 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Drug = sequelize.define('Drug', {
         id_record:{
             type:DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'PatientRecords',
-                key: 'id',
-            }
+            allowNull: false
         },
         name:DataTypes.STRING,
         total:DataTypes.INTEGER,

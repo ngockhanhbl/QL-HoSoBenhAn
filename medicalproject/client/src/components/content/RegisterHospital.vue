@@ -91,7 +91,12 @@ export default {
             show_error:false,
             id_account:'',
             roles:2,
-            error:''
+            error:'',
+            name_hospital:'',
+            phone_hospital:'',
+            address_hospital:'',
+            email_hospital:'',
+            password_hospital:'',
         }
     },
     computed:{
@@ -103,62 +108,6 @@ export default {
                 this.$store.dispatch("toggle", payload);
            }
         },
-        name_hospital: {
-           get(){
-               return this.$store.getters.name_hospital
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformationHospital",{
-                    payloadValue: payload,
-                    payloadRouter:'name_hospital'
-                } );
-           }
-        },
-       phone_hospital: {
-           get(){
-               return this.$store.getters.phone_hospital
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformationHospital",{
-                    payloadValue: payload,
-                    payloadRouter:'phone_hospital'
-                } );
-           }
-       },
-       address_hospital: {
-           get(){
-               return this.$store.getters.address_hospital
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformationHospital",{
-                    payloadValue: payload,
-                    payloadRouter:'address_hospital'
-                } );
-           }
-       },
-       email_hospital: {
-           get(){
-               return this.$store.getters.email_hospital
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformationHospital",{
-                    payloadValue: payload,
-                    payloadRouter:'email_hospital'
-                } );
-           }
-       },
-        password_hospital: {
-           get(){
-               return this.$store.getters.password_hospital
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformationHospital",{
-                    payloadValue: payload,
-                    payloadRouter:'password_hospital'
-                } );
-           }
-       },
-       
     }, 
     methods: {
             checkForm:function(e) {
@@ -169,7 +118,14 @@ export default {
                 else
                     this.register()           
             },
-        async register () {   
+            resetRegister(){
+                this.name_hospital = '',
+                this.phone_hospital = '',
+                this.address_hospital='',
+                this.email_hospital = '',
+                this.password_hospital =''
+            },
+        async register () {
                 try {
                     const response = await AuthenticationService.RegisterHospitalRequest({
                     email: this.email_hospital,
@@ -179,10 +135,12 @@ export default {
                     address_hospital:this.address_hospital
                     })
                     this.show_error = false
-                    // this.$store.dispatch('resetRegiserHospital')
-                    // this.$router.push({
-                    //     name: 'thanks'
-                    // })
+                    this.resetRegister()
+                    this.$store.dispatch('resetRegiserHospital')
+                    this.$router.push({
+                        name: 'thanks'
+                    })
+                    
                 }catch (error) {
                     this.error = error.response.data.error
                 }

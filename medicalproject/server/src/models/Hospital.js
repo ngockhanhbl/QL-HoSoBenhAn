@@ -3,10 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         id_account:{
             type:DataTypes.INTEGER,
             allowNull: false,
-            references: {
-                model: 'Account',
-                key: 'id',
-            }
+            unique: true
         },
         name_hospital:{
             type:DataTypes.STRING,

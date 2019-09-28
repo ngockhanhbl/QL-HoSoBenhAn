@@ -68,11 +68,17 @@
                 <div>
                   Giới tính
                 </div>
-                <div class="row justify-content-center">
-                    <input type="radio" name="gender" value="nam" v-model="sex"> Nam&ensp; 
-                    <input type="radio" name="gender" value="nu" v-model="sex"> Nữ
-                     <div class="cancel-btn btn ml-3" @click="cancel()">Hủy</div> 
-                  <div class="agree_btn btn ml-3" @click="saveSex">Lưu thay đổi</div>
+                <div class="row justify-content-center  align-items-baseline">
+                    <div class="pr-2">
+                      <input type="radio" name="gender" value="nam" v-model="sex">
+                      <span>&ensp;Nam</span>
+                    </div>
+                    <div>
+                      <input type="radio" name="gender" value="nu" v-model="sex">
+                      <span>&ensp;  Nữ</span>
+                    </div>
+                    <div class="cancel-btn btn ml-3" @click="cancel()">Hủy</div> 
+                    <div class="agree_btn btn ml-3" @click="saveSex">Lưu thay đổi</div>
                 </div>
               </div>
           </th>
@@ -469,14 +475,14 @@ import PatientService from '@/services/PatientService'
                 this.isModify_password = false
                 this.password = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập Password bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui lòng nhập Password bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -490,12 +496,13 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   email:this.email
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_email = false
+                this.patientInfomation.email = this.email
                 this.email = ''
             }catch (error) {
                 let toast = this.$toasted.show(`${error.response.data.error}`, { 
@@ -505,7 +512,7 @@ import PatientService from '@/services/PatientService'
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập email bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui lòng nhập email bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -520,22 +527,23 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   first_name:this.first_name
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_first_name = false
+                this.patientInfomation.firstname = this.first_name
                 this.first_name = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập họ và tên lót bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui lòng nhập họ và tên lót bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -556,6 +564,7 @@ import PatientService from '@/services/PatientService'
                     duration : 3000
                 });
                 this.isModify_last_name = false
+                this.patientInfomation.lastname = this.last_name
                 this.last_name = ''
             }catch (error) {
                 let toast = this.$toasted.show(`${error.response.data.error}`, { 
@@ -586,6 +595,7 @@ import PatientService from '@/services/PatientService'
                     duration : 3000
                 });
                 this.isModify_sex = false
+                this.patientInfomation.sex = this.sex
                 this.sex = ''
             }catch (error) {
                 let toast = this.$toasted.show(`${error.response.data.error}`, { 
@@ -614,6 +624,7 @@ import PatientService from '@/services/PatientService'
                     duration : 3000
                 });
                 this.isModify_right = false
+                this.patientInfomation.right = this.right
                 this.right = ''
             }catch (error) {
                 let toast = this.$toasted.show(`${error.response.data.error}`, { 
@@ -637,16 +648,17 @@ import PatientService from '@/services/PatientService'
                     duration : 3000
                 });
                 this.isModify_phone = false
+                this.patientInfomation.phone = this.phone
                 this.phone = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui nhập SDT bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui nhập SDT bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -660,22 +672,23 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   address:this.address
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_address = false
+                this.patientInfomation.address = this.address
                 this.address = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui nhập Địa chỉ bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui nhập Địa chỉ bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -689,22 +702,23 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   day:this.day
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_day = false
+                this.patientInfomation.day = this.day
                 this.day = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui chọn ngày bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui chọn ngày bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -718,22 +732,23 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   month:this.month
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_month = false
+                this.patientInfomation.month = this.month
                 this.month = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui chọn tháng bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui chọn tháng bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -747,22 +762,23 @@ import PatientService from '@/services/PatientService'
                   id_account:this.user.id,
                   year:this.year
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
                 });
                 this.isModify_year = false
+                this.patientInfomation.year = this.year
                 this.year = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui chọn năm bạn muốn thay đổi !!`, { 
+            this.$toasted.show(`Vui chọn năm bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000

@@ -20,6 +20,11 @@ function hashPassword (user, options) {
 
 module.exports = (sequelize, DataTypes) => {
     const Account = sequelize.define('Account', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         email:{
             type:DataTypes.STRING,
             unique: true
@@ -28,9 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         roles:DataTypes.INTEGER,
     },{
         hooks: {
-            // beforeCreate: hashPassword,
-            // beforeUpdate: hashPassword,
-            beforeSave: hashPassword
+            beforeCreate: hashPassword,
+            beforeUpdate: hashPassword,
+            // beforeSave: hashPassword
         }
     })
     

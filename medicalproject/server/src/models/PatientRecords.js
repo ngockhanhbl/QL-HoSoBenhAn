@@ -3,19 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     const PatientRecords = sequelize.define('PatientRecords', {
         id_patient:{
             type:DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Patient',
-                key: 'id_account',
-            }
+            allowNull: false
         },
         id_doctor:{
             type:DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Doctor',
-                key: 'id_account',
-            }
+            allowNull: false
         },
         patient_title:{
             type:DataTypes.STRING,

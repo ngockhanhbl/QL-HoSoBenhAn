@@ -185,7 +185,7 @@ import DrugService from '@/services/DrugService'
                   files_temp.id_record = this.AlternativeRecord[i][index].id_record
                   this.filesDisplay2.push(files_temp)
                 }catch(error){
-                    let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                      this.$toasted.show(`${error.response.data.error}`, { 
                         theme: "toasted-primary", 
                         position: "bottom-center", 
                         duration : 5000
@@ -231,7 +231,7 @@ import DrugService from '@/services/DrugService'
                   files_temp.id_record = this.AlternativeRecord[i][index].id_record
                   this.filesDisplay2.push(files_temp)
               }catch (error) {
-                  let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                    this.$toasted.show(`${error.response.data.error}`, { 
                       theme: "toasted-primary", 
                       position: "bottom-center", 
                       duration : 5000

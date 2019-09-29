@@ -24,7 +24,7 @@ module.exports = {
         })
       } catch (err) {
         res.status(400).send({
-          error: 'Tài khoản email đã được sử dụng ' +err
+          error: 'Tài khoản email đã được sử dụng ' + err
         })
       }
     },
@@ -56,7 +56,7 @@ module.exports = {
       }
     },
     async hospital (req, res) {
-      try {       
+      try {
         const hospital = await Hospital.create(req.body)
         const hospitalJson = hospital.toJSON()
         res.send(hospitalJson)

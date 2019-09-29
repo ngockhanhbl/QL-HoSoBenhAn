@@ -87,12 +87,12 @@ export default {
     async submitLogin(){
             try {
                 const response = await AuthenticationService.login({
-                email: this.login_username,
-                password: this.login_password
+                  email: this.login_username,
+                  password: this.login_password
                 })                
-                this.$store.dispatch('setToken', response.data.token)
-                this.$store.dispatch('setUser', response.data.user)
-                this.$store.dispatch('resetlogin')
+                  this.$store.dispatch('setToken', response.data.token)
+                  this.$store.dispatch('setUser', response.data.user)
+                  this.$store.dispatch('resetlogin')
                if(response.data.user.roles == 1){
                 this.$router.push({
                   name:'patient',
@@ -121,7 +121,7 @@ export default {
 
             }         
             catch (error) {
-              let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                this.$toasted.show(`${error.response.data.error}`, { 
                 theme: "bubble", 
                 position: "bottom-right", 
                 duration : 2000

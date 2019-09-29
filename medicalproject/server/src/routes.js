@@ -7,6 +7,7 @@ const DrugController = require('./controllers/DrugController')
 const AccountController = require('./controllers/AccountController')
 const AlternativeRecordsController = require('./controllers/AlternativeRecordsController')
 const AdminController = require('./controllers/AdminController')
+const isAuthenticated = require('./policies/isAuthenticated')
 
 module.exports = (app) => {
     app.get('/getUserRecords',
@@ -122,9 +123,11 @@ module.exports = (app) => {
     AdminController.updatePasswordHospital)
 
     app.delete('/deleteHospital/:id_account',
+    isAuthenticated,
     AdminController.deleteHospital)
 
     app.delete('/refuseRegiterHospital/:email',
+    isAuthenticated,
     AdminController.refuseRegiterHospital)
 
 

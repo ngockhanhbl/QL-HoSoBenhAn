@@ -230,7 +230,7 @@ export default {
       if (!this.diagnoseRecord) {
         this.errors += 'Vui lòng nhập chẩn đoán.';
       }
-      let toast = this.$toasted.show(`${this.errors}`, {
+        this.$toasted.show(`${this.errors}`, {
           theme: "bubble", 
           position: "bottom-right", 
           duration : 2000
@@ -393,7 +393,7 @@ export default {
                     this.error = error.response.data.error
                     }
                 }
-                let toast = this.$toasted.show(`Thành công !!`, { 
+                  this.$toasted.show(`Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 2000

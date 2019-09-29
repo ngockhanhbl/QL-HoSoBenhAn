@@ -277,7 +277,7 @@ import AdminService from '@/services/AdminService'
                   id_account:id_account,
                   name_hospital:this.name_modify
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                  this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
@@ -285,14 +285,14 @@ import AdminService from '@/services/AdminService'
                 this.isModifyName = false
                 this.name_modify = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                  this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 5000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui òng nhập tên bệnh viện bạn muốn thay đổi !!`, { 
+              this.$toasted.show(`Vui òng nhập tên bệnh viện bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -307,7 +307,7 @@ import AdminService from '@/services/AdminService'
                   id_account:id_account,
                   phone_hospital:this.phone_modify
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                  this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
@@ -315,14 +315,14 @@ import AdminService from '@/services/AdminService'
                 this.isModifyPhone = false
                 this.phone_modify = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                  this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 3000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập Số điện thoại bệnh viện bạn muốn thay đổi !!`, { 
+              this.$toasted.show(`Vui lòng nhập Số điện thoại bệnh viện bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -337,7 +337,7 @@ import AdminService from '@/services/AdminService'
                   id_account:id_account,
                   address_hospital:this.address_modify
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                  this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
@@ -345,14 +345,14 @@ import AdminService from '@/services/AdminService'
                 this.isModifyAddress = false
                 this.address_modify = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                  this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 3000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập Địa chỉ bệnh viện bạn muốn thay đổi !!`, { 
+              this.$toasted.show(`Vui lòng nhập Địa chỉ bệnh viện bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -367,7 +367,7 @@ import AdminService from '@/services/AdminService'
                   id_account:id_account,
                   email_hospital:this.email_modify
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                  this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 3000
@@ -375,14 +375,14 @@ import AdminService from '@/services/AdminService'
                 this.isModifyEmail = false
                 this.email_modify = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                  this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center", 
                     duration : 3000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập Username bệnh viện bạn muốn thay đổi !!`, { 
+              this.$toasted.show(`Vui lòng nhập Username bệnh viện bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -397,7 +397,7 @@ import AdminService from '@/services/AdminService'
                   id_account:id_account,
                   password_hospital:this.password_modify
                 })
-                let toast = this.$toasted.show(`Update Thành công !!`, { 
+                  this.$toasted.show(`Update Thành công !!`, { 
                     theme: "bubble",
                     position: "bottom-right", 
                     duration : 3000
@@ -405,14 +405,14 @@ import AdminService from '@/services/AdminService'
                 this.isModifyPassword = false
                 this.password_modify = ''
             }catch (error) {
-                let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                  this.$toasted.show(`${error.response.data.error}`, { 
                     theme: "toasted-primary", 
                     position: "bottom-center",
                     duration : 4000
                 });
                 }  
         }else{
-            let toast = this.$toasted.show(`Vui lòng nhập Password bệnh viện bạn muốn thay đổi !!`, {
+              this.$toasted.show(`Vui lòng nhập Password bệnh viện bạn muốn thay đổi !!`, {
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000
@@ -457,7 +457,7 @@ import AdminService from '@/services/AdminService'
           id_account: item.id_account
         })).data
 
-        let toast = this.$toasted.show(`Đã xóa bác sĩ ${delete_result.lastname} Thành công !!`, { 
+          this.$toasted.show(`Đã xóa bác sĩ ${delete_result.lastname} Thành công !!`, { 
             theme: "bubble",
             position: "bottom-right", 
             duration : 2000

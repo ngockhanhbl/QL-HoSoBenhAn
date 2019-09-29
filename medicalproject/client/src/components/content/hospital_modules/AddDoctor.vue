@@ -144,7 +144,7 @@ export default {
                     phone:this.phone,
                 })
                 this.resetForm()        
-                let toast = this.$toasted.show("Thêm Thành công !!", { 
+                  this.$toasted.show("Thêm Thành công !!", { 
                     theme: "bubble", 
                     position: "bottom-right", 
                     duration : 5000

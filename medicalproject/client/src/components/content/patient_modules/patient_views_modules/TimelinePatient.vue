@@ -101,7 +101,7 @@ computed: {
                   files_temp.id_record = _AlternativeRecord[i][index].id_record
                   this.filesDisplay2.push(files_temp)
                 }catch (error) {
-                    let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                      this.$toasted.show(`${error.response.data.error}`, { 
                         theme: "toasted-primary", 
                         position: "bottom-center", 
                         duration : 5000
@@ -156,7 +156,7 @@ computed: {
                 files_temp.id_record = _AlternativeRecord[i][index].id_record
                 this.filesDisplay2.push(files_temp)
               }catch (error) {
-                  let toast = this.$toasted.show(`${error.response.data.error}`, { 
+                    this.$toasted.show(`${error.response.data.error}`, { 
                       theme: "toasted-primary", 
                       position: "bottom-center", 
                       duration : 5000

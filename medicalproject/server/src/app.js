@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.use(bodyParser({limit: '5mb'}));
 
 app.use(cors())
-
+require('./passport')
 require('./routes')(app)
 
 sequelize.sync()

@@ -432,7 +432,7 @@ import AccountService from '@/services/AccountService'
       },
       async deleteDoctor(item, index, button){
         const delete_result = (await HospitalService.delete(item.id_account)).data      
-        let toast = this.$toasted.show(`Đã xóa bác sĩ ${delete_result.lastname} Thành công !!`, { 
+          this.$toasted.show(`Đã xóa bác sĩ ${delete_result.lastname} Thành công !!`, { 
             theme: "bubble", 
             position: "bottom-right", 
             duration : 2000

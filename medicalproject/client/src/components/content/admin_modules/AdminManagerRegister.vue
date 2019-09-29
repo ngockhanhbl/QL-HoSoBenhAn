@@ -117,7 +117,7 @@ import AuthenticationService from '@/services/AuthenticationService'
           email: item.email
         })).data
 
-        let toast = this.$toasted.show(`Đã xóa ${item.name_hospital} Thành công !!`, { 
+          this.$toasted.show(`Đã xóa ${item.name_hospital} Thành công !!`, { 
             theme: "bubble", 
             position: "bottom-right", 
             duration : 2000
@@ -130,13 +130,17 @@ import AuthenticationService from '@/services/AuthenticationService'
             if(!this.id_account){
                 try {
                     const response = await AuthenticationService.register({
-                    email: item.email,
-                    password: item.password,
-                    roles:this.roles
+                      email: item.email,
+                      password: item.password,
+                      roles:this.roles
                     })
                     this.id_account = response.data.user.id
                 }catch (error) {
-                      this.error = error.response.data.error
+                        this.$toasted.show(`Có Lỗi Xảy ra ${error.response.data.error}  !!`, { 
+                            theme: "bubble", 
+                            position: "bottom-right", 
+                            duration : 2000
+                        });
                       }
                   }
           try {
@@ -146,11 +150,21 @@ import AuthenticationService from '@/services/AuthenticationService'
                 phone_hospital:item.phone_hospital,
                 address_hospital:item.address_hospital
             })
-          let toast = this.$toasted.show(`Đã Thêm ${item.name_hospital} Thành công !!`, { 
+            this.$toasted.show(`Đã Thêm ${item.name_hospital} Thành công !!`, { 
               theme: "bubble", 
               position: "bottom-right", 
               duration : 2000
           });
+          try {
+            await AdminService.refuseRegiterHospital({email: item.email})            
+          } catch (error) {
+            this.$toasted.show(`Có Lỗi Xảy ra ${error.response.data.error}  !!`, { 
+              theme: "bubble", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+          }
+
         if (~index) // if the hospitals_register exists in array(Bitwise NOT operator.)
           this.hospitals_register.splice(index, 1)
           }catch (error) {

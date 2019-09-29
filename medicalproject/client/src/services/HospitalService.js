@@ -26,7 +26,9 @@ export default {
   },
 
 
-
+  changePassword(hospital) {
+    return Api().put(`changePassword/${hospital.id_account}`, hospital)
+  },
   updateFirstNameDoctor (doctor) {
     return Api().put(`updateFirstNameDoctor/${doctor.id_account}`, doctor)
   },

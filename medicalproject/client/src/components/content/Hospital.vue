@@ -2,17 +2,48 @@
     <div class="pt-5 bg pb-3 bg" 
     :style="{
         'background-image':
-          'url(' + require('@/assets/images/wood.jpg') + ') '
+          'url(' + require('@/assets/images/luami.jpg') + ') '
       }">
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
                 <div class="mr-auto pl-5 pt-3">Xin Chào</div>
                 <!-- <div class="p-2">
-                   <button type="button" class="btn btn-warning text-white mr-3" @click="changeInfo">Thay đổi thông tin</button>
+                   <button type="button" class="btn btn-warning text-white mr-3" ></button>
                 </div> -->
+                
+                <div class="p-2">
+                     <b-button variant="outline-secondary" v-b-modal.modal-2 >Thay đổi mật khẩu</b-button>
+                      <b-modal id="modal-2" title="Đổi Mật Khẩu">
+                        <b class="my-4">Nhập Mật Khẩu Bạn Muốn Đổi:</b>
+                        <p class="my-4"><input type="password" placeholder="nhập mật khẩu" class="inputStyle" v-model="passwordchangeValue"></p>
+                        <p class="my-4"><input type="password" placeholder="nhập lại mật khẩu" class="inputStyle" v-model="passwordchangeValueAgain"></p>
+                        <template v-slot:modal-footer>
+                          <div class="w-100">
+                            <b-button
+                              variant="warning"
+                              size="sm"
+                              class="float-right ml-3"
+                              @click="validationPasswordChange"
+                            >
+                              Gửi Yêu Cầu Đổi Mật Khẩu
+                            </b-button>
+                            
+                            <b-button
+                              variant="primary"
+                              size="sm"
+                              class="float-right"
+                              @click="closeModal2"
+                            >
+                              Đóng
+                            </b-button>
+                          </div>
+                        </template>
+                      </b-modal>
+                </div>
                 <div class="p-2">
                    <button type="button" class="btn btn-success text-white" @click="addDoctor">Thêm Bác Sĩ</button>
                 </div>
+
               </div>
                   <b-row class="px-5">
                     <b-col md="6" class="my-3">
@@ -350,7 +381,6 @@
     </div>
 </template>
 <script>
-import { mapGetters} from "vuex";
 import HospitalService from '@/services/HospitalService'
 import AccountService from '@/services/AccountService'
   export default {
@@ -406,7 +436,9 @@ import AccountService from '@/services/AccountService'
         address_modify:'',
         firstname_modify:'',
         lastname_modify:'',
-        user:null
+        user:null,
+        passwordchangeValue:'',
+        passwordchangeValueAgain:''
       }
     },
     async mounted() {
@@ -427,6 +459,51 @@ import AccountService from '@/services/AccountService'
       this.totalRows = this.doctors.length
     },
     methods: {
+      validationPasswordChange(){
+        if(!this.passwordchangeValue || !this.passwordchangeValueAgain){
+            this.$toasted.show('Vui Lòng Nhập Đầy Đủ Thông Tin !!!', { 
+            theme: "bubble", 
+            position: "bottom-right", 
+            duration : 4000
+        });
+        }else if(this.passwordchangeValue !== this.passwordchangeValueAgain){
+          this.$toasted.show(`Mật Khẩu Và Mật Khẩu Xác Nhận Không Giống Nhau !!!<br>Vui Lòng Kiểm Tra Lại !!!`, { 
+            theme: "bubble", 
+            position: "bottom-right", 
+            duration : 5000
+        });
+        }else if(this.passwordchangeValue.length < 8){
+          this.$toasted.show(`Mật khẩu được cung cấp phải khớp với các quy tắc sau:\n            <br><br>\n            1. Nó phải chứa chỉ các ký tự sau: chữ thường, chữ hoa, chữ số.\n            <br><br>\n            2. mật khẩu dài ít nhất 8 kí tự và không dài hơn 32 kí tự.\n            </div>\n        `, { 
+            theme: "bubble", 
+            position: "bottom-right", 
+            duration : 4000
+        });
+        }else{
+          this.changepassword();
+          this.closeModal2();
+        }
+      },
+      closeModal2(){
+        this.passwordchangeValue = ''
+        this.passwordchangeValueAgain = ''
+        this.$root.$emit('bv::hide::modal', "modal-2", "button")
+      },
+      async changepassword(){
+        try {
+            await HospitalService.changePassword({
+              id_account:this.user.id,
+              password_hospital:this.passwordchangeValue
+          })
+        } catch (error) {
+          this.ErrorToasted(error)
+        }
+
+            this.$toasted.show(`Cập Nhập Thành công !!`, { 
+              theme: "bubble",
+              position: "bottom-right", 
+              duration : 3000
+          });
+      },
       async addDoctor(){
           this.$router.push({
             path: `/Hospital/${this.user.id}/addDoctor`
@@ -517,7 +594,6 @@ import AccountService from '@/services/AccountService'
         }
       },
       async SussessToasted(){
-        console.log('ok ne')
         this.$toasted.show(`Update Thành công !!`, { 
             theme: "bubble",
             position: "bottom-right", 
@@ -883,8 +959,10 @@ import AccountService from '@/services/AccountService'
 .mlr_1-5r{
     margin: 0 1.5rem;
 }
-.hello{
-  padding-left: 2rem;
-
+.inputStyle{
+  padding: 0.25rem;
+  border:1px solid #aaa;
+  border-radius:4px;
+  width:100%;
 }
 </style>

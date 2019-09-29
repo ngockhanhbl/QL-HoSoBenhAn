@@ -73,6 +73,13 @@ module.exports = (app) => {
     PatientsController.getInfoPatient),
 
 
+
+    app.put('/changePassword/:id',
+    AuthenticationControllerPolicy.updatePasswordHospital,
+    isAuthenticated,
+    AdminController.updatePasswordHospital)
+
+
     app.get('/doctor_records/:id_hospital',
     HospitalsController.show),
 

@@ -17,11 +17,8 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_1.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Chúng tôi là công ty công nghệ, chuyên về lĩnh vực y tế, chăm sóc sứa khỏe cho cộng đồng
+            với hơn 12 năm kinh nghiệm, chúng tôi tin chắc sẽ làm hài lòng những vị khách khó tính nhất
           </div>
         </transition>
       </div>
@@ -33,11 +30,8 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_2.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Chúng tôi cung cấp giải pháp quản lý hồ sơ bệnh án, giúp người bệnh theo dõi bệnh án
+            của mình 1 cách trực quan, khoa học. Do đó có thể chủ động trong mọi tình huống
           </div>
         </transition>
       </div>
@@ -48,11 +42,9 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_3.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Thế mạnh của EHR MedicalBlock là công nghệ của chúng tôi sử dụng
+            mang lại trải nghệm tốt nhất có thể cho người dùng, đồng thời củng là công ty tiên
+            phong trong lĩnh vực quản lý hồ sơ bệnh án cho cộng đồng.
           </div>
         </transition>
       </div>
@@ -63,11 +55,7 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_4.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Không. Chúng tôi bảo mật tuyệt đối hồ sơ bệnh án của cá nhân bạn
           </div>
         </transition>
       </div>
@@ -85,11 +73,7 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_5.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Chúng tôi cung cấp cho khách hàng phần mềm quản lý hồ sơ bệnh án
           </div>
         </transition>
       </div>
@@ -101,11 +85,7 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_6.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Thông tin hồ sơ bệnh án của bạn sẽ được lưu trữ một cách tuyệt đối án toàn. 
           </div>
         </transition>
       </div>
@@ -116,11 +96,7 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_7.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Là những bác sĩ ở những cơ sở y tế, do bạn cấp quyền
           </div>
         </transition>
       </div>
@@ -131,11 +107,7 @@
         </div>
         <transition name="fade">
           <div class="answer" v-show="ShowDownUp_8.isShow">
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged. It was popularised in
-            the 1960s
+            Hoàn Toàn Miễn phí ! Chăm sóc sức khỏe cộng đồng là trách nhiệm của công ty chúng tôi !
           </div>
         </transition>
       </div>
@@ -219,6 +191,7 @@ export default {
   color: #515584;
   line-height: 1.75;
   margin-top: 10px;
+  font-size:1rem;
 }
 .fade-enter-active {
   transition: all .3s ease;

@@ -5,9 +5,6 @@ const {Doctor} = require('../models')
 
 module.exports = {
   async updateNameHospital (req, res) {
-    console.log(req.user.roles)
-    console.log(req.user.roles)
-    console.log(req.user.roles)
     if(req.user.roles == 0){
       try {
         await Hospital.findOne(
@@ -99,7 +96,7 @@ module.exports = {
     }
   },
   async updatePasswordHospital (req, res) {
-    if(req.user.roles == 0){
+    if(req.user.roles == 0 || (req.user.roles == 2 && req.user.id == req.body.id_account )){
       try {
         await Account.findOne(
           {

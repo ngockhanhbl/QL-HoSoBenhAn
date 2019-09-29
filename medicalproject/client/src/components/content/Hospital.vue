@@ -6,7 +6,7 @@
       }">
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
-                <div class="mr-auto pl-5 pt-3">Xin Chào{{this.user.id}}</div>
+                <div class="mr-auto pl-5 pt-3">Xin Chào</div>
                 <!-- <div class="p-2">
                    <button type="button" class="btn btn-warning text-white mr-3" @click="changeInfo">Thay đổi thông tin</button>
                 </div> -->
@@ -356,6 +356,9 @@ import AccountService from '@/services/AccountService'
   export default {
     data() {
       return {
+        get isUserLoggedIn() {
+          return localStorage.getItem('isUserLoggedIn' || false);
+        },
         doctors:[],
         fields: [
           { key: 'name', label: 'Họ và Tên', sortable: true, sortDirection: 'desc' },
@@ -403,12 +406,11 @@ import AccountService from '@/services/AccountService'
         address_modify:'',
         firstname_modify:'',
         lastname_modify:'',
+        user:null
       }
     },
-    computed: {
-      ...mapGetters(["user"])
-    },
     async mounted() {
+      this.user =JSON.parse(localStorage.getItem('user'))
       const id_hospital = this.user.id
       this.doctors = (await HospitalService.show(id_hospital)).data
       const id_account_doctor = this.doctors.map(x=> x.id_account)

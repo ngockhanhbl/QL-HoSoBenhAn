@@ -18,12 +18,13 @@ export default {
     },
     mutations: {
         setToken (state, token) {
+          localStorage.setItem("isUserLoggedIn", !!(token));
             state.token = token
-            localStorage.setItem("token", token);
             state.isUserLoggedIn = !!(token)
+            localStorage.setItem("token", (token));
           },
           setUser (state, user) {
-            localStorage.setItem("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
             state.user = user
           },
           setDoctorInfo(state, user) {

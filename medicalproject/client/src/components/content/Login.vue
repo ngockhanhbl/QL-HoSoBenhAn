@@ -89,10 +89,11 @@ export default {
                 const response = await AuthenticationService.login({
                   email: this.login_username,
                   password: this.login_password
-                })                
+                })
                   this.$store.dispatch('setToken', response.data.token)
                   this.$store.dispatch('setUser', response.data.user)
                   this.$store.dispatch('resetlogin')
+                  window.scrollTo(0,100)   //trick fix slow react
                if(response.data.user.roles == 1){
                 this.$router.push({
                   name:'patient',

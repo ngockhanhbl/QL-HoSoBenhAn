@@ -104,22 +104,27 @@ module.exports = (app) => {
 
     app.put('/updateNameHospital/:id_account',
     AuthenticationControllerPolicy.updateNameHospital,
+    isAuthenticated,
     AdminController.updateNameHospital)
 
     app.put('/updatePhoneHospital/:id_account',
     AuthenticationControllerPolicy.updatePhoneHospital,
+    isAuthenticated,
     AdminController.updatePhoneHospital)
 
     app.put('/updateAddressHospital/:id_account',
+    isAuthenticated,
     AdminController.updateAddressHospital)
 
 
     app.put('/updateEmailHospital/:id_account',
     AuthenticationControllerPolicy.updateEmailHospital,
+    isAuthenticated,
     AdminController.updateEmailHospital)
 
     app.put('/updatePasswordHospital/:id_account',
     AuthenticationControllerPolicy.updatePasswordHospital,
+    isAuthenticated,
     AdminController.updatePasswordHospital)
 
     app.delete('/deleteHospital/:id_account',

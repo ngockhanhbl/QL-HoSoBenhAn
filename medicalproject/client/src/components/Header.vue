@@ -10,8 +10,8 @@
         <b-navbar-nav class="ml-auto ">
           <router-link to="/aboutus"><b-nav-item href="/aboutus">Về Chúng Tôi</b-nav-item></router-link>
           <router-link to="/contact"><b-nav-item href="/contact">Liên Hệ</b-nav-item></router-link>
-          <router-link to="/login"><b-nav-item  v-if="!isUserLoggedIn" href="login">Đăng Nhập</b-nav-item></router-link>
-         <b-nav-item v-if="isUserLoggedIn" @click="logout" >
+          <router-link to="/login"><b-nav-item  v-if="isUserLoggedIn === 'false' ||isUserLoggedIn === 'null' " href="login">Đăng Nhập</b-nav-item></router-link>
+         <b-nav-item v-if="isUserLoggedIn === 'true'" @click="logout" >
             Đăng Xuất
           </b-nav-item>
         </b-navbar-nav>
@@ -22,19 +22,26 @@
 
 <script>
 import { mapGetters} from "vuex";
-export default {  
+export default {
+  data(){
+    return{
+      get isUserLoggedIn() {
+      	return localStorage.getItem('isUserLoggedIn' || false);
+      }
+    }
+  },
   computed:{
-    ...mapGetters(["isScroll","isUserLoggedIn","user"]),
+    ...mapGetters(["isScroll","user"]),
   },
   methods: {
     navigationTo(route){
       this.$router.push(route)
     },
-    logout () {
+    async logout () {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
-      localStorage.clear();
-      localStorage.removeItem('vuex');
+      localStorage.setItem("isUserLoggedIn", false);
+      window.scrollTo(0,10)   //trick fix slow react
       this.$router.push({
         name: 'homepage'
       })

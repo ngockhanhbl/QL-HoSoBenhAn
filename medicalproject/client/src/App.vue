@@ -4,7 +4,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <app-login /> -->
     <app-header/>
-    <router-view></router-view>
+      <router-view></router-view>
     <app-footer />
   </div>
 </template>
@@ -26,10 +26,11 @@ export default {
   },
   data(){
     return{
-      test:false
+      test:false,
+      // isUserLoggedIn : JSON.parse(localStorage.getItem("isUserLoggedIn"))
     }
   },
-    methods:{
+  methods:{
     ScrollSticky(evt, el){
       this.$store.dispatch("EventScrollSticky",evt,el);
     }
@@ -37,6 +38,7 @@ export default {
     computed:{
     ...mapGetters(["isScroll"]),
   },
+
 };
 </script>
 

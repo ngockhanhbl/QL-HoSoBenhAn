@@ -1,5 +1,5 @@
 <template>
-    <div class="bg" v-if="this.user.roles == 0 && this.isUserLoggedIn" >
+    <div class="bg" >
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
                 <div class="mr-auto pl-5 pt-3">Xin Chào Admin</div>
@@ -264,7 +264,9 @@ import AdminService from '@/services/AdminService'
       ...mapGetters(["user","isUserLoggedIn"])
     },
     async mounted() {
-      const roles = this.user.roles
+      const user = localStorage.getItem("user")
+      const userJSON = JSON.parse(user)
+      const roles = userJSON.roles
       this.hospitals = (await HospitalService.getAllHospitals(roles)).data
       this.account_hospital_ = (await AccountService.getAllAcountHospitals(roles)).data
       this.totalRows = this.hospitals.length
@@ -283,6 +285,8 @@ import AdminService from '@/services/AdminService'
                     duration : 3000
                 });
                 this.isModifyName = false
+                this.infoModal.name_hospital = this.name_modify
+                this.hospitals.filter(x => x.id_account == id_account)[0].name_hospital = this.name_modify //cho nay ti lam cho may phan kia
                 this.name_modify = ''
             }catch (error) {
                   this.$toasted.show(`${error.response.data.error}`, { 
@@ -292,7 +296,7 @@ import AdminService from '@/services/AdminService'
                 });
                 }  
         }else{
-              this.$toasted.show(`Vui òng nhập tên bệnh viện bạn muốn thay đổi !!`, { 
+              this.$toasted.show(`Vui lòng nhập tên bệnh viện bạn muốn thay đổi !!`, { 
                 theme: "toasted-primary", 
                 position: "bottom-center", 
                 duration : 3000

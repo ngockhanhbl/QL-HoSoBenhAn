@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-5 bg pb-3 bg" v-if="this.user.roles == 0 && this.isUserLoggedIn" >
+    <div>
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
                 <div class="mr-auto pl-5 pt-3">Xin Chào Admin</div>
@@ -103,10 +103,12 @@ import AuthenticationService from '@/services/AuthenticationService'
       }
     },
     computed: {
-      ...mapGetters(["user","isUserLoggedIn","hospital_account","hospitalInfomation"])
+      ...mapGetters(["isUserLoggedIn","hospital_account","hospitalInfomation"])
     },
     async mounted() {
-      const roles = this.user.roles
+      const user = localStorage.getItem("user")
+      const userJSON = JSON.parse(user)
+      const roles = userJSON.roles
       this.hospitals_register = (await HospitalService.getAllRegisterHospitals(roles)).data
       this.account_hospital_register = (await AccountService.getAllRegisterAcountHospitals(roles)).data
       this.totalRows = this.hospitals_register.length

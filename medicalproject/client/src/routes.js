@@ -1,21 +1,23 @@
 import Home from "./components/Home";
-import Login from "./components/content/Login";
-import FAQs from "./components/content/FAQs";
-import Jobs from "./components/content/Jobs";
-import Aboutus from "./components/content/Aboutus";
-import RegisterHospital from "./components/content/RegisterHospital";
-import RegisterPatient from "./components/content/RegisterPatient";
-import Terms from "./components/content/Terms";
-import Policy from "./components/content/Policy";
-import Partner from "./components/content/Partner";
-import Contact from "./components/content/Contact";
-import Patient from "./components/content/Patient";
-import Doctor from "./components/content/Doctor";
-import Hospital from "./components/content/Hospital";
-import Admin from "./components/content/Admin";
-import AddDoctor from "./components/content/hospital_modules/AddDoctor";
-import ChangeInfo from "./components/content/hospital_modules/ChangeInfo";
-import Thanks from "./components/content/Thanks";
+const Login = () => import ("./components/content/Login");
+const FAQs = () => import ("./components/content/FAQs");
+const Jobs = () => import ("./components/content/Jobs");
+const Aboutus = () => import ("./components/content/Aboutus");
+const RegisterHospital = () => import ("./components/content/RegisterHospital");
+const RegisterPatient = () => import ("./components/content/RegisterPatient");
+const Terms = () => import ("./components/content/Terms");
+const Policy = () => import ("./components/content/Policy");
+const Partner = () => import ("./components/content/Partner");
+const Contact = () => import ("./components/content/Contact");
+const Patient = () => import ("./components/content/Patient");
+const Doctor = () => import ("./components/content/Doctor");
+const Hospital = () => import ("./components/content/Hospital");
+const Admin = () => import ("./components/content/Admin");
+const AddDoctor = () => import ("./components/content/hospital_modules/AddDoctor");
+const ChangeInfo = () => import ("./components/content/hospital_modules/ChangeInfo");
+const Thanks = () => import ("./components/content/Thanks");
+ 
+
 export const routes = [
   // { path: "*", redirect:'home' },
   { path: "/", name: "homepage", component: Home },

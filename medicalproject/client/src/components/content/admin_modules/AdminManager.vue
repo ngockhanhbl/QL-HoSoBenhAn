@@ -168,7 +168,7 @@
                           </div>
                       </div>
 
-                      <div class="row model_wrapper"  v-if="!isModifyEmail" @click="isModifyEmail = true">
+                      <!-- <div class="row model_wrapper"  v-if="!isModifyEmail" @click="isModifyEmail = true">
                           <div class="col-sm-3 p-2 model_title"><strong>Email</strong></div>
                           <div class="col-sm-6 p-2">
                             {{infoModal.username}}
@@ -184,7 +184,7 @@
                             <button type="button" class="btn orange-btn btn-sm mr-3" @click="SendRequestModifyEmail(infoModal.id_account)">Thay đổi</button>
                             <button type="button" class="btn btn-outline-secondary mr-4 btn-sm " @click="cancelModify('email') ">Hủy</button>
                           </div>
-                      </div>
+                      </div> -->
                       
                       <div class="row model_wrapper" v-if="!isModifyPassword" @click="isModifyPassword = true">
                           <div class="col-sm-3 p-2 model_title"><strong>Password</strong></div>
@@ -210,6 +210,7 @@
                 </div>
             </div>  
       </div>
+
     </div>
 </template>
 
@@ -270,6 +271,9 @@ import AdminService from '@/services/AdminService'
       this.hospitals = (await HospitalService.getAllHospitals(roles)).data
       this.account_hospital_ = (await AccountService.getAllAcountHospitals(roles)).data
       this.totalRows = this.hospitals.length
+      this.$root.$on('messageFromRegister', () => {
+        console.log('nhan dc roi')
+      })
     },
     methods: {
       async SendRequestModifyName(id_account){
@@ -317,6 +321,8 @@ import AdminService from '@/services/AdminService'
                     duration : 3000
                 });
                 this.isModifyPhone = false
+                this.infoModal.phone_hospital = this.phone_modify
+                this.hospitals.filter(x => x.id_account == id_account)[0].phone_hospital = this.phone_modify 
                 this.phone_modify = ''
             }catch (error) {
                   this.$toasted.show(`${error.response.data.error}`, { 
@@ -347,6 +353,8 @@ import AdminService from '@/services/AdminService'
                     duration : 3000
                 });
                 this.isModifyAddress = false
+                this.infoModal.address_hospital = this.address_modify
+                this.hospitals.filter(x => x.id_account == id_account)[0].address_hospital = this.address_modify 
                 this.address_modify = ''
             }catch (error) {
                   this.$toasted.show(`${error.response.data.error}`, { 

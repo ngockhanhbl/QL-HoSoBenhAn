@@ -63,6 +63,9 @@
                 </div>
             </div>  
       </div>
+      <div @click="callParent">
+        Click me
+      </div>
     </div>
 </template>
 
@@ -99,7 +102,6 @@ import AuthenticationService from '@/services/AuthenticationService'
         },
         error:'',
         id_account:'',
-        roles:2
       }
     },
     computed: {
@@ -114,6 +116,9 @@ import AuthenticationService from '@/services/AuthenticationService'
       this.totalRows = this.hospitals_register.length
     },
     methods: {
+      callParent(){
+        this.$root.$emit('messageFromRegister')
+      },
       async refuseRegiterHospital(item, index, button){
         const delete_result = (await AdminService.refuseRegiterHospital({
           email: item.email
@@ -134,7 +139,7 @@ import AuthenticationService from '@/services/AuthenticationService'
                     const response = await AuthenticationService.register({
                       email: item.email,
                       password: item.password,
-                      roles:this.roles
+                      roles: 2
                     })
                     this.id_account = response.data.user.id
                 }catch (error) {

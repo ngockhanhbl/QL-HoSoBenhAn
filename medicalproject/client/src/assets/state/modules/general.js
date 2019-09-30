@@ -14,7 +14,6 @@ export default {
       patientInfo:state => state.patientInfo,
       doctorInfo: state => state.doctorInfo,
       hospitalInfo: state => state.hospitalInfo,
-     
     },
     mutations: {
         setToken (state, token) {

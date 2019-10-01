@@ -135,11 +135,11 @@ export default {
                     address_hospital:this.address_hospital
                     })
                     this.show_error = false
-                    this.resetRegister()
-                    this.$store.dispatch('resetRegiserHospital')
-                    this.$router.push({
-                        name: 'thanks'
-                    })
+                    // this.resetRegister()
+                    // this.$store.dispatch('resetRegiserHospital')
+                    // this.$router.push({
+                    //     name: 'thanks'
+                    // })
                     
                 }catch (error) {
                     this.error = error.response.data.error

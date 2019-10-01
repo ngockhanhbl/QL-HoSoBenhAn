@@ -3,7 +3,7 @@ const {Account} = require('../models')
 
 module.exports = {
   async getAllAcountHospitals (req, res) {
-      if(req.params.roles == 0){
+      if(req.user.roles == 0){
       try {
         const roles = await Account.findAll({
           where:{
@@ -11,14 +11,16 @@ module.exports = {
           }
         })      
         res.send(roles)
-      } catch (err) { 
-        res.status(500).send({                   
-          error: 'xãy ra lỗi trong quá trình lấy dữ liệu bản ghi bệnh viện '+err
-        })
-      }
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình lấy dữ liệu bản ghi bệnh viện '+err
+          })
+        }
       }
       else{
-        
+        res.status(500).send({                   
+          error: 'Bạn không có quyền truy cập vào tài nguyên này '
+        })
       }
     },
     async getAllAcountDoctors (req, res) {

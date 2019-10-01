@@ -90,14 +90,16 @@ module.exports = (app) => {
     app.delete('/hospitals/:id_account',
     HospitalsController.remove)
     
-    app.get('/getAllHospitals/:roles',
+    app.get('/getAllHospitals',
+    isAuthenticated,
     HospitalsController.getAllHospitals)
 
     app.get('/getAllRegisterHospitals/:roles',
     HospitalsController.getAllRegisterHospitals)
 
     
-    app.get('/getAllAcountHospitals/:roles',
+    app.get('/getAllAcountHospitals/',
+    isAuthenticated,
     AccountController.getAllAcountHospitals)
 
     app.get('/getAllAcountDoctors/:id_hospital',

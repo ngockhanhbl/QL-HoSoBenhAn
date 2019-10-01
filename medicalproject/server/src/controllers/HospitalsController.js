@@ -101,21 +101,22 @@ module.exports = {
     }
   },
   async getAllHospitals (req, res) {
+      if(req.user.roles == 0){
+        try {
+          const hospital = await Hospital.findAll({
 
-      if(req.params.roles == 0){
-      try {
-        const roles = await Hospital.findAll({
-
-        })      
-        res.send(roles)
-      } catch (err) { 
-        res.status(500).send({                   
-          error: 'xãy ra lỗi trong quá trình lấy dữ liệu bản ghi bệnh viện '+err
-        })
-      }
+          })      
+          res.send(hospital)
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình lấy dữ liệu bản ghi bệnh viện '+err
+          })
+        }
       }
       else{
-        res.send('error')
+        res.status(500).send({                   
+          error: 'Bạn không có quyền truy cập vào tài nguyên này !'
+        })
       }
     },
     async getAllRegisterHospitals (req, res) {

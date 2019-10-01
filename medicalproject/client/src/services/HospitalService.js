@@ -18,8 +18,8 @@ export default {
       params: payload
     })
   },
-  getAllHospitals (roles) {
-    return Api().get(`getAllHospitals/${roles}`)
+  getAllHospitals () {
+    return Api().get(`getAllHospitals`)
   },
   getAllRegisterHospitals (roles) {
     return Api().get(`getAllRegisterHospitals/${roles}`)

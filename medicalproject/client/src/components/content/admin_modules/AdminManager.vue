@@ -225,8 +225,6 @@ import AdminService from '@/services/AdminService'
   export default {
     data() {
       return {
-        hospitals:[],
-        account_hospital_:[],
         fields: [
           { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
           { key: 'id_account', label: 'ID Account', sortable: true, sortDirection: 'desc' },
@@ -262,18 +260,28 @@ import AdminService from '@/services/AdminService'
       }
     },
     computed: {
-      ...mapGetters(["user","isUserLoggedIn"])
+      ...mapGetters(["user","isUserLoggedIn","hospitals"]),
+      account_hospital_ :{
+            get(){
+               return this.$store.getters.account_hospital_
+            },
+           set(){  
+               this.$store.dispatch("fetch_AccountHospitalList")
+           }
+      }
     },
     async mounted() {
       const user = localStorage.getItem("user")
       const userJSON = JSON.parse(user)
       const roles = userJSON.roles
-      this.hospitals = (await HospitalService.getAllHospitals(roles)).data
-      this.account_hospital_ = (await AccountService.getAllAcountHospitals(roles)).data
       this.totalRows = this.hospitals.length
-      this.$root.$on('messageFromRegister', () => {
-        console.log('nhan dc roi')
-      })
+      // this.$root.$on('UpdateHospitalRegister', () => {
+      //  this.hospitals = (await HospitalService.getAllHospitals(roles)).data
+      // })
+      this.$store.dispatch("fetch_HospitalList")
+    },
+    async created(){
+      this.account_hospital_ = (await AccountService.getAllAcountHospitals()).data  //coi lai cho nay
     },
     methods: {
       async SendRequestModifyName(id_account){

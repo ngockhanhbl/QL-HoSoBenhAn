@@ -63,9 +63,6 @@
                 </div>
             </div>  
       </div>
-      <div @click="callParent">
-        Click me
-      </div>
     </div>
 </template>
 
@@ -116,8 +113,8 @@ import AuthenticationService from '@/services/AuthenticationService'
       this.totalRows = this.hospitals_register.length
     },
     methods: {
-      callParent(){
-        this.$root.$emit('messageFromRegister')
+      emitUpdateHospitalRegister(){
+        this.$root.$emit('UpdateHospitalRegister')
       },
       async refuseRegiterHospital(item, index, button){
         const delete_result = (await AdminService.refuseRegiterHospital({
@@ -172,8 +169,10 @@ import AuthenticationService from '@/services/AuthenticationService'
           });
           }
 
-        if (~index) // if the hospitals_register exists in array(Bitwise NOT operator.)
-          this.hospitals_register.splice(index, 1)
+          if (~index) // if the hospitals_register exists in array(Bitwise NOT operator.)
+            this.hospitals_register.splice(index, 1)
+          this.$store.dispatch("fetch_HospitalList")
+          this.$store.dispatch("fetch_AccountHospitalList")
           }catch (error) {
               this.error = error.response.data.error
             }

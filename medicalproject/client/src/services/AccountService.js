@@ -1,8 +1,8 @@
 import Api from '@/services/Api'
 
 export default {
-  getAllAcountHospitals (roles) {
-    return Api().get(`getAllAcountHospitals/${roles}`)
+  getAllAcountHospitals () {
+    return Api().get(`getAllAcountHospitals`)
   },
   getAllAcountDoctors (payload) {
     return Api().get(`getAllAcountDoctors/${JSON.parse(payload.payload).id_hospital}`, {

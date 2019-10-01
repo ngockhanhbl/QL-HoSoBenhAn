@@ -9,6 +9,7 @@ import RegisterHospital from "./modules/registerhospital";
 import Doctor from "./modules/doctor";
 import Patient from "./modules/patient";
 import General from "./modules/general";
+import Hospital from "./modules/hospital";
 
 Vue.use(Vuex);
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     RegisterHospital,
     Doctor,
     Patient,
-    General
+    General,
+    Hospital
   }
 });

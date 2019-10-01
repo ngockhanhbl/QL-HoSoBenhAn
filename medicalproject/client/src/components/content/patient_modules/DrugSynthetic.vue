@@ -88,7 +88,7 @@ import { mapGetters} from "vuex";
       "pageOptions",]
     ),
     totalRows: {
-           get(){ 
+           get(){
                return this.$store.getters.totalRows
             },
            set(payload){  

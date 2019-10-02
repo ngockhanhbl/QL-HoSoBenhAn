@@ -7,6 +7,7 @@ const DrugController = require('./controllers/DrugController')
 const AccountController = require('./controllers/AccountController')
 const AlternativeRecordsController = require('./controllers/AlternativeRecordsController')
 const AdminController = require('./controllers/AdminController')
+const GeneralController = require('./controllers/GeneralController')
 const isAuthenticated = require('./policies/isAuthenticated')
 
 module.exports = (app) => {
@@ -230,5 +231,21 @@ module.exports = (app) => {
    app.put('/updateBirthdayDoctor/:id_account',
    AuthenticationControllerPolicy.updateBirthdayDoctor,
    HospitalsController.updateBirthdayDoctor)
+
+
+
+   app.post('/sendRequestSupport',
+   AuthenticationControllerPolicy.sendRequestSupport,
+   GeneralController.sendRequestSupport)
+   
+
+   app.get('/getAllFeedback',
+   isAuthenticated,
+   AdminController.getAllFeedback)
+
+   
+   app.put('/markToSupportDone/:id',
+   isAuthenticated,
+   AdminController.markToSupportDone)
 
 }

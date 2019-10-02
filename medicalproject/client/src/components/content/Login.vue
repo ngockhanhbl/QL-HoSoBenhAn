@@ -122,7 +122,7 @@ export default {
 
             }         
             catch (error) {
-                this.$toasted.show(`${error.response.data.error}`, { 
+              this.$toasted.show(`${error.response.data.error}`, { 
                 theme: "bubble", 
                 position: "bottom-right", 
                 duration : 2000

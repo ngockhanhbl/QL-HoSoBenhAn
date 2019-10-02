@@ -204,7 +204,11 @@ export default {
                 })
                 this.$store.dispatch("resetRight")             
             }catch (error) {             
-                this.error = error.response.data.error
+                this.$toasted.show(`${error.response.data.error}`, { 
+                    theme: "toasted-primary", 
+                    position: "bottom-right", 
+                    duration : 5000
+                });
             }
         },
         resetRegiserPatient() {

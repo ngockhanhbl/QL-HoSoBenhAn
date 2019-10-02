@@ -2,6 +2,7 @@ const {Account} = require('../models')
 const {Hospital} = require('../models')
 const {HospitalRegister} = require('../models')
 const {Doctor} = require('../models')
+const {Feedback} = require('../models')
 
 module.exports = {
   async updateNameHospital (req, res) {
@@ -202,5 +203,53 @@ module.exports = {
         error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
       })
     }
-  }
+  },
+  async getAllFeedback (req, res) {
+    if(req.user.roles == 0){
+
+      try {
+        await Feedback.findAll({
+            where: {
+              status: 0
+            }
+        }).then((feedback) => {
+          res.send(JSON.stringify(feedback))
+        })
+      } catch (err) {
+        res.status(500).send({
+          error: 'có lỗi xảy ra '
+        })
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
+  async markToSupportDone (req, res) {
+    if(req.user.roles == 0){
+      try {
+        await Feedback.findOne(
+          {
+            where: {id: req.body.id}
+        }).then(function (record) {
+          return record.update({status: 1});
+        }).then(function (record) {
+          res.status(200).send({
+            message:'cập nhật thành công'
+          })
+          
+        });
+      } catch (err) {
+        res.status(500).send({
+          error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'
+        })
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
 }
+

@@ -686,7 +686,7 @@ module.exports = {
       next()
     }
   },
-  updateBirthdayDoctor (req, res, next) {
+  sendRequestSupport (req, res, next) {
     const schema = {
       birthday:Joi.date().iso()
     }
@@ -701,6 +701,41 @@ module.exports = {
         default:
           res.status(400).send({
             error: 'Sai thông tin cập nhật'
+          })
+      }
+    } else {
+      next()
+    }
+  },
+
+//general
+  updateBirthdayDoctor (req, res, next) {
+    const schema = {
+      name: Joi.string().required(),
+      email: Joi.string().email(),
+      message: Joi.string().required()
+    }
+    const {error} = Joi.validate(req.body, schema, { allowUnknown: true })
+    if (error) {
+      switch (error.details[0].context.key) {
+        case 'name':
+          res.status(400).send({
+            error: 'Vui lòng cung cấp đầy đủ họ và tên'
+          })
+          break
+        case 'email':
+          res.status(400).send({
+            error: 'Vui lòng cung cấp email chính xác'
+          })
+          break 
+        case 'message':
+          res.status(400).send({
+            error: 'Vui lòng điền vào thông tin cần hổ trợ'
+          })
+          break 
+        default:
+          res.status(400).send({
+            error: 'Sai thông tin'
           })
       }
     } else {

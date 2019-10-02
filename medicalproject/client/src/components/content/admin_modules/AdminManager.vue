@@ -274,14 +274,12 @@ import AdminService from '@/services/AdminService'
       const user = localStorage.getItem("user")
       const userJSON = JSON.parse(user)
       const roles = userJSON.roles
+      this.account_hospital_ = (await AccountService.getAllAcountHospitals()).data  //coi lai cho nay
       this.totalRows = this.hospitals.length
       // this.$root.$on('UpdateHospitalRegister', () => {
       //  this.hospitals = (await HospitalService.getAllHospitals(roles)).data
       // })
       this.$store.dispatch("fetch_HospitalList")
-    },
-    async created(){
-      this.account_hospital_ = (await AccountService.getAllAcountHospitals()).data  //coi lai cho nay
     },
     methods: {
       async SendRequestModifyName(id_account){

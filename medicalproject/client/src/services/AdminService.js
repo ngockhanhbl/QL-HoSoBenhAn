@@ -22,5 +22,8 @@ export default {
   refuseRegiterHospital (hospital) {
     return Api().delete(`refuseRegiterHospital/${hospital.email}`)
   },
+  markToSupportDone (payload) {
+    return Api().put(`markToSupportDone/${payload.id}`, payload)
+  },
 }
 

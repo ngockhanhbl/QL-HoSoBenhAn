@@ -378,6 +378,15 @@
                 </div>
             </div>  
     </div>
+
+    <b-modal size="sm" id="modal-ask-again" title="Xác Nhận Xóa"  ref="modal-ask-again" hide-footer	>
+      <b class="my-4">Bạn có chắc chắn muốn xóa ?</b>
+      <div class='d-flex justify-content-end my-2'>
+          <b-button class="mx-2" variant="secondary" @click="cancelDelete">Hủy</b-button>
+          <b-button class="mx-2" variant="danger" @click="agreeDelete">Đồng Ý</b-button>
+      </div>
+    </b-modal>
+
     </div>
 </template>
 <script>
@@ -438,7 +447,10 @@ import AccountService from '@/services/AccountService'
         lastname_modify:'',
         user:null,
         passwordchangeValue:'',
-        passwordchangeValueAgain:''
+        passwordchangeValueAgain:'',
+        currentItem:'',
+        currentIndex:'',
+        currentButton:''
       }
     },
     async mounted() {
@@ -510,14 +522,34 @@ import AccountService from '@/services/AccountService'
           })
       },
       async deleteDoctor(item, index, button){
-        const delete_result = (await HospitalService.delete(item.id_account)).data      
+        this.currentItem = item
+        this.currentIndex = index
+        this.currentButton = button
+        this.$root.$emit('bv::toggle::modal', 'modal-ask-again', '#btnToggle')
+
+
+        
+      },
+      cancelDelete(){
+        this.$refs['modal-ask-again'].hide()
+        this.currentItem = '';
+        this.currentIndex = '';
+        this.currentButton = '';
+      },
+      async agreeDelete(){
+        const delete_result = (await HospitalService.delete(this.currentItem.id_account)).data      
           this.$toasted.show(`Đã xóa bác sĩ ${delete_result.lastname} Thành công !!`, { 
             theme: "bubble", 
             position: "bottom-right", 
             duration : 2000
         });
-        
-        this.forceRerender();
+        if (~this.currentIndex)
+          this.doctors.splice(this.currentIndex, 1)
+        this.currentItem = '';
+        this.currentIndex = '';
+        this.currentButton = '';
+        this.$refs['modal-ask-again'].hide()
+
       },
       GetFieldsemail(row,key,item){
         for(var account_doctor__ of this.account_doctor_) {
@@ -632,11 +664,11 @@ import AccountService from '@/services/AccountService'
           this.account_doctor_.filter(x=>x.id_account == id_account)[0].email = this.email_modify
         }
         else if(nameModifyView == 'department'){
-          this.infoModal.department_doctor = this.department_modify
+          this.infoModal.department = this.department_modify
           this.doctors.filter(x=>x.id_account == id_account)[0].department = this.department_modify
         }
         else if(nameModifyView == 'specialize'){
-          this.infoModal.specialize_doctor = this.specialize_modify
+          this.infoModal.specialize = this.specialize_modify
           this.doctors.filter(x=>x.id_account == id_account)[0].specialize = this.specialize_modify
         }
         else if(nameModifyView == 'cmnd'){
@@ -657,7 +689,7 @@ import AccountService from '@/services/AccountService'
           const yearVariable = date.slice(0, 4)
           const monthVariable = date.slice(5, 7)
           const dayVariable = date.slice(8, 10)
-          this.infoModal.birthday = monthVariable +' / '+ dayVariable +' / '+yearVariable
+          this.infoModal.birthday = monthVariable +' / '+ dayVariable +' / '+ yearVariable
 
           this.doctors.filter(x=>x.id_account == id_account)[0].day = dayVariable
           this.doctors.filter(x=>x.id_account == id_account)[0].month = monthVariable
@@ -861,19 +893,22 @@ import AccountService from '@/services/AccountService'
             break;
 
           case 'birthday':
-            
             if(this.birthday_modify){
-              try {
-                  await HospitalService.updateBirthdayDoctor({
-                    id_account:id_account,
-                    birthday:this.birthday_modify
-                  })
-                  this.SussessToasted();
-                  this.ModifyView('birthday',id_account)
-                  this.isModifyBirthday = false
-                  this.birthday_modify = ''
-              }catch (error) {
-                this.ErrorToasted(error)
+              if(!this.validationBirthday(this.birthday_modify)){
+                
+              }else{
+                try {
+                    await HospitalService.updateBirthdayDoctor({
+                      id_account:id_account,
+                      birthday:this.birthday_modify
+                    })
+                    this.SussessToasted();
+                    this.ModifyView('birthday',id_account)
+                    this.isModifyBirthday = false
+                    this.birthday_modify = ''
+                }catch (error) {
+                  this.ErrorToasted(error)
+                }
               }
             }else{
               this.ValidationToasted('Sinh nhật')
@@ -883,6 +918,37 @@ import AccountService from '@/services/AccountService'
             break;
         }
 
+      },
+      validationBirthday(birthday){
+        const birth = birthday.split('-');
+        const day = birth[2]
+        const month = birth[1]
+        const year = birth[0]
+        if(parseInt(day) > 32 || parseInt(day)<1){
+            this.$toasted.show(`Sai ngày !!`, { 
+              theme: "bubble",
+              position: "bottom-right", 
+              duration : 3000
+          });
+          return false;
+        }
+        if(parseInt(month) > 12 || parseInt(month)<1){
+          this.$toasted.show(`Sai tháng !!`, { 
+              theme: "bubble",
+              position: "bottom-right", 
+              duration : 3000
+          });
+          return false;
+        }
+        if(parseInt(year) > 2019 || parseInt(year)<1800){
+          this.$toasted.show(`Sai năm !!`, { 
+              theme: "bubble",
+              position: "bottom-right", 
+              duration : 3000
+          });
+          return false;
+        }
+        return true
       },
 
 
@@ -900,9 +966,6 @@ import AccountService from '@/services/AccountService'
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
-      forceRerender(){
-        this.componentKey += 1;
-      }
     },
   }
 </script>

@@ -27,9 +27,6 @@
                 <img :src="filesDisplay[index].url" alt="err" class="imageDisplay" @click.prevent="filesDisplay[index].isClick = !filesDisplay[index].isClick" :class="{full : filesDisplay[index].isClick}" >
               </span>
           </div>
-        
-     
-         
         </b-modal>
       </div>
       <div class="text-center pb-5 pt-5 mt-3 mb-3" v-else>Chưa có hồ sơ bệnh án nào được tìm thấy</div>
@@ -54,15 +51,21 @@ export default {
         condition2:false,
         filesDisplay: [],
         filesDisplay2:[],
-        user:null
+        user:null,
+        get isUserLoggedIn() {
+          return localStorage.getItem('isUserLoggedIn' || false);
+        }
       }
     },
 computed: {
-        ...mapGetters(["patient_records","patient_records_details","isUserLoggedIn","nameDoctorWrite_records","patientInfo","AlternativeRecord"])
+        ...mapGetters(["patient_records","patient_records_details","nameDoctorWrite_records","patientInfo","AlternativeRecord"])
     },
     async mounted() {
-      const user = localStorage.getItem('user');
-      this.user = user;
+      const userCONST = JSON.parse(localStorage.getItem('user'));
+      this.user = userCONST
+      const userID = JSON.parse(localStorage.getItem('user')).id;
+
+      this.user = userCONST;
       if(this.user.roles == 1){
         const id_patient = this.user.id
         const payload = (await PatientService.show(id_patient)).data
@@ -75,11 +78,13 @@ computed: {
             }
             const ArrayNameDoctor = (await PatientService.get_nameDoctorRecordPatient(
               {id_doctor:idDoctorWriteRecord})).data
-            this.$store.dispatch("set_nameDoctorWrite_records",ArrayNameDoctor)
+              this.$store.dispatch("set_nameDoctorWrite_records",ArrayNameDoctor)
+
 
               const _DrugRecord = (await DrugService.get_DrugRecordPatient({
                 id_account: 0
               })).data
+              
           this.$store.dispatch("set_patient_records_details",_DrugRecord);
 
 
@@ -114,13 +119,11 @@ computed: {
             }
           }
         }
-      
      }
      else if(this.user.roles == 3){
        const id_patient = this.patientInfo.id_account
         const payload = (await PatientService.show(id_patient)).data
         if(payload.length){
-          console.log('no vo ne khanh oi list 3')
           this.$store.dispatch("update_inforRecordsPatientDetail",payload)  //lay ra record patient
           const lengthRecord = payload.length
           const idDoctorWriteRecord = []
@@ -131,14 +134,13 @@ computed: {
             {id_doctor:idDoctorWriteRecord})).data
           this.$store.dispatch("set_nameDoctorWrite_records",ArrayNameDoctor)
 
-
           const _DrugRecord = (await DrugService.get_DrugRecordPatient({
             id_account: 0
           })).data
 
           
         this.$store.dispatch("set_patient_records_details",_DrugRecord)
-                const _AlternativeRecord = (await PatientService.get_AlternativeRecord(id_patient)).data
+        const _AlternativeRecord = (await PatientService.get_AlternativeRecord(id_patient)).data
         this.$store.dispatch("set_AlternativeRecord",_AlternativeRecord);
         let lengthOfAlternativeRecord = _AlternativeRecord.length
         
@@ -169,8 +171,13 @@ computed: {
           }
         }
       }
-        
-        // if(this.patient_records && this.nameDoctorWrite_records){   
+
+
+
+
+        }
+
+        if(this.patient_records && this.nameDoctorWrite_records){   
           for(let index = 0 ;index<this.patient_records.length;index++){
             for(let i = 0;i<this.nameDoctorWrite_records.length;i++){
               if(this.nameDoctorWrite_records[i].id_account == this.patient_records[index].id_doctor){        
@@ -180,11 +187,8 @@ computed: {
             }
           }
           this.condition2 = true
-        }
 
-
-
-      // }
+      }
     },
     methods:{
           info(item, index, button) {
@@ -195,7 +199,7 @@ computed: {
             if(temp2.length > 0 || this.filesDisplay.length > 0) {
               if(temp2.length >0){
                 temp2.forEach(element => {
-                  let temp =              
+                  let temp =         
                   `        
                   Tên thuốc: ${element.name }
                   Tổng: ${element.total}

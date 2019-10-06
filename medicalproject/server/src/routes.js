@@ -65,7 +65,7 @@ module.exports = (app) => {
     app.post('/login',
     AuthenticationController.login),
 
-    app.get('/patient_records/:id_patient',
+    app.get(`/patient_records/:id_patient`,
     PatientsController.show),
 
     app.post('/patient_records',
@@ -210,27 +210,32 @@ module.exports = (app) => {
    
 
    app.put('/updateDepartmentDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateDepartmentDoctor,
    HospitalsController.updateDepartmentDoctor)
 
    app.put('/updateSpecializeDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateSpecializeDoctor,
    HospitalsController.updateSpecializeDoctor)
 
    app.put('/updateCmndDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateCmndDoctor,
    HospitalsController.updateCmndDoctor)
 
    app.put('/updatePhoneDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updatePhoneDoctor,
    HospitalsController.updatePhoneDoctor)
 
    app.put('/updateSexDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateSexDoctor,
    HospitalsController.updateSexDoctor)
 
    app.put('/updateBirthdayDoctor/:id_account',
-   AuthenticationControllerPolicy.updateBirthdayDoctor,
+   isAuthenticated,
    HospitalsController.updateBirthdayDoctor)
 
 

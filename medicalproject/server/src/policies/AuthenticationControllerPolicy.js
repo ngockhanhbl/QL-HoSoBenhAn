@@ -708,40 +708,44 @@ module.exports = {
     }
   },
 
-//general
-  updateBirthdayDoctor (req, res, next) {
-    const schema = {
-      name: Joi.string().required(),
-      email: Joi.string().email(),
-      message: Joi.string().required()
-    }
-    const {error} = Joi.validate(req.body, schema, { allowUnknown: true })
-    if (error) {
-      switch (error.details[0].context.key) {
-        case 'name':
-          res.status(400).send({
-            error: 'Vui lòng cung cấp đầy đủ họ và tên'
-          })
-          break
-        case 'email':
-          res.status(400).send({
-            error: 'Vui lòng cung cấp email chính xác'
-          })
-          break 
-        case 'message':
-          res.status(400).send({
-            error: 'Vui lòng điền vào thông tin cần hổ trợ'
-          })
-          break 
-        default:
-          res.status(400).send({
-            error: 'Sai thông tin'
-          })
-      }
-    } else {
-      next()
-    }
-  },
+// //general
+//   updateBirthdayDoctor (req, res, next) {
+//     const birth = req.body.birthday.split('-');
+//     const day = birth[1]
+//     const month = birth[2]
+//     const year = birth[0]
+//     const schema = {
+//       birthday: Joi.string().required(),
+//       month: Joi.string().email(),
+//       year: Joi.string().required()
+//     }
+//     const {error} = Joi.validate(req.body, schema, { allowUnknown: true })
+//     if (error) {
+//       switch (error.details[0].context.key) {
+//         case 'name':
+//           res.status(400).send({
+//             error: 'Vui lòng cung cấp đầy đủ họ và tên'
+//           })
+//           break
+//         case 'email':
+//           res.status(400).send({
+//             error: 'Vui lòng cung cấp email chính xác'
+//           })
+//           break 
+//         case 'message':
+//           res.status(400).send({
+//             error: 'Vui lòng điền vào thông tin cần hổ trợ'
+//           })
+//           break 
+//         default:
+//           res.status(400).send({
+//             error: 'Sai thông tin'
+//           })
+//       }
+//     } else {
+//       next()
+//     }
+//   },
   
   
 }

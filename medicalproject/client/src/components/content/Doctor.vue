@@ -1,169 +1,174 @@
 <template>
-  <div class="container pt-5 mb-5">
-    <div class="search" v-bind:class="{ CenterCSS: !this.Istruycap }">
-      <h3 class="text-center title">TÌM KIẾM BỆNH NHÂN  testing@gmail.com</h3>
-      <div class="content m-auto">
-        <div class="col-md-12 col-sm-12 row" v-if="isWriteRecord">
-          <div class="p-2 col-sm-6 text-right">
-            <!-- THEM HO SO MOI -->
-               <div class="btn btn-success" v-b-modal.modal-1>Thêm mới hồ sơ </div>
-               
-               <b-modal id="modal-1" title="Thêm bệnh án bệnh nhân">
-                 <div class="row col-sm-12">
-                    <div class="col-sm-4 p-2">Triệu chứng, lý do</div>
-                    <div class="col-sm-8 p-2">
-                       <input type="text"  style="width:100%;"  v-model="titleRecord" class="pl-1">
+  <div>
+      <div class="container pt-5 mb-5" v-if="isUserLoggedIn">
+        <div class="search" v-bind:class="{ CenterCSS: !this.Istruycap }">
+          <h3 class="text-center title">TÌM KIẾM BỆNH NHÂN  testing@gmail.com</h3>
+          <div class="content m-auto">
+            <div class="col-md-12 col-sm-12 row" v-if="isWriteRecord">
+              <div class="p-2 col-sm-6 text-right">
+                <!-- THEM HO SO MOI -->
+                  <div class="btn btn-success" v-b-modal.modal-1>Thêm mới hồ sơ </div>
+                  
+                  <b-modal id="modal-1" title="Thêm bệnh án bệnh nhân">
+                    <div class="row col-sm-12">
+                        <div class="col-sm-4 p-2">Triệu chứng, lý do</div>
+                        <div class="col-sm-8 p-2">
+                          <input type="text"  style="width:100%;"  v-model="titleRecord" class="pl-1">
+                        </div>
                     </div>
-                 </div>
-                <div class="row col-sm-12">
-                    <div class="col-sm-4 p-2">Chẩn đoán</div>
-                    <div class="col-sm-8 p-2">
-                       <input type="text"  style="width:100%;"  v-model="diagnoseRecord" class="pl-1">
+                    <div class="row col-sm-12">
+                        <div class="col-sm-4 p-2">Chẩn đoán</div>
+                        <div class="col-sm-8 p-2">
+                          <input type="text"  style="width:100%;"  v-model="diagnoseRecord" class="pl-1">
+                        </div>
                     </div>
-                 </div>
-                <div class="row col-sm-12 text-left">
-                  <div class="col-sm-12 d-flex">
-                      <div class="add pb-3" @click="addNewDrugRecord">
-                        <img src="@/assets/images/plus.svg" />
+                    <div class="row col-sm-12 text-left">
+                      <div class="col-sm-12 d-flex">
+                          <div class="add pb-3" @click="addNewDrugRecord">
+                            <img src="@/assets/images/plus.svg" />
+                          </div>
+                          <div class="add add2 pb-3 pl-4" @click="isHideNewAlternativeRecord = false " v-show='isHideNewAlternativeRecord'>
+                            <img src="@/assets/images/add-image.svg" />
+                          </div>
                       </div>
-                      <div class="add add2 pb-3 pl-4" @click="isHideNewAlternativeRecord = false " v-show='isHideNewAlternativeRecord'>
-                        <img src="@/assets/images/add-image.svg" />
-                      </div>
-                  </div>
-            <span style="width:100%"  v-if="!isHideNewAlternativeRecord">
-              <div class="form col-sm-12 col-md-12 mb-2">
-                    <div class="row pb-2 mx-1 justify-content-between">
-                      <strong class="colorFile">File Image </strong>
-                      <div class="close" @click="isHideNewAlternativeRecord = true, messageError = '' ">x</div>
-                    </div>
-                      <div class="row pb-2">
-                            <div class="col-sm-3">
-                              <label>Chọn File <input type="file" multiple ref="files" id="files" accept="image/*" @change="handleFilesUpload()" /></label>
-                            </div> 
-                            <div class="col-sm-9">
-                              <button v-on:click="addFiles()">Add Files</button>
+                <span style="width:100%"  v-if="!isHideNewAlternativeRecord">
+                  <div class="form col-sm-12 col-md-12 mb-2">
+                        <div class="row pb-2 mx-1 justify-content-between">
+                          <strong class="colorFile">File Image </strong>
+                          <div class="close" @click="isHideNewAlternativeRecord = true, messageError = '' ">x</div>
+                        </div>
+                          <div class="row pb-2">
+                                <div class="col-sm-3">
+                                  <label>Chọn File <input type="file" multiple ref="files" id="files" accept="image/*" @change="handleFilesUpload()" /></label>
+                                </div> 
+                                <div class="col-sm-9">
+                                  <button v-on:click="addFiles()">Add Files</button>
+                                </div>
+                                <div class="alert-error p-2" v-if="messageError">{{messageError}}</div>
+                          </div>
+      <hr>                   
+                          <div class="row">
+                                <div class="col-sm-12">
+                                  <textarea v-model="describe" placeholder="Mô tả"></textarea>
+                                </div>
+                          </div>
+      <hr>                   
+                          <div class="row mx-1" v-if="files">
+                            <div v-for="(file, key) in files" class="file-listing d-flex justify-content-between py-1 d-block">          
+                                <img class="preview" :src="file.image" />
+                                <span class="d-flex align-items-center name-preview">{{ file.file }}</span>
+                                <span class="d-flex align-items-center btn btn-sm btn-warning pointer " @click="removeImage( key )">
+                                  Xóa
+                                </span>
                             </div>
-                            <div class="alert-error p-2" v-if="messageError">{{messageError}}</div>
+                          </div>
+                        </div>
+                  </span>
+
+                      <div class="form col-sm-12 col-md-12 mb-2" v-for="(newDrug,index) in NewDrugs" :key="index +'-key'">
+                        <!-- <div class="row justify-content-end mr-3 "></div> -->
+                      <div class="row pb-2 mx-1 justify-content-between">
+                        <strong class="colorDrug">STT Drug {{index+1}}</strong>
+                        <div class="close" @click="removeNewDrugRecord(index)">x</div>
                       </div>
-  <hr>                   
-                      <div class="row">
-                            <div class="col-sm-12">
-                              <textarea v-model="describe" placeholder="Mô tả"></textarea>
-                            </div>
-                      </div>
-  <hr>                   
-                      <div class="row mx-1" v-if="files">
-                        <div v-for="(file, key) in files" class="file-listing d-flex justify-content-between py-1 d-block">          
-                            <img class="preview" :src="file.image" />
-                             <span class="d-flex align-items-center name-preview">{{ file.file }}</span>
-                             <span class="d-flex align-items-center btn btn-sm btn-warning pointer " @click="removeImage( key )">
-                               Xóa
-                             </span>
+                        <div class="row pb-2">
+                              <div class="col-sm-3">Tên thuốc</div>
+                              <div class="col-sm-9">
+                                <input type="text"  style="width:100%;"  v-model="newDrug.name" class="pl-1">
+                              </div>                   
+                        </div>
+                        <div class="row">
+                              <div class="col-sm-3">Số lượng</div>
+                              <div class="col-sm-9 ">
+                                <input type="number" min="0"  style="width:100%;"   v-model="newDrug.total" class="pl-1">
+                              </div>
+                        </div> 
+    <hr>
+                        <div class="row">
+                              <div class="col-sm-3">
+                                <input type="text"  style="width:100%;"   v-model="newDrug.morning" placeholder="Sáng">
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="text"  style="width:100%;"   v-model="newDrug.midday" placeholder="Trưa">
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="text"  style="width:100%;"   v-model="newDrug.afternoon" placeholder="Chiều">
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="text"  style="width:100%;"   v-model="newDrug.night" placeholder="Tối">
+                              </div>
+                        </div> 
+    <hr>                   
+                        <div class="row">
+                              <div class="col-sm-12">
+                                <textarea v-model="newDrug.note" placeholder="Ghi chú"></textarea>
+                              </div>
                         </div>
                       </div>
                     </div>
-              </span>
-
-                  <div class="form col-sm-12 col-md-12 mb-2" v-for="(newDrug,index) in NewDrugs" :key="index +'-key'">
-                    <!-- <div class="row justify-content-end mr-3 "></div> -->
-                  <div class="row pb-2 mx-1 justify-content-between">
-                    <strong class="colorDrug">STT Drug {{index+1}}</strong>
-                    <div class="close" @click="removeNewDrugRecord(index)">x</div>
-                  </div>
-                    <div class="row pb-2">
-                          <div class="col-sm-3">Tên thuốc</div>
-                          <div class="col-sm-9">
-                            <input type="text"  style="width:100%;"  v-model="newDrug.name" class="pl-1">
-                          </div>                   
-                    </div>
-                    <div class="row">
-                          <div class="col-sm-3">Số lượng</div>
-                          <div class="col-sm-9 ">
-                            <input type="number" min="0"  style="width:100%;"   v-model="newDrug.total" class="pl-1">
-                          </div>
-                    </div> 
-<hr>
-                    <div class="row">
-                          <div class="col-sm-3">
-                             <input type="text"  style="width:100%;"   v-model="newDrug.morning" placeholder="Sáng">
-                          </div>
-                          <div class="col-sm-3">
-                             <input type="text"  style="width:100%;"   v-model="newDrug.midday" placeholder="Trưa">
-                          </div>
-                          <div class="col-sm-3">
-                             <input type="text"  style="width:100%;"   v-model="newDrug.afternoon" placeholder="Chiều">
-                          </div>
-                          <div class="col-sm-3">
-                             <input type="text"  style="width:100%;"   v-model="newDrug.night" placeholder="Tối">
-                          </div>
-                    </div> 
-<hr>                   
-                    <div class="row">
-                          <div class="col-sm-12">
-                            <textarea v-model="newDrug.note" placeholder="Ghi chú"></textarea>
-                          </div>
-                    </div>
-                  </div>
-                </div>
-                    <template slot="modal-footer">
-                      <b-button size="sm" variant="success" @click="checkForm()">
-                        Lưu hồ sơ
-                      </b-button>
-                      <b-button size="sm" variant="danger" @click="close()">
-                        Hủy{{this.NewDrugs.id_record}}
-                      </b-button>
-                    </template>
+                        <template slot="modal-footer">
+                          <b-button size="sm" variant="success" @click="checkForm()">
+                            Lưu hồ sơ
+                          </b-button>
+                          <b-button size="sm" variant="danger" @click="close()">
+                            Hủy{{this.NewDrugs.id_record}}
+                          </b-button>
+                        </template>
+                    
+                  </b-modal>
+                  
+              </div>
+              <div class="p-2 col-sm-6">
+                <b-button variant="secondary" @click="end">Kết thúc</b-button>
+              </div>
+            </div>
+            <span v-else>
+                <div class="col-md-12 col-sm-12 row" v-if="doctorInfo">
+                  <div class="pb-3 col-sm-12 text-right">Xin chào bác sĩ {{doctorInfo.firstname}} {{doctorInfo.lastname}}</div>
                 
-               </b-modal>
-               
-          </div>
-          <div class="p-2 col-sm-6">
-             <b-button variant="secondary" @click="end">Kết thúc</b-button>
+                </div>
+                <div class="col-md-12 col-sm-12 row">
+                  <div class="p-2 col-sm-6 text-right">Nhập username bệnh nhân:</div>
+                  <div class="p-2 col-sm-6"><input type="text" style="width:60%;" v-model="doctor_email_record" ></div>
+                </div>
+                <div class="col-md-12 col-sm-12 row pb-3">
+                  <div class="p-2 col-sm-6 text-right">Nhập quyền truy cập (nếu có):</div>
+                  <div class="p-2 col-sm-6"><input type="text"  style="width:60%;" v-model="doctor_right_record" ></div>
+                </div>
+                <div v-if="error_access_record" class="alert-error">{{error_access_record}}</div>
+                <div class="d-flex justify-content-center btn-cus">
+                  <div class="btn btn-success mr-2" @click="getUserRecords">Truy Cập</div>
+                  <div class="btn cancel-btn ml-2" @click="refresh">Làm mới</div>
+                </div>
+            </span>
           </div>
         </div>
-        <span v-else>
-            <div class="col-md-12 col-sm-12 row">
-              <div class="pb-3 col-sm-12 text-right">Xin chào bác sĩ {{doctorInfo.firstname}} {{doctorInfo.lastname}}</div>
-            
+
+        <div class="search" v-if="this.Istruycap">
+          <h3 class="text-center title">Hồ sơ bệnh nhân</h3>
+            <div class="content">
+              <div>
+                  <b-tabs card >
+                  <b-tab title="Hồ Sơ Bệnh Án" active><app-TimeLine /></b-tab>
+                  <b-tab title="Dữ Liệu Bệnh Nhân"><app-PatientData /></b-tab>
+              </b-tabs>
+
             </div>
-            <div class="col-md-12 col-sm-12 row">
-              <div class="p-2 col-sm-6 text-right">Nhập username bệnh nhân:</div>
-              <div class="p-2 col-sm-6"><input type="text" style="width:60%;" v-model="doctor_email_record" ></div>
             </div>
-            <div class="col-md-12 col-sm-12 row pb-3">
-              <div class="p-2 col-sm-6 text-right">Nhập quyền truy cập (nếu có):</div>
-              <div class="p-2 col-sm-6"><input type="text"  style="width:60%;" v-model="doctor_right_record" ></div>
-            </div>
-            <div v-if="error_access_record" class="alert-error">{{error_access_record}}</div>
-            <div class="d-flex justify-content-center btn-cus">
-              <div class="btn btn-success mr-2" @click="getUserRecords">Truy Cập</div>
-              <div class="btn cancel-btn ml-2" @click="refresh">Làm mới</div>
-            </div>
-        </span>
+
+        </div>
+          
       </div>
-    </div>
-
-    <div class="search" v-if="this.Istruycap">
-      <h3 class="text-center title">Hồ sơ bệnh nhân</h3>
-        <div class="content">
-          <div>
-              <b-tabs card >
-              <b-tab title="Hồ Sơ Bệnh Án" active><app-TimeLine /></b-tab>
-              <b-tab title="Dữ Liệu Bệnh Nhân"><app-PatientData /></b-tab>
-          </b-tabs>
-
-        </div>
-        </div>
-
-    </div>
-      
+      <div v-else>
+        <app-PageNotFound />
+      </div>
   </div>
 </template>
 
 <script>
 import { mapGetters} from "vuex";
 import DoctorService from '@/services/DoctorService'
-
+import PageNotFound from '@/components/content/PageNotFound.vue'
 import PatientView from '@/components/content/patient_modules/PatientView.vue'
 import PatientData from '@/components/content/patient_modules/PatientData.vue'
 import PatientService from '@/services/PatientService'
@@ -200,19 +205,26 @@ export default {
         }
     },
       computed: {
-        ...mapGetters(["user","patient_records","doctorInfo","hospitalInfo","patientInfo"])
+        ...mapGetters(["patient_records","doctorInfo","hospitalInfo","patientInfo",'isUserLoggedIn'])
       },
       components: {
         "app-TimeLine": PatientView,  
         "app-PatientData": PatientData,
+        "app-PageNotFound":PageNotFound
       },
     async mounted() {
-        const id_account = this.user.id
-        const payload_doctor = (await DoctorService.getInfoDoctor(id_account)).data
-        this.$store.dispatch("setDoctorInfo",payload_doctor)
+        const userCONST = JSON.parse(localStorage.getItem('user'));
+        if(userCONST){
+          this.user = userCONST
+          const id_account = JSON.parse(localStorage.getItem('user')).id;
 
-        const payload_hospital = (await HospitalService.getInfoHospital(payload_doctor.id_hospital)).data
-        this.$store.dispatch("setHospitalInfo",payload_hospital)
+          const payload_doctor = (await DoctorService.getInfoDoctor(id_account)).data
+          this.$store.dispatch("setDoctorInfo",payload_doctor)
+
+          const payload_hospital = (await HospitalService.getInfoHospital(payload_doctor.id_hospital)).data
+          this.$store.dispatch("setHospitalInfo",payload_hospital)
+        }
+        
       },
   methods: {
     addFiles(){
@@ -289,7 +301,7 @@ export default {
         afternoon:'',
         night:'',
         note:'',
-       
+        user:null
      })
     },
     removeNewDrugRecord(index){

@@ -21,6 +21,9 @@ export default {
   },
   RegisterHospitalRequest (credentials) {
     return Api().post('RegisterHospitalRequest', credentials)
+  },
+  AuthenticationEmail (credentials) {
+    return Api().post('AuthenticationEmail', credentials)
   }
 }
 

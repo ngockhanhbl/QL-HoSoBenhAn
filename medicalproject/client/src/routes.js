@@ -15,6 +15,7 @@ const Hospital = () => import ("./components/content/Hospital");
 const Admin = () => import ("./components/content/Admin");
 const AddDoctor = () => import ("./components/content/hospital_modules/AddDoctor");
 const ChangeInfo = () => import ("./components/content/hospital_modules/ChangeInfo");
+const UpdateInformationRegister = () => import ("./components/content/UpdateInformationRegister");
 const Thanks = () => import ("./components/content/Thanks");
  
 
@@ -38,4 +39,5 @@ export const routes = [
   { path: "/Hospital/:id/ChangeInfo", name: "changeInfo", component: ChangeInfo },
   { path: "/Admin", name: "admin", component: Admin },
   { path: "/Thanks", name: "thanks", component: Thanks },
+  { path: "/UpdateInformationRegister", name: "UpdateInformationRegister", component: UpdateInformationRegister },
 ];

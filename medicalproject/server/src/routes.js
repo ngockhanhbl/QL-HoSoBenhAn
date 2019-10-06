@@ -9,6 +9,7 @@ const AlternativeRecordsController = require('./controllers/AlternativeRecordsCo
 const AdminController = require('./controllers/AdminController')
 const GeneralController = require('./controllers/GeneralController')
 const isAuthenticated = require('./policies/isAuthenticated')
+const email = require('./controllers/email')
 
 module.exports = (app) => {
     app.get('/getUserRecords',
@@ -238,6 +239,8 @@ module.exports = (app) => {
    AuthenticationControllerPolicy.sendRequestSupport,
    GeneralController.sendRequestSupport)
    
+   app.post('/sendRequestSubcriber',
+   GeneralController.sendRequestSubcriber)
 
    app.get('/getAllFeedback',
    isAuthenticated,
@@ -247,5 +250,8 @@ module.exports = (app) => {
    app.put('/markToSupportDone/:id',
    isAuthenticated,
    AdminController.markToSupportDone)
+
+   app.post('/AuthenticationEmail',
+   email.sendEmail)
 
 }

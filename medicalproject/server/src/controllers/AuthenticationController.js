@@ -96,7 +96,7 @@ module.exports = {
         const isPasswordValid = await user.comparePassword(password)
         if (!isPasswordValid) {
           return res.status(403).send({
-            error: 'Thông tin đăng nhập không chính xác y!'
+            error: 'Thông tin đăng nhập không chính xác !'
           })
         }
        
@@ -107,7 +107,7 @@ module.exports = {
         })
       } catch (err) { 
         res.status(500).send({                   
-          error: 'xãy ra lỗi trong quá trình đăng nhập'
+          error: 'xãy ra lỗi trong quá trình đăng nhập'+ err
         })
       }
     },

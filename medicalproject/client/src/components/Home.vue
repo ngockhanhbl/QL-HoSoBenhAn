@@ -157,22 +157,21 @@
               EHR MedicalBlock còn có thể giúp truy xuất nguồn gốc dược phẩm
               một cách hiệu quả nhất. Giúp tránh được các vấn đề thuốc giả,
               thuốc kém chất lượng… trong lĩnh vực y tế.
+                        <router-link to='/UpdateInformationRegister'>
+            <div> Click me</div>
+          </router-link>
             </samp>
           </div>
+
         </div>
       </div>
     </div>
-
-    <!-- 
-      <p class="lead">
-          Áp Dụng Công Nghệ BlockChain, Quản Lí Hồ Sơ Bệnh Án luôn chính xác và được cập nhật thông qua sổ cái phân phối được đảm bảo tính toàn vẹn,
-          Đây là điều mà ngành chăm sóc sức khỏe hiện tại không thể đạt được bằng các hệ thống và cơ sở hạ tầng truyền thống hiện tại.
-      </p> -->
   </div>
 </template>
 
 <script>
 export default {
+
 };
 </script>
 
@@ -188,7 +187,6 @@ export default {
 }
 
 #main-section {
-  /* background-image: url(../assets/images/bg-main.jpg) no-repeat fixed center; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100vw;
@@ -205,10 +203,6 @@ export default {
 #main-section a {
   border-radius: 15px 15px;
 }
-/* #main-section img {
-  height: 0.6em;
-  width: 0.6em;
-} */
 .get-started{
   padding: 0.9rem 3rem;
 }
@@ -283,34 +277,6 @@ video {
   color: #555555;
 }
 
-/*@media screen and (min-width: 480px) and (max-width: 767px)  {
-  #main-home{
-    max-width: 766px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  #main-section h2{
-    color:red;
-  }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1600px)  {
-  #main-home{
-    max-width: 1600px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px)  {
-  #main-home{
-    max-width: 1023px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-}*/
 
 
 

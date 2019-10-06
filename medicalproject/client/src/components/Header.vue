@@ -4,7 +4,6 @@
    <router-link to="/"><b-navbar-brand class="logo"><img src="@/assets/images/logo705.png"></b-navbar-brand></router-link>
 
       <b-navbar-toggle target="nav-collapse "></b-navbar-toggle>
-
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto ">

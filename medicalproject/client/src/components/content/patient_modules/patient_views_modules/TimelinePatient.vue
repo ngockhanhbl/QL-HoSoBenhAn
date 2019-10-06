@@ -53,13 +53,16 @@ export default {
         arrayNameDoctor:[],
         condition2:false,
         filesDisplay: [],
-        filesDisplay2:[]
+        filesDisplay2:[],
+        user:null
       }
     },
 computed: {
-        ...mapGetters(["patient_records","patient_records_details","isUserLoggedIn","nameDoctorWrite_records","user","patientInfo","AlternativeRecord"])
+        ...mapGetters(["patient_records","patient_records_details","isUserLoggedIn","nameDoctorWrite_records","patientInfo","AlternativeRecord"])
     },
     async mounted() {
+      const user = localStorage.getItem('user');
+      this.user = user;
       if(this.user.roles == 1){
         const id_patient = this.user.id
         const payload = (await PatientService.show(id_patient)).data

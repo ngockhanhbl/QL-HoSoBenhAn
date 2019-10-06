@@ -35,9 +35,9 @@
       <div class="subcriber">
         <div><p>Đăng Kí Nhận Tin Tức</p></div>
         <div>
-          <span><input type="text" placeholder="Nhập Email"/></span>
+          <span><input type="text" v-model="email" placeholder="Nhập Email"/></span>
           <span id="btn-sub"
-            ><img src="@/assets/images/send.svg" /><span class="pl-2 pr-1"
+            ><img src="@/assets/images/send.svg" /><span @click="checkForm" class="pl-2 pr-1"
               >Đăng Kí</span
             ></span
           >
@@ -66,7 +66,42 @@
 </template>
 
 <script>
-export default {};
+import GeneralService from '@/services/GeneralService'
+export default {
+  data(){
+    return {
+      email:null
+    }
+  },
+  methods: {
+    checkForm: function (e) {
+      if(!this.validEmail(this.email)) {
+        this.$toasted.show(`Vui lòng nhập đúng định dạng email !`, { 
+          theme: "outline", 
+          position: "bottom-center", 
+          duration : 5000
+        });
+        // e.preventDefault();
+      }else{
+        this.subcriber();
+      }
+    },
+    async subcriber(){
+      await GeneralService.sendRequestSubcriber({
+        email: this.email,
+      })
+      this.$toasted.show(`Cảm ơn bạn đã đăng kí,chúng tôi sẽ gửi cho bạn những tin tức mới nhất !`, { 
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 5000
+      });
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email)
+    }
+  }
+};
 </script>
 
 <style scoped>

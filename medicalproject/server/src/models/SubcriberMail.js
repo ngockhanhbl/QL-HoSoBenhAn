@@ -1,8 +1,10 @@
 
 module.exports = (sequelize, DataTypes) => {
     const SubcriberMail = sequelize.define('SubcriberMail', {
-        mail:{
+        email:{
             type:DataTypes.STRING,
+            unique: true,
+            allowNull:false
         },
     })
     return SubcriberMail

@@ -26,46 +26,6 @@
                         <p>Hãy đăng kí cùng chúng tôi bằng cách điền vào mẫu sau:</p>
                     </div>
                         <div class="formCus p_1r mlr_1-5r">
-                            <div class="block">Tên</div>
-                            <div class=" Custominput pr2"    >
-                                <input type="text" placeholder="Họ và Tên Lót" style="width:100%;"  v-model="firstname">
-                            </div>
-                            <div class=" Custominput pl2"   >
-                                <input type="text" placeholder="Tên" style="width:100%;" v-model="lastname">
-                            </div>
-
-                            <div class="block">Ngày Sinh</div>
-                            <div class=" Custominput2 pr2"    >
-                                <input type="number" min="1" max="31" placeholder="Ngày" style="width:100%;" v-model="day" >
-                            </div>
-                            <div class=" Custominput2 pl2" >
-                                <input type="number" min="1" max="12" placeholder="Tháng" style="width:100%;" v-model="month">
-                            </div>
-                            <div class=" Custominput2 pl2"   >
-                                <input type="number" max="2019" placeholder="Năm" style="width:100%;" v-model="year">
-                            </div>
-                            <div class="block">Số Điện Thoại</div>
-                            <div class=" Custominput3 pr2"    >
-                                <input type="text"  style="width:100%;"  v-model="phone">
-                            </div>
-                            <div class="Custominput ">
-                                Giới Tính:&emsp;
-                                <input type="radio" name="gender" value="nam" v-model="sex"> Nam&ensp; 
-                                <input type="radio" name="gender" value="nu" v-model="sex"> Nữ
-                            </div>
- 
-                            <div class="block">Địa Chỉ</div>
-                            <div class=" Custominput3 pr2"    >
-                                <input type="text"  style="width:100%;" v-model="address" >
-                            </div>
-                            <div class="block">CMND</div>
-                            <div class=" Custominput pr2"   >
-                                <input type="text"  style="width:100%;" :disabled="checked" v-model="cmnd">
-                            </div>
-                            <div class=" Custominput pl-2 float-right">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="checked">
-                                <label class="form-check-label" for="exampleCheck1">tôi dưới 14 tuổi</label>
-                            </div>
                             <div class="block">Địa Chỉ Email</div>
                             <div class=" Custominput3 pr2"    >
                                 <input type="text"  style="width:100%;"  v-model="email">
@@ -74,38 +34,33 @@
                             <div class=" Custominput3 pr2"   >
                                 <input type="password"  style="width:100%;"  v-model="password" >
                             </div>
-                        <div class="block mt-5">Tôi muốn chế độ hồ sơ bệnh án của mình ở chế độ:</div>
-                            <div class=" Custominput3 pr2"    >
-                                <div class="block"><input type="radio" name="right" value="public" v-model="right">&ensp; Công khai</div>                         
-                                <div class="block pt-1">
-                                    <input type="radio" name="right" value="private" v-model="right">&ensp; Riêng tư
-                                    <transition name="fade">
-                                        <span class="pl-3" v-if="right">Mã cấp quyền: </span>
-                                    </transition>
-                                    <transition name="fade">
-                                        <input type="text"  style="width:60%;"   v-model="valueRight" v-if="right">
-                                    </transition>
-                                </div>
-                                
+                            <div class="block">Nhập Lại Mật Khẩu</div>
+                            <div class=" Custominput3 pr2"   >
+                                <input type="password"  style="width:100%;"  v-model="password_again" >
                             </div>
-                            <div class="agree_label">
-                                <div class="block">Chọn hình ảnh CMND / sổ hộ khẩu</div>
-                                <div class=" Custominput pr2"    >
-                                        <input type="file" @change="onFileChange" />
-                                </div>
-                                <div class=" Custominput pl2" >
-                                    <img v-if="url" :src="url" />
-                                </div>
-                            </div>
-                            <br>
-                            <div class="danger-alert" v-html="error" />
-                            <br>    
-                            <div class="agree_btn btn" @click="register"> ĐỒNG Ý</div>                              
+                            <div class="agree_btn btn" @click="checkForm"> ĐỒNG Ý</div>                              
                         </div>
                         
                 </div>
             </div>
-        </form>        
+        </form>
+    <b-modal id="modal-authenticationEmail" hide-footer>
+        <div class="d-block d-flex row col-sm-12 py-3">Vui lòng nhập mã nhận được từ bên mail vào đây:</div>
+        <input v-model="API_CHECK" class="inputModal"/>
+        <div class="d-flex justify-content-between">
+            <div class="py-2 px-2">
+                <b-button variant="success" @click="sendAuthentication">Gửi lại mã xác thực</b-button>
+            </div>
+            <div class="d-flex">
+                <div class="py-2 px-2">
+                    <b-button variant="success" @click="checkAPIKEY">Gửi Yêu Cầu</b-button>
+                </div>
+                <div class="py-2 px-2">
+                    <b-button variant="warning" @click="hide_modal_authenticationEmail">Đóng</b-button>
+                </div>
+            </div>
+        </div>
+    </b-modal>  
     </div>
 </template>
 
@@ -117,118 +72,123 @@ export default {
         return{
             id_account:'',
             roles:1,
-            checked : false,
-            url: null,
             error:'',
-            firstname:'',
-            lastname:'',
-            day:'',
-            month:'',
-            year:'',
-            phone:'',
-            sex:'',
-            address:'',
-            cmnd:'',
             email:'',
             password:'',
+            password_again:'',
+            API_KEYS:null,
+            API_CHECK:null
         }
     },
-    computed: {
-        right: {
-           get(){
-               return this.$store.getters.right
-            },
-           set(payload){
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'right'
-                } );
-           }
-        },
-        valueRight: {
-           get(){
-               return this.$store.getters.valueRight
-            },
-           set(payload){  
-                this.$store.dispatch("updateInformation",{
-                    payloadValue: payload,
-                    payloadRouter:'valueRight'
-                } );
-           }
-       },
-    },
     methods: {
-        onFileChange(e) {
-            const file = e.target.files[0];
-            state.url = URL.createObjectURL(file);
-        },
-        async register () {
-            if(!this.id_account){
-                try {
-                    const response = await AuthenticationService.register({
-                    email: this.email,
-                    password: this.password,
-                    roles:this.roles
-                    })
-                    this.id_account = response.data.user.id
-                    this.updatedInforUser();
-                    this.$store.dispatch('setToken', response.data.token)
-                    this.$store.dispatch('setUser', response.data.user)
-                }catch (error) {
-                    this.error = error.response.data.error
-                    }
-            }else{
-                this.updatedInforUser();
-            }
-        },
-        async updatedInforUser(){
+        async sendAuthentication(){
+            this.API_KEYS = this.IntegerGenerator();
+            console.log('this.API_KEYS '+this.API_KEYS)
             try {
-                const response = await AuthenticationService.patient({
-                    id_account:this.id_account,
-                    firstname:this.firstname,
-                    lastname:this.lastname,
-                    day:this.day,
-                    month:this.month,
-                    year:this.year,
-                    address:this.address,
-                    sex:this.sex,
-                    cmnd:this.cmnd,
-                    right:this.valueRight,
-                    phone:this.phone,
-                    image:this.url
+                const response = await AuthenticationService.AuthenticationEmail({
+                    API_KEYS:this.API_KEYS,
+                    email:this.email
                 })
-                this.resetRegiserPatient();
-                this.$router.push({
-                    name:'patient',
-                    params:{id: this.id_account}
-                })
-                this.$store.dispatch("resetRight")             
-            }catch (error) {             
+            }catch (error) {
                 this.$toasted.show(`${error.response.data.error}`, { 
-                    theme: "toasted-primary", 
-                    position: "bottom-right", 
+                    theme: "outline", 
+                    position: "bottom-center", 
                     duration : 5000
                 });
             }
         },
+        checkForm:async function (e) {
+            if(!this.validEmail(this.email)) {
+                    this.$toasted.show(`Vui lòng nhập đúng định dạng email !`, { 
+                    theme: "outline", 
+                    position: "bottom-center", 
+                    duration : 5000
+                });
+            }else if(this.password !== this.password_again){
+                this.$toasted.show(`Password và Password xác nhận không giống nhau, Vui lòng kiểm tra lại !`, { 
+                    theme: "outline", 
+                    position: "bottom-center", 
+                    duration : 5000
+                });
+            }
+            else if(!this.validPassword(this.password)){
+                this.$toasted.show(`Mật khẩu được cung cấp phải khớp với các quy tắc sau:
+                    <br>
+                    1. Nó phải chứa chỉ các ký tự sau: chữ thường, chữ hoa, chữ số.
+                    <br>
+                    2. mật khẩu dài ít nhất 8 kí tự và không dài hơn 32 kí tự.
+                    `, {
+                    theme: "outline", 
+                    position: "bottom-center", 
+                    duration : 5000
+                });
+            }
+            else{
+                this.sendAuthentication();
+                this.$root.$emit('bv::show::modal', 'modal-authenticationEmail', '#btnShow')
+            }
+        },
         resetRegiserPatient() {
-            this.checked = false,
-            this.right= false, 
-            this.url= null,
-            this.error='',
-            this.firstname='',
-            this.lastname='',
-            this.day='',
-            this.month='',
-            this.year='',
-            this.phone='',
-            this.sex='',
-            this.address='',
-            this.cmnd='',
+            this.id_account = '',
+            this.error = '',
             this.email='',
             this.password='',
-            this.valueRight=''
+            this.password_again='',
+            this.API_KEYS = null,
+            this.API_CHECK = null
         },
+        async register () {
+            try {
+                const response = await AuthenticationService.register({
+                    email: this.email,
+                    password: this.password,
+                    roles:this.roles,
+                    isUpdateInformation:0
+                })
+                this.id_account = response.data.user.id
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
+                this.$router.push({
+                    path: `/UpdateInformationRegister`
+                })
+                this.resetRegiserPatient();
+            }catch (error) {
+                this.$toasted.show(`${error.response.data.error}`, { 
+                    theme: "outline", 
+                    position: "bottom-center", 
+                    duration : 5000
+                });
+            }
+        },
+        async checkAPIKEY(){
+            console.log(this.API_KEYS+' API_KEYS')
+            console.log(this.API_CHECK+ 'API_CHECK')
+            if(this.API_KEYS != this.API_CHECK){
+                this.$toasted.show(`Mã Xác Thực Không Đúng Vui lòng kiểm tra lại !`, { 
+                    theme: "bubble", 
+                    position: "bottom-right", 
+                    duration : 5000
+                });
+            }else{
+                this.register();
+            }
+        },
+        hide_modal_authenticationEmail(){
+            this.$root.$emit('bv::hide::modal', 'modal-authenticationEmail', '#btnShow')
+        },
+        validEmail: function (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email)
+        },
+        validPassword: function (email) {
+            var re = /^[a-zA-Z0-9]{8,32}$/;
+            return re.test(email)
+        },
+
+        IntegerGenerator(){
+            return Math.floor(Math.random() * 10001);
+        },
+
     }
 }
 
@@ -339,6 +299,10 @@ input:focus::-webkit-input-placeholder {
 }
 p{
     line-height: 24px;
+}
+.inputModal{
+    width: 100%;
+    margin-bottom: 30px;
 }
 </style>
 

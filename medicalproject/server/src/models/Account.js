@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         },
         password:DataTypes.STRING,
+        isUpdateInformation:{
+            type:DataTypes.INTEGER,
+            defaultValue:0
+        },
         roles:DataTypes.INTEGER,
     },{
         hooks: {

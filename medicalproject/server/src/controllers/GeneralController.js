@@ -1,4 +1,5 @@
 const {Feedback} = require('../models')
+const {SubcriberMail} = require('../models')
 
 
 module.exports = {
@@ -13,4 +14,23 @@ module.exports = {
         })
       }
     },
+    async sendRequestSubcriber (req, res) {
+      try {
+        SubcriberMail
+          .findOrCreate({where: {email:req.body.email}, defaults: {email: req.body.email}})
+          .then(([user, created]) => {
+            console.log(user.get({
+              plain: true
+            }))
+          })
+        res.status(200).send({
+          message: 'Cảm ơn bạn, email của bạn đã được ghi nhận '
+        })
+      } catch (err) {
+        res.status(400).send({
+          error: 'Có lỗi xãy ra trong quá trình gửi hỗ trợ '
+        })
+      }
+    },
 }
+

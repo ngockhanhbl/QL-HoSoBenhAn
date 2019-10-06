@@ -86,6 +86,7 @@ import DrugService from '@/services/DrugService'
             title: '',
             content: '',
           },
+          user:null,
           arrayNameDoctor:[],
           condition:false,
           filesDisplay: [],
@@ -101,7 +102,6 @@ import DrugService from '@/services/DrugService'
       "nameDoctorWrite_records",
       "isUserLoggedIn",
       "AlternativeRecord",
-      "user",
       "patientInfo"]
     ),
     totalRows: {
@@ -150,6 +150,8 @@ import DrugService from '@/services/DrugService'
         }
     },
     async mounted() {
+      const user = localStorage.getItem('user');
+      this.user = user;
       if(this.user.roles == 1){
         this.condition = true
         if(this.patient_records.length){

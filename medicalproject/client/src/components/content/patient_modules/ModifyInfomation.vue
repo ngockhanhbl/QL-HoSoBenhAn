@@ -11,7 +11,7 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="patientInfomation">
         <tr v-if="isModify_first_name">
           <th scope="row">Họ và tên lót</th>
           <td  scope="col"><p>{{patientInfomation.firstname}}</p></td>
@@ -278,6 +278,7 @@ import PatientService from '@/services/PatientService'
         month:null,
         year:null,
         patientInfomation:null,
+        user:null,
 
         isModify_first_name:true,
         isModify_last_name:true,
@@ -293,10 +294,17 @@ import PatientService from '@/services/PatientService'
       }
     },
     computed: {
-        ...mapGetters(["isUserLoggedIn","user"])
+        ...mapGetters(["isUserLoggedIn"])
     },
     async mounted() {
-      this.patientInfomation = (await PatientService.getInfoPatient(this.user.id)).data
+      const userCONST = JSON.parse(localStorage.getItem('user'));
+      this.user = userCONST
+
+      const userID = JSON.parse(localStorage.getItem('user')).id;
+
+      if(this.user){
+        this.patientInfomation = (await PatientService.getInfoPatient(userID)).data
+      }
     },
     methods: {
       reset(payload){

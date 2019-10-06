@@ -12,7 +12,7 @@
       <b-tabs card >
       <b-tab title="Hồ Sơ Bệnh Án" active><app-TimeLine /></b-tab>
       <!-- <b-tab title="Tổng Hợp Thuốc"><app-DrugSynthetic /></b-tab> -->
-      <b-tab title="Thông Tin Cá Nhân"><app-ModifyInfomation /></b-tab>
+      <b-tab title="Thông Tin Cá Nhân"><ModifyInfomation /></b-tab>
       <b-tab title="Dữ Liệu Bệnh Nhân" disabled><app-PatientData /></b-tab>
     </b-tabs>
   </div>
@@ -23,16 +23,18 @@
 <script>
 
 import PatientView from '@/components/content/patient_modules/PatientView.vue'
-import ModifyInfomation from '@/components/content/patient_modules/ModifyInfomation.vue'
+// import ModifyInfomation from '@/components/content/patient_modules/ModifyInfomation.vue'
 import PatientData from '@/components/content/patient_modules/PatientData.vue'
 import { mapGetters} from "vuex";
 export default {
-  computed: {
-    ...mapGetters(["user","patient_records","nameDoctorWrite_records","patientInfo","patient_records_details"])
-  },
+  // computed: {
+  //   ...mapGetters([,"patient_records","nameDoctorWrite_records","patientInfo","patient_records_details"])
+  // },
   components: {
     "app-TimeLine": PatientView,
-    "app-ModifyInfomation": ModifyInfomation,
+    // "app-ModifyInfomation": ModifyInfomation,
+    ModifyInfomation: () => import("@/components/content/patient_modules/ModifyInfomation.vue"),
+
     "app-PatientData": PatientData,
   },
 }

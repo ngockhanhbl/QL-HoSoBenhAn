@@ -87,6 +87,9 @@ import DrugService from '@/services/DrugService'
             content: '',
           },
           user:null,
+          get isUserLoggedIn() {
+            return localStorage.getItem('isUserLoggedIn' || false);
+          },
           arrayNameDoctor:[],
           condition:false,
           filesDisplay: [],
@@ -100,7 +103,6 @@ import DrugService from '@/services/DrugService'
       "fields",
       "pageOptions",
       "nameDoctorWrite_records",
-      "isUserLoggedIn",
       "AlternativeRecord",
       "patientInfo"]
     ),
@@ -150,8 +152,9 @@ import DrugService from '@/services/DrugService'
         }
     },
     async mounted() {
-      const user = localStorage.getItem('user');
-      this.user = user;
+      const userCONST = JSON.parse(localStorage.getItem('user'));
+      this.user = userCONST
+
       if(this.user.roles == 1){
         this.condition = true
         if(this.patient_records.length){

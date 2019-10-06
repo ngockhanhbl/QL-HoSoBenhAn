@@ -324,21 +324,28 @@ module.exports = {
     },
 
     async updatePasswordDoctor (req, res) {
-      try {
-        await Account.findOne(
-          {
-            where: {id: req.body.id_account}
-        }).then(function (record) {
-          return record.update({password: req.body.password});
-        }).then(function (record) {
-            res.sendStatus(200);
-        });
-  
-      } catch (err) {
+      if(req.user.roles == 2 || (req.user.roles == 3 && req.user.id == req.body.id_account)){
+        try {
+          await Account.findOne(
+            {
+              where: {id: req.body.id_account}
+          }).then(function (record) {
+            return record.update({password: req.body.password});
+          }).then(function (record) {
+              res.sendStatus(200);
+          });
+    
+        } catch (err) {
+          res.status(500).send({
+            error: 'xảy ra lỗi trong quá trình cập nhật password bác sĩ'
+          })
+        }
+      }else{
         res.status(500).send({
-          error: 'xảy ra lỗi trong quá trình cập nhật password bác sĩ'
+          error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
         })
       }
+
     },
 
 }

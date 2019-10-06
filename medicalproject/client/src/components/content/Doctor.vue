@@ -124,7 +124,43 @@
             </div>
             <span v-else>
                 <div class="col-md-12 col-sm-12 row" v-if="doctorInfo">
-                  <div class="pb-3 col-sm-12 text-right">Xin chào bác sĩ {{doctorInfo.firstname}} {{doctorInfo.lastname}}</div>
+                  <div class="pb-3 col-sm-12 text-right">Xin chào bác sĩ {{doctorInfo.firstname}} {{doctorInfo.lastname}}
+
+                    <b-dropdown size="sm" dropleft variant="link" toggle-class="text-decoration-none" no-caret>
+                      <template v-slot:button-content>
+                        &#9656;<span class="sr-only">Search</span>
+                      </template>
+                      <b-dropdown-item v-b-modal.modal-3>Đổi Mật Khẩu</b-dropdown-item>
+                    </b-dropdown>
+
+                      <b-modal id="modal-3" title="Đổi Mật Khẩu">
+                        <b class="my-4 d-flex justify-content-start">Nhập Mật Khẩu Bạn Muốn Đổi:</b>
+                        <p class="my-4"><input type="password" placeholder="nhập mật khẩu" class="inputStyle" v-model="passwordchangeValue"></p>
+                        <p class="my-4"><input type="password" placeholder="nhập lại mật khẩu" class="inputStyle" v-model="passwordchangeValueAgain"></p>
+                        <template v-slot:modal-footer>
+                          <div class="w-100">
+                            <b-button
+                              variant="warning"
+                              size="sm"
+                              class="float-right ml-3"
+                              @click="validationPasswordChange"
+                            >
+                              Gửi Yêu Cầu Đổi Mật Khẩu
+                            </b-button>
+                            
+                            <b-button
+                              variant="primary"
+                              size="sm"
+                              class="float-right"
+                              @click="closeModal3"
+                            >
+                              Đóng
+                            </b-button>
+                          </div>
+                        </template>
+                      </b-modal>
+
+                  </div>
                 
                 </div>
                 <div class="col-md-12 col-sm-12 row">
@@ -187,6 +223,11 @@ export default {
             Istruycap:false,
             idRecord:null,
             describe:'',
+            passwordchangeValue:'',
+            passwordchangeValueAgain:'',
+            get isUserLoggedIn() {
+                return localStorage.getItem('isUserLoggedIn' || false);
+              },
             NewDrugs:[
               {
                 name:'',
@@ -205,7 +246,7 @@ export default {
         }
     },
       computed: {
-        ...mapGetters(["patient_records","doctorInfo","hospitalInfo","patientInfo",'isUserLoggedIn'])
+        ...mapGetters(["patient_records","doctorInfo","hospitalInfo","patientInfo"])
       },
       components: {
         "app-TimeLine": PatientView,  
@@ -227,6 +268,51 @@ export default {
         
       },
   methods: {
+      validationPasswordChange(){
+        if(!this.passwordchangeValue || !this.passwordchangeValueAgain){
+            this.$toasted.show('Vui Lòng Nhập Đầy Đủ Thông Tin !!!', { 
+            theme: "bubble",
+            position: "bottom-right", 
+            duration : 4000
+        });
+        }else if(this.passwordchangeValue !== this.passwordchangeValueAgain){
+          this.$toasted.show(`Mật Khẩu Và Mật Khẩu Xác Nhận Không Giống Nhau !!!<br>Vui Lòng Kiểm Tra Lại !!!`, { 
+            theme: "bubble", 
+            position: "bottom-right", 
+            duration : 5000
+        });
+        }else if(this.passwordchangeValue.length < 8){
+          this.$toasted.show(`Mật khẩu được cung cấp phải khớp với các quy tắc sau:\n            <br><br>\n            1. Nó phải chứa chỉ các ký tự sau: chữ thường, chữ hoa, chữ số.\n            <br><br>\n            2. mật khẩu dài ít nhất 8 kí tự và không dài hơn 32 kí tự.\n            </div>\n        `, { 
+            theme: "bubble", 
+            position: "bottom-right", 
+            duration : 4000
+        });
+        }else{
+          this.changepassword();
+          this.closeModal3();
+        }
+    },
+    closeModal3(){
+        this.passwordchangeValue = ''
+        this.passwordchangeValueAgain = ''
+        this.$root.$emit('bv::hide::modal', "modal-3", "button")
+      },
+    async changepassword(){
+        try {
+            await PatientService.changePassword({
+              id_account:this.user.id,
+              password:this.passwordchangeValue
+          })
+        } catch (error) {
+          this.ErrorToasted(error)
+        }
+
+            this.$toasted.show(`Cập Nhập Thành công !!`, { 
+              theme: "bubble",
+              position: "bottom-right", 
+              duration : 3000
+          });
+      },
     addFiles(){
       this.$refs.files.click()
     },
@@ -410,7 +496,8 @@ export default {
                     position: "bottom-right", 
                     duration : 2000
                 });
-                    this.resetForm()
+                // this.getUserRecords();
+                this.resetForm()
 
                 
       }
@@ -523,5 +610,11 @@ div.file-listing img{
 .CenterCSS{
   margin-bottom: 10vh;
   margin-top: 9vh;
+}
+.inputStyle{
+  padding: 0.25rem;
+  border:1px solid #aaa;
+  border-radius:4px;
+  width:100%;
 }
 </style>

@@ -474,7 +474,7 @@ import AccountService from '@/services/AccountService'
       validationPasswordChange(){
         if(!this.passwordchangeValue || !this.passwordchangeValueAgain){
             this.$toasted.show('Vui Lòng Nhập Đầy Đủ Thông Tin !!!', { 
-            theme: "bubble", 
+            theme: "bubble",
             position: "bottom-right", 
             duration : 4000
         });

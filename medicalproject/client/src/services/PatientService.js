@@ -56,4 +56,7 @@ export default {
   updatePhonePatient (patient) {
     return Api().put(`updatePhonePatient/${patient.id_account}`, patient)
   },
+  changePassword(doctor) {
+    return Api().put(`updatePasswordDoctor/${doctor.id_account}`, doctor)
+  },
 }

@@ -150,60 +150,75 @@ module.exports = (app) => {
 
     //update infomation patient by patient
     app.put('/updateFirstNamePatient/:id_account',
+    isAuthenticated,
     AuthenticationControllerPolicy.updateFirstNamePatient,
     PatientsController.updateFirstNamePatient)
 
     app.put('/updateLastNamePatient/:id_account',
+    isAuthenticated,
     AuthenticationControllerPolicy.updateLastNamePatient,
     PatientsController.updateLastNamePatient)
 
     app.put('/updateDayPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateDayPatient)
 
     app.put('/updateMonthPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateMonthPatient)
     
     app.put('/updateYearPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateYearPatient)
 
     app.put('/updateSexPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateSexPatient)
 
     app.put('/updateAddressPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateAddressPatient)
 
     app.put('/updateRightPatient/:id_account',
+    isAuthenticated,
     PatientsController.updateRightPatient)
 
     // app.put('/updateCmndPatient/:id_account',
     // PatientsController.updateCmndPatient)
 
     app.put('/updateEmailPatient/:id_account',
+    isAuthenticated,
     AuthenticationControllerPolicy.updateEmailPatient,
     PatientsController.updateEmailPatient)
 
     app.put('/updatePasswordPatient/:id_account',
+    isAuthenticated,
     AuthenticationControllerPolicy.updatePasswordPatient,
     PatientsController.updatePasswordPatient)
 
 
    // update info doctor by hospital
    app.put('/updateFirstNameDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateFirstNameDoctor,
    HospitalsController.updateFirstNameDoctor)
 
    app.put('/updateLastNameDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateLastNameDoctor,
    HospitalsController.updateLastNameDoctor)
 
    app.put('/updateAddressDoctor/:id_account',
+   isAuthenticated,
    HospitalsController.updateAddressDoctor)
 
    app.put('/updateEmailDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updateEmailDoctor,
    HospitalsController.updateEmailDoctor)
 
    app.put('/updatePasswordDoctor/:id_account',
+   isAuthenticated,
    AuthenticationControllerPolicy.updatePasswordDoctor,
    HospitalsController.updatePasswordDoctor)
 

@@ -38,8 +38,8 @@
             <h4 class="ml-2">Danh Sách Thuốc</h4>
         </div>
 
-        <b-container fluid class="py-3">
-            <b-row>
+        <b-container fluid class="py-3 bg_list_drug">
+            <b-row class="mb-4">
                 <b-col lg="6" class="my-1">
                     <b-form-group
                     label="Lọc"
@@ -64,7 +64,7 @@
                 </b-col>
                 <b-col sm="5" md="6" class="my-1">
                     <b-form-group
-                    label="Per page"
+                    label="Hiển thị"
                     label-cols-sm="6"
                     label-cols-md="4"
                     label-cols-lg="3"
@@ -83,7 +83,6 @@
                 </b-col>
             </b-row>
 
-            <!-- Main table element -->
             <b-table
             show-empty
             medium
@@ -148,7 +147,7 @@ export default {
     },
     async mounted(){
         await axios
-        .get('https://www.drugbank.vn/services/drugbank/api/public/thuoc?page=0&size=100&fbclid=IwAR1vamwLTdSmIx8idqXMjg77a18AZ4nZYROoLE8dTTAR0sS4EUlvt7W3lMQ')
+        .get('https://www.drugbank.vn/services/drugbank/api/public/thuoc?page=1&size=2000&fbclid=IwAR1vamwLTdSmIx8idqXMjg77a18AZ4nZYROoLE8dTTAR0sS4EUlvt7W3lMQ')
         .then(response => (this.info = response));
         this.totalRows = this.info.data.length;
 
@@ -171,11 +170,21 @@ export default {
                 this.chemicalActive = false;
             }
         },
-
-      onFiltered(filteredItems) {
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      }
+        SeeDetailsDrug(item, index, button){
+            console.log(item);
+            console.log(item);
+            console.log(item);
+            this.$router.push({
+                path: `/DrugDetails/${item.id}`
+            })
+            // await axios
+            // .get('//https://www.drugbank.vn/services/drugbank/api/public/thuoc/VD-23889-15')
+            // .then(response => (this.info = response));
+        },
+        onFiltered(filteredItems) {
+            this.totalRows = filteredItems.length
+            this.currentPage = 1
+        }
     }
 
 }
@@ -246,6 +255,9 @@ export default {
     .list-drugs img{
         height: 1rem;
         width: 1rem;
+    }
+    .bg_list_drug{
+        background: rgba(242, 242, 242, .3);
     }
 </style>
 

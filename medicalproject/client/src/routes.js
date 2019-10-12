@@ -18,6 +18,7 @@ const ChangeInfo = () => import ("./components/content/hospital_modules/ChangeIn
 const UpdateInformationRegister = () => import ("./components/content/UpdateInformationRegister");
 const Thanks = () => import ("./components/content/Thanks");
 const SearchDrug = () => import ("./components/content/SearchDrug");
+const DrugDetails = () => import ("./components/content/DrugDetails");
  
 
 export const routes = [
@@ -41,5 +42,6 @@ export const routes = [
   { path: "/Admin", name: "admin", component: Admin },
   { path: "/Thanks", name: "thanks", component: Thanks },
   { path: "/SearchDrug", name: "searchdrug", component: SearchDrug },
+  { path: "/DrugDetails/:id", name: "drugdetails", component: DrugDetails },
   { path: "/UpdateInformationRegister", name: "UpdateInformationRegister", component: UpdateInformationRegister },
 ];

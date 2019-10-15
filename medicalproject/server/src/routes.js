@@ -271,6 +271,17 @@ module.exports = (app) => {
    isAuthenticated,
    AdminController.markToSupportDone)
 
+   app.post(`/SendRequestCreateJob/`,
+   isAuthenticated,
+   AdminController.SendRequestCreateJob)
+
+   app.get(`/getAllJobs/`,
+   AdminController.getAllJobs)
+
+   app.get(`/getAllJobDetails/`,
+   AdminController.getAllJobDetails)
+   
+
    app.post('/AuthenticationEmail',
    email.sendEmail)
 

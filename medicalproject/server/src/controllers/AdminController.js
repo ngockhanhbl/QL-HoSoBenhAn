@@ -3,6 +3,8 @@ const {Hospital} = require('../models')
 const {HospitalRegister} = require('../models')
 const {Doctor} = require('../models')
 const {Feedback} = require('../models')
+const {Job} = require('../models')
+const {JobDetails} = require('../models')
 
 module.exports = {
   async updateNameHospital (req, res) {
@@ -244,6 +246,69 @@ module.exports = {
         res.status(500).send({
           error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'
         })
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
+  async getAllJobs (req, res) {
+      try {
+        const jobs = await Job.findAll()
+        res.status(200).send(
+          jobs
+        )
+      } catch (err) {
+        res.status(500).send({
+          error: 'có lỗi xãy ra trong quá trình lấy dữ liệu'+err
+        })
+      }
+  },
+  async getAllJobDetails (req, res) {
+      try {
+        const jobdetails = await JobDetails.findAll()
+        res.status(200).send(
+          jobdetails
+        )
+      } catch (err) {
+        res.status(500).send({
+          error: 'có lỗi xãy ra trong quá trình lấy dữ liệu'+err
+        })
+      }
+  },
+  async SendRequestCreateJob (req, res) {
+    if(req.user.roles == 0){
+      const {type,name,location,description,benefit,requirement} = req.body;
+      if(!type || !name || !location || !description || !benefit || !requirement){
+        res.status(500).send({
+          error: 'Filed can not empty!!!'
+        })
+      }else{
+        try {
+          await Job.create(
+            {
+              type:type,
+              name:name,
+              location:location,
+              status:0
+          }).then(function (record) {
+              JobDetails.create({
+                IdJob:record.id,
+                description:description,
+                benefit:benefit,
+                requirement:requirement
+              })
+          }).then(function (record) {
+            res.status(200).send({
+              message:'cập nhật thành công'
+            })
+          });
+        } catch (err) {
+          res.status(500).send({
+            error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'
+          })
+        }
       }
     }else{
       res.status(500).send({

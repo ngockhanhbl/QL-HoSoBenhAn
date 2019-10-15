@@ -25,5 +25,14 @@ export default {
   markToSupportDone (payload) {
     return Api().put(`markToSupportDone/${payload.id}`, payload)
   },
+  SendRequestCreateJob (payload) {
+    return Api().post(`SendRequestCreateJob`, payload)
+  },
+  getAllJobs () {
+    return Api().get(`getAllJobs`)
+  },
+  getAllJobDetails () {
+    return Api().get(`getAllJobDetails`)
+  },
 }
 

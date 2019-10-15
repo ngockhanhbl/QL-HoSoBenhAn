@@ -14,10 +14,6 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 
-// Vue.toasted.register('my_app_success', 'Thành công', {
-//   type : 'watch',
-//   icon : 'check'
-// })
 
 Vue.directive('scroll', {
   inserted: function (el, binding) {

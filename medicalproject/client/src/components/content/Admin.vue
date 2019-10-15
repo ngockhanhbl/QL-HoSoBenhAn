@@ -5,6 +5,7 @@
       <b-tab title="Quản lý bệnh viện " active><b-card-text> <app-AdminManager /></b-card-text></b-tab>
       <b-tab title="Quản lý đăng kí"><b-card-text> <AdminManagerRegister /></b-card-text></b-tab>
       <b-tab title="Quản lý liên hệ"><b-card-text> <AdminSupport /></b-card-text></b-tab>
+      <b-tab title="Quản lý tuyển dụng"><b-card-text> <AdminManagerJob /></b-card-text></b-tab>
     </b-tabs>
   </b-card>
 
@@ -26,7 +27,8 @@ import { mapGetters} from "vuex";
     components: {
       "app-AdminManager": AdminManager,
       AdminManagerRegister: () =>import('@/components/content/admin_modules/AdminManagerRegister.vue'),
-      AdminSupport: () =>import('@/components/content/admin_modules/AdminSupport.vue')
+      AdminSupport: () =>import('@/components/content/admin_modules/AdminSupport.vue'),
+      AdminManagerJob: () =>import('@/components/content/admin_modules/AdminManagerJob.vue')
     },
     async created() {
       const userJSON = JSON.parse(localStorage.getItem("user"))

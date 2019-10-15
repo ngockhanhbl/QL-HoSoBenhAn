@@ -68,6 +68,11 @@
       <b-modal id="modal-job" size='lg' title="Tạo Đăng Thông Tin Tuyển Dụng">
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Loại Công Việc</p>
+            <div class="d-flex">
+              <input type="text" >
+              <span>&#x270D;</span>
+            </div>
+            
             <span class="col-sm-9">
               <select v-model="selected">
                 <option disabled value="">Chọn loại công việc</option>
@@ -236,7 +241,10 @@ import { VueEditor } from "vue2-editor";
         infoModal: {
           description: '',
           benefit: '',
-          requirement:''
+          requirement:'',
+          name:'',
+          selected:'',
+          location:''
         },
         selected:'',
         name:'',
@@ -313,6 +321,9 @@ import { VueEditor } from "vue2-editor";
         this.infoModal.description = temp[0].description;
         this.infoModal.benefit = temp[0].benefit;
         this.infoModal.requirement = temp[0].requirement;
+        this.infoModal.name = item.name;
+        this.infoModal.type = item.type;
+        this.infoModal.location = item.location;
         this.$root.$emit('bv::show::modal', 'modal-jobdetails', '#btnShow')
       },
       onFiltered(filteredItems) {

@@ -12,5 +12,8 @@ export default {
   getAllRegisterAcountHospitals (roles) {
     return Api().get(`getAllRegisterAcountHospitals/${roles}`)
   },
+  forgotPassword(payload){
+    return Api().put(`forgotPassword`,payload)
+  }
 }
 

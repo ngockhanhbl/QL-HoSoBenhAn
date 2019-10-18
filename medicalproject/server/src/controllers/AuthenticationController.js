@@ -44,9 +44,6 @@ module.exports = {
     async patient (req, res) {
       try {       
         const patient = await Patient.create(req.body)
-        console.log(req.body)
-        console.log(req.body)
-        console.log(req.body)
         const patientJson = patient.toJSON()
         res.send(patientJson)
       } catch (err) {

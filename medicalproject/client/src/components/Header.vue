@@ -7,6 +7,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto ">
+          <router-link to="/searchdrug"><b-nav-item href="/searchdrug">Tra Cứu Thuốc</b-nav-item></router-link>
           <router-link to="/aboutus"><b-nav-item href="/aboutus">Về Chúng Tôi</b-nav-item></router-link>
           <router-link to="/contact"><b-nav-item href="/contact">Liên Hệ</b-nav-item></router-link>
           <router-link to="/login"><b-nav-item  v-if="isUserLoggedIn === 'false' ||isUserLoggedIn === 'null' " href="login">Đăng Nhập</b-nav-item></router-link>

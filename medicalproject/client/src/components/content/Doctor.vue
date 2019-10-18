@@ -9,16 +9,16 @@
                 <!-- THEM HO SO MOI -->
                   <div class="btn btn-success" v-b-modal.modal-1>Thêm mới hồ sơ </div>
                   
-                  <b-modal id="modal-1" title="Thêm bệnh án bệnh nhân">
+                  <b-modal id="modal-1" size='lg' title="Thêm bệnh án bệnh nhân">
                     <div class="row col-sm-12">
-                        <div class="col-sm-4 p-2">Triệu chứng, lý do</div>
-                        <div class="col-sm-8 p-2">
+                        <div class="col-sm-3 p-2">Triệu chứng, lý do</div>
+                        <div class="col-sm-9 p-2">
                           <input type="text"  style="width:100%;"  v-model="titleRecord" class="pl-1">
                         </div>
                     </div>
                     <div class="row col-sm-12">
-                        <div class="col-sm-4 p-2">Chẩn đoán</div>
-                        <div class="col-sm-8 p-2">
+                        <div class="col-sm-3 p-2">Chẩn đoán</div>
+                        <div class="col-sm-9 p-2">
                           <input type="text"  style="width:100%;"  v-model="diagnoseRecord" class="pl-1">
                         </div>
                     </div>
@@ -68,18 +68,22 @@
                       <div class="form col-sm-12 col-md-12 mb-2" v-for="(newDrug,index) in NewDrugs" :key="index +'-key'">
                         <!-- <div class="row justify-content-end mr-3 "></div> -->
                       <div class="row pb-2 mx-1 justify-content-between">
-                        <strong class="colorDrug">STT Drug {{index+1}}</strong>
+                        <strong class="colorDrug">STT Thuốc {{index+1}}</strong>
                         <div class="close" @click="removeNewDrugRecord(index)">x</div>
                       </div>
                         <div class="row pb-2">
                               <div class="col-sm-3">Tên thuốc</div>
-                              <div class="col-sm-9">
+                              <div class="col-sm-7">
                                 <input type="text"  style="width:100%;"  v-model="newDrug.name" class="pl-1">
-                              </div>                   
+                              </div>        
+                              <div class="col-sm-2 symbol">
+                                <span>&#9776;</span>
+                                <span class="px-4">&#x1F3E5;</span>
+                              </div>           
                         </div>
                         <div class="row">
                               <div class="col-sm-3">Số lượng</div>
-                              <div class="col-sm-9 ">
+                              <div class="col-sm-7 ">
                                 <input type="number" min="0"  style="width:100%;"   v-model="newDrug.total" class="pl-1">
                               </div>
                         </div> 
@@ -616,5 +620,9 @@ div.file-listing img{
   border:1px solid #aaa;
   border-radius:4px;
   width:100%;
+}
+.symbol span{
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 </style>

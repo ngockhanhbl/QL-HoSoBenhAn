@@ -285,4 +285,7 @@ module.exports = (app) => {
    app.post('/AuthenticationEmail',
    email.sendEmail)
 
+   app.put('/forgotPassword',
+   AccountController.forgotPassword)
+   
 }

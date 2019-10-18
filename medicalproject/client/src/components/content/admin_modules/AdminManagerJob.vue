@@ -42,9 +42,12 @@
                         :filter="filter"
                         @filtered="onFiltered"
                       >
-                        <template slot="actions" slot-scope="row" class="d-flex justify-content-start">
-                          <b-button size="sm" @click="JobDetails(row.item, row.index, $event.target)" class="btn-info text-white">
-                            Xem
+                        <template slot="actions" slot-scope="row" >
+                          <b-button size="sm" @click="JobDetails(row.item, row.index, $event.target)" >
+                            <img src="@/assets/images/contract.svg" /> 
+                          </b-button> 
+                          <b-button size="sm" @click="JobDetails(row.item, row.index, $event.target)">
+                            <img src="@/assets/images/browser.svg" /> 
                           </b-button> 
                         </template>
 
@@ -67,12 +70,7 @@
 
       <b-modal id="modal-job" size='lg' title="Tạo Đăng Thông Tin Tuyển Dụng">
           <div class="my-2 d-flex">
-            <p class="col-sm-3 title_editor">Loại Công Việc</p>
-            <div class="d-flex">
-              <input type="text" >
-              <span>&#x270D;</span>
-            </div>
-            
+            <p class="col-sm-3 title_editor">Loại Công Việc</p>            
             <span class="col-sm-9">
               <select v-model="selected">
                 <option disabled value="">Chọn loại công việc</option>
@@ -141,10 +139,18 @@
         </template>
       </b-modal>
 
+
+
+      <!-- DETAILS -->
       <b-modal id="modal-jobdetails" size='lg' title="Thông Tin Tuyển Dụng Chi Tiết">
           <div class="my-2 d-flex">
+
             <p class="col-sm-3 title_editor">Loại Công Việc</p>
-            <span class="col-sm-9">
+            <div class="d-flex " v-if="!showModifyType">
+              <input type="text" class="ml-3 style_input" :value="infoModal.type" disabled>
+              <span class="align-self-center modify_symbol ml-3" @click="showModifyType = true">&#x270D;</span>
+            </div>
+            <span class="col-sm-9 d-flex" v-else>
               <select v-model="selected">
                 <option disabled value="">Chọn loại công việc</option>
                 <option>Product</option>
@@ -152,13 +158,15 @@
                 <option>Finance</option>
                 <option>Other</option>
               </select>
+                <b-button size='sm' class="text-white mx-3" variant="info">Thay Đổi</b-button>
+                <b-button size='sm' class="text-white" @click="showModifyType = false" variant="secondary">Hủy</b-button>
             </span>
           </div>
 
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Tên Công Việc</p>
             <span class="col-sm-9"><input type="text" v-model="name" class="width-100 style_input"></span>
-          </div>
+          </div> 
 
 
           <div class="my-2 d-flex">
@@ -196,7 +204,7 @@
                 variant="secondary"
                 size="sm"
                 class="float-left text-white"
-                @click="resetForm"
+                @click="resetModal"
             >
                 Đóng
             </b-button>
@@ -229,7 +237,7 @@ import { VueEditor } from "vue2-editor";
           { key: 'createdAt', label: 'Thời Gian',formatter: value => {
               return value.slice(0, 10)
             }},
-          { key: 'actions', label: 'Hành động', class: 'd-flex justify-content-center ' }
+          { key: 'actions', label: 'Hành động', class: 'action d-flex justify-content-around ' }
         ],
         totalRows: 1,
         currentPage: 1,
@@ -243,7 +251,7 @@ import { VueEditor } from "vue2-editor";
           benefit: '',
           requirement:'',
           name:'',
-          selected:'',
+          type:'',
           location:''
         },
         selected:'',
@@ -251,7 +259,13 @@ import { VueEditor } from "vue2-editor";
         location:'',
         description:'',
         benefit:'',
-        requirement:''
+        requirement:'',
+        showModifyType:false,
+        showModifyName:false,
+        showModifyLocation:false,
+        showModifyRequirement:false,
+        showModifyBenefit:false,
+        showModifyDescription:false
       }
     },
     async mounted() {
@@ -338,6 +352,9 @@ import { VueEditor } from "vue2-editor";
         this.benefit = '';
         this.requirement = '';
         this.$root.$emit('bv::hide::modal', 'modal-job', '#btnShow')
+      },
+      resetModal(){
+        
       }
     },
     components: {
@@ -411,10 +428,12 @@ import { VueEditor } from "vue2-editor";
   color:red;
 }
 .style_input{
-  width: 100%;
   border: 1px solid rgba(0,0,0,.54);
   border-radius: 2px;
   padding:0.25rem;
+}
+.width-100{
+  width: 100%;
 }
 .title_editor{
   font-weight: bold;
@@ -423,6 +442,22 @@ import { VueEditor } from "vue2-editor";
 .SendReqCreateJob img{
   height:1rem;
   width:1rem;
+}
+.action img{
+  height:1.5rem;
+  width:1.5rem;
+
+}
+.action button{
+  background: none;
+  border: none;
+}
+.modify_symbol{
+  padding:.3rem .5rem;
+  border: 1px solid aliceblue;
+  border-radius: 3px;
+  background: aliceblue;
+  cursor: pointer;
 }
 </style>
  

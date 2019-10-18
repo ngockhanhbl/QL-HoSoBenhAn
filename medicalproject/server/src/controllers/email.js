@@ -11,7 +11,7 @@ function sendEmail(
   ) {
     const errorEmails = [];
     const successfulEmails = [];
-     const sg = require('sendgrid')   ('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');
+     const sg = require('sendgrid')   ('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');
      async.parallel([
       function(callback) {
         // Add to emails
@@ -56,11 +56,13 @@ function sendEmail(
 module.exports = {
     async sendEmail (req, res) {
       const {API_KEYS,email} = req.body
+      console.log(API_KEYS)
+      console.log(email)
         async.parallel([
             function (callback) {
               sendEmail(
                 callback,
-                'nguyenngockhanhbl@gmail.com',
+                'support@justin.lat',
                 [`${email}`],
                 'Xác nhận Email Tại EHR MEDICALBLOCK',
                 'Text Content',

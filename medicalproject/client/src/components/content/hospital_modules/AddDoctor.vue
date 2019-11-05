@@ -7,7 +7,7 @@
         <form action="" id="registerform">
             <div class="main_register m-auto ">
                 <div class="col-sm-12 goback">
-                        <button class="mt-1 mb-1" @click="goback"><img src="@/assets/images/left-arrow.svg">&ensp;Go back</button>
+                    <button class="mt-1 mb-1" @click="goback"><img src="@/assets/images/left-arrow.svg">&ensp;Go back</button>
                 </div>
                 <div class="logo auto m-auto d-flex justify-content-center p_1r">
                     <img src="@/assets/images/logo705.png">
@@ -173,10 +173,8 @@ export default {
             this.department = '',
             this.specialize = ''
         },
-        goback(){
-            this.$router.push({
-                path: `/Hospital/${this.user.id}`
-            })
+        async goback(){
+            this.$router.go(-1);
         }
     }
     }

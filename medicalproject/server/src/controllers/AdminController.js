@@ -5,6 +5,7 @@ const {Doctor} = require('../models')
 const {Feedback} = require('../models')
 const {Job} = require('../models')
 const {JobDetails} = require('../models')
+const {JobCV} = require('../models')
 
 module.exports = {
   async updateNameHospital (req, res) {
@@ -277,7 +278,73 @@ module.exports = {
         })
       }
   },
+  async getJobCVbyID(req, res) {
+    try {
+      if(req.user.roles == 0){
+        if(req.params.id){
+          const jobcv = await JobCV.findAll({
+            where:{
+              IdJob: req.params.id
+            }
+          }).map(el => el.get({ plain: true }))
+          console.log(jobcv)
+          res.status(200).send(
+            {
+              jobcv:jobcv
+            }
+          )
+        }else{
+          res.status(500).send({
+            error: 'Filed can not empty!!!'
+          })
+        }
+        
+      }else{
+        res.status(500).send({
+          error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+        })
+      }
+    } catch (err) {
+      res.status(500).send({
+        error: 'có lỗi xãy ra trong quá trình lấy dữ liệu'+err
+      })
+    }
+  },
+  async getJobById (req, res) {
+    try {
+      if(req.params.id){
+        const job = await Job.findOne({
+          where:{
+            id: req.params.id
+          }
+        }).then(x=>x.toJSON())
+
+        const jobdetails = await JobDetails.findOne({
+          where:{
+            IdJob: req.params.id
+          }
+        }).then(x=>x.toJSON())
+        console.log(job)
+        console.log(jobdetails)
+        res.status(200).send(
+          {
+            job:job,
+            jobdetails:jobdetails
+          }
+        )
+      }else{
+        res.status(500).send({
+          error: 'Filed can not empty!!!'
+        })
+      }
+    } catch (err) {
+      res.status(500).send({
+        error: 'có lỗi xãy ra trong quá trình lấy dữ liệu'+err
+      })
+    }
+  },
   async SendRequestCreateJob (req, res) {
+    var idjob;
     if(req.user.roles == 0){
       const {type,name,location,description,benefit,requirement} = req.body;
       if(!type || !name || !location || !description || !benefit || !requirement){
@@ -293,6 +360,7 @@ module.exports = {
               location:location,
               status:0
           }).then(function (record) {
+              idjob = record.id;
               JobDetails.create({
                 IdJob:record.id,
                 description:description,
@@ -301,12 +369,122 @@ module.exports = {
               })
           }).then(function (record) {
             res.status(200).send({
-              message:'cập nhật thành công'
+              message:'cập nhật thành công',
+              payload:idjob
             })
           });
         } catch (err) {
           res.status(500).send({
             error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'
+          })
+        }
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
+  async SendRequestUpdateJob (req, res) {
+    if(req.user.roles == 0){
+      const {id,type,name,location,description,benefit,requirement} = req.body;
+      if(!type || !name || !location || !description || !benefit || !requirement){
+        res.status(500).send({
+          error: 'Filed can not empty!!!'
+        })
+      }else{
+        try {
+          await Job.update({
+            id:id,
+            type:type,
+            name:name,
+            location:location,
+          },
+          {
+            where:{id:id}
+          }).then(function (record){
+            JobDetails.update({
+              IdJob:id,
+              description:description,
+              benefit:benefit,
+              requirement:requirement
+            },
+            {where:{IdJob:id}})
+          }).then(function (record){
+            res.status(200).send({
+              message:'cập nhật thành công',
+            })
+          })
+        }catch (err) {
+          res.status(500).send({
+            error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'
+          })
+        }
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
+  async SwitchJobStatus (req, res) {
+    if(req.user.roles == 0){
+      if(!req.body.id){
+        res.status(500).send({
+          error: 'Filed can not empty!!!'
+        })
+      }else{
+        try {
+          const job = await Job.findOne({
+            where:{id:req.body.id}
+          })
+          if(job){
+            Job.update({
+              status:!job.status
+            },
+            {where:{id:job.id}})
+            .then(function(){
+              res.status(200).send({
+                message:'cập nhật thành công',
+              })
+            })
+          }
+        }catch (err) {
+          res.status(500).send({
+            error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'+err
+          })
+        }
+      }
+    }else{
+      res.status(500).send({
+        error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+      })
+    }
+  },
+  async DeleteJob (req, res) {
+    if(req.user.roles == 0){
+      if(!req.params.id){
+        res.status(500).send({
+          error: 'Filed can not empty!!!'
+        })
+      }else{
+        try {
+          Job.destroy({
+            where: {
+              id:req.params.id
+            }
+          })
+          JobDetails.destroy({
+            where: {
+              IdJob:req.params.id
+            }
+          })
+          res.status(200).send({
+            message:'xóa tin tuyển dụng thành công',
+          })
+        }catch (err) {
+          res.status(500).send({
+            error: 'có lỗi xãy ra trong quá trình cập nhập dữ liệu'+err
           })
         }
       }

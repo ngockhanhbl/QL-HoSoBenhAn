@@ -28,11 +28,29 @@ export default {
   SendRequestCreateJob (payload) {
     return Api().post(`SendRequestCreateJob`, payload)
   },
+  SendRequestUpdateJob(payload){
+    return Api().put(`SendRequestUpdateJob`, payload)
+  },
   getAllJobs () {
     return Api().get(`getAllJobs`)
+  },
+  getJobCVbyID(payload) {
+    return Api().get(`getJobCVbyID/${payload.id}`)
+  },
+  getJobById(payload){
+    return Api().get(`getJobById/${payload.id}`)
   },
   getAllJobDetails () {
     return Api().get(`getAllJobDetails`)
   },
+  SwitchJobStatus (payload) {
+    return Api().put(`SwitchJobStatus/${payload.id}`,payload)
+  },
+  DeleteJob (payload) {
+    return Api().delete(`DeleteJob/${payload.id}`)
+  },
 }
+
+
+
 

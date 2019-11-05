@@ -72,17 +72,24 @@
                         <div class="close" @click="removeNewDrugRecord(index)">x</div>
                       </div>
                         <div class="row pb-2">
-                              <div class="col-sm-3">Tên thuốc</div>
+                              <div class="col-sm-2">Tên thuốc</div>
                               <div class="col-sm-7">
-                                <input type="text"  style="width:100%;"  v-model="newDrug.name" class="pl-1">
+                                <input type="text" list="LoadListDrug"  style="width:100%;"  v-model="newDrug.name" class="pl-1">
+                                  <datalist id="LoadListDrug">
+                                    <option v-for="(drug,index) in LoadListDrug" :key="index">{{drug}}</option>
+                                  </datalist>
                               </div>        
-                              <div class="col-sm-2 symbol">
-                                <span>&#9776;</span>
-                                <span class="px-4">&#x1F3E5;</span>
+                              <div class="col-sm-3 symbol">
+                                <select v-model="selected">
+                                  <option disabled value="">Tải DS Thuốc</option>
+                                  <option value="LoadListHopital">Từ Bệnh Viện</option>
+                                  <option value="LoadListSystem">Từ Hệ Thống</option>
+                                  <option value="None">Không</option>
+                                </select>
                               </div>           
                         </div>
                         <div class="row">
-                              <div class="col-sm-3">Số lượng</div>
+                              <div class="col-sm-2">Số lượng</div>
                               <div class="col-sm-7 ">
                                 <input type="number" min="0"  style="width:100%;"   v-model="newDrug.total" class="pl-1">
                               </div>
@@ -189,10 +196,9 @@
             <div class="content">
               <div>
                   <b-tabs card >
-                  <b-tab title="Hồ Sơ Bệnh Án" active><app-TimeLine /></b-tab>
-                  <b-tab title="Dữ Liệu Bệnh Nhân"><app-PatientData /></b-tab>
-              </b-tabs>
-
+                    <b-tab title="Hồ Sơ Bệnh Án" active><app-TimeLine /></b-tab>
+                    <b-tab title="Dữ Liệu Bệnh Nhân"><app-PatientData /></b-tab>
+                  </b-tabs>
             </div>
             </div>
 
@@ -213,10 +219,12 @@ import PatientView from '@/components/content/patient_modules/PatientView.vue'
 import PatientData from '@/components/content/patient_modules/PatientData.vue'
 import PatientService from '@/services/PatientService'
 import HospitalService from '@/services/HospitalService'
+import axios from 'axios'
 export default {
   data(){
         return{
             messageError:'',
+            selected:'',
             doctor_email_record:'',          
             doctor_right_record:'',
             isWriteRecord:false,
@@ -227,6 +235,8 @@ export default {
             Istruycap:false,
             idRecord:null,
             describe:'',
+            listSystem:'',
+            listDrug:'',
             passwordchangeValue:'',
             passwordchangeValueAgain:'',
             get isUserLoggedIn() {
@@ -250,7 +260,16 @@ export default {
         }
     },
       computed: {
-        ...mapGetters(["patient_records","doctorInfo","hospitalInfo","patientInfo"])
+        ...mapGetters(["patient_records","doctorInfo","hospitalInfo","patientInfo"]),
+        LoadListDrug: function () {
+          if(this.selected == 'LoadListHopital'){
+            return this.listDrug;
+          }else if(this.selected == 'LoadListSystem'){
+            return this.listSystem;
+          }else{
+            return '';
+          }
+        }
       },
       components: {
         "app-TimeLine": PatientView,  
@@ -259,6 +278,7 @@ export default {
       },
     async mounted() {
         const userCONST = JSON.parse(localStorage.getItem('user'));
+
         if(userCONST){
           this.user = userCONST
           const id_account = JSON.parse(localStorage.getItem('user')).id;
@@ -267,9 +287,14 @@ export default {
           this.$store.dispatch("setDoctorInfo",payload_doctor)
 
           const payload_hospital = (await HospitalService.getInfoHospital(payload_doctor.id_hospital)).data
-          this.$store.dispatch("setHospitalInfo",payload_hospital)
+          this.$store.dispatch("setHospitalInfo",payload_hospital);
+
+          const ListDrugHospital = (await HospitalService.getListDrugBank(userCONST.id)).data;
+          this.listDrug = ListDrugHospital.map(x=>x.tenThuoc)
         }
-        
+        await axios
+        .get('https://www.drugbank.vn/services/drugbank/api/public/thuoc?page=1&size=2000&fbclid=IwAR1vamwLTdSmIx8idqXMjg77a18AZ4nZYROoLE8dTTAR0sS4EUlvt7W3lMQ')
+        .then(response => (this.listSystem = response.data.filter(x=>x.tenThuoc).map(x=>x.tenThuoc)));
       },
   methods: {
       validationPasswordChange(){
@@ -341,7 +366,7 @@ export default {
 
     },
     handleFilesUpload () {
-      const allowedTypes = ['image/jpeg','image/png',"image/gif",'image/svg'];
+      const allowedTypes = ['image/jpeg','image/svg+xml','image/png',"image/gif"];
         let isError = true
         this.messageError = "";
         
@@ -352,9 +377,9 @@ export default {
           if(allowedTypes.includes(checkFilesUpload[i].type)){
             isError = false
           }else{
-            this.messageError = "Định dạng không cho phép\nĐịnh dạng hình ảnh bao gồm image/jpeg || image/png || image/gif  ";
+            this.messageError = `Định dạng không cho phép !!! 
+            Định dạng hình ảnh bao gồm image/jpeg || image/png || image/gif || image/svg  `;
           }
-
         }
         
         
@@ -417,9 +442,9 @@ export default {
             }
       },
       end(){
-        this.Istruycap = false
-        this.messageError = "",
-        this.isWriteRecord = false
+        this.Istruycap = false;
+        this.messageError = "";
+        this.isWriteRecord = false;
         this.$store.dispatch("resetPatient_records");
         localStorage.removeItem('patient_records');
       },
@@ -465,12 +490,11 @@ export default {
                     this.NewDrugs.forEach(element => {
                       element.id_record = this.idRecord
                     });
-
                 }catch (error) {
-                    this.error = error.response.data.error
-                    }
+                  this.error = error.response.data.error
+                }
 
-              if(this.NewDrugs){
+              if(this.NewDrugs.name){
                 try {
                     const length =  this.NewDrugs.length
                     const response = await DoctorService.saveDrugRecord({
@@ -481,7 +505,7 @@ export default {
                     this.error = error.response.data.error
                     }
               }
-    
+
                 if(this.files){
                   try {
                     let length =  this.files.length

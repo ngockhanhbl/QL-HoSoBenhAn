@@ -35,6 +35,21 @@ module.exports = {
         })
       }
     },
+    async getInfoGeneralPatient(req, res) {
+      try {
+        const patient = await Patient.findOne({
+          attributes: [ 'firstname','lastname','day','month','year','sex','address'],
+          where:{
+            id_account: req.params.id_patient
+          }
+        })
+        res.send(patient)
+      } catch (err) { 
+        res.status(500).send({                   
+          error: 'xãy ra lỗi trong quá trình lấy dữ liệu bản ghi bệnh nhân '+err
+        })
+      }
+    },
 
     async post (req, res) {
       try {

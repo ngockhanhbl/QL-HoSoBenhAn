@@ -3,12 +3,6 @@
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
                 <div class="mr-auto pl-5 pt-3">Xin Chào Admin</div>
-                <!-- <div class="p-2">
-                   <button type="button" class="btn btn-warning text-white mr-3" @click="changeInfo">Thay đổi thông tin</button>
-                </div>
-                <div class="p-2">
-                   <button type="button" class="btn btn-success text-white" @click="addDoctor">Thêm Admin</button>
-                </div> -->
               </div>
                   <b-row class="px-5">
                     <b-col md="6" class="my-3">
@@ -33,6 +27,7 @@
                       <b-table
                         show-empty
                         bordered
+                        hover
                         striped
                         stacked="md"
                         :items="hospitals"
@@ -274,12 +269,9 @@ import AdminService from '@/services/AdminService'
       const user = localStorage.getItem("user")
       const userJSON = JSON.parse(user)
       const roles = userJSON.roles
+      this.$store.dispatch("fetch_HospitalList")
       this.account_hospital_ = (await AccountService.getAllAcountHospitals()).data  //coi lai cho nay
       this.totalRows = this.hospitals.length
-      // this.$root.$on('UpdateHospitalRegister', () => {
-      //  this.hospitals = (await HospitalService.getAllHospitals(roles)).data
-      // })
-      this.$store.dispatch("fetch_HospitalList")
     },
     methods: {
       async SendRequestModifyName(id_account){

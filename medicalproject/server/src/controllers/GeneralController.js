@@ -1,5 +1,6 @@
 const {Feedback} = require('../models')
 const {SubcriberMail} = require('../models')
+const {JobCV} = require('../models')
 
 
 module.exports = {
@@ -11,6 +12,17 @@ module.exports = {
       } catch (err) {
         res.status(400).send({
           error: 'Có lỗi xãy ra trong quá trình gửi hỗ trợ '
+        })
+      }
+    },
+    async applyjob(req, res){
+      try {
+        const jobcv = await JobCV.create(req.body)
+        const jobcvJSON = jobcv.toJSON()
+        res.send({jobcv: jobcvJSON})
+      } catch (err) {
+        res.status(400).send({
+          error: 'Có lỗi xãy ra trong quá trình ứng tuyển '
         })
       }
     },

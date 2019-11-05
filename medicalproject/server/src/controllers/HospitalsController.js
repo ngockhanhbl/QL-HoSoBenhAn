@@ -2,6 +2,7 @@ const {Doctor} = require('../models')
 const {Account} = require('../models')
 const {Hospital} = require('../models')
 const {HospitalRegister} = require('../models')
+const {Drugbank} = require('../models')
 
 module.exports = {
   async show (req, res) {
@@ -249,7 +250,6 @@ module.exports = {
     },
     async updateBirthdayDoctor (req, res) {
       try {
-        console.log('req.body.birthday '+ req.body.birthday)
         const date = req.body.birthday;
         const yearVariable = date.slice(0, 4)
         const monthVariable = date.slice(5, 7)
@@ -348,5 +348,166 @@ module.exports = {
 
     },
 
+    async SendRequestCreateDrugbank (req, res) {
+      const {id_hospital,tenThuoc,hoatChat,baoChe,nongDo,tuoiTho,congTySx} = req.body
+      if(req.user.roles == 2){
+        try {
+          const record = await Drugbank.create({
+            id_hospital:id_hospital,
+            tenThuoc:tenThuoc,
+            hoatChat:hoatChat,
+            baoChe:baoChe,
+            nongDo:nongDo,
+            tuoiTho:tuoiTho,
+            congtySx:congTySx
+          })
+          res.send(record)
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình tao dữ liệu thuốc '+err
+          })
+        }
+      }else{
+        res.status(500).send({
+          error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+        })
+      }
+    },
+  async SendRequestDeleteDrug(req, res) {
+    try {
+      const {id} = req.params;
+      if(req.user.roles == 2){
+        try {
+          const check_owner = await Drugbank.findAll({
+            where: {
+              id_hospital :req.user.id,
+              id:id
+            }
+          })
+          if(!check_owner){
+            res.status(500).send({                   
+              error: 'bạn không có quyền truy cập vào tài nguyên này '
+            })
+          }else{
+            try {
+              Drugbank.destroy({
+                where: {
+                  id:id
+                }
+            })
+            .then(function (record){
+                res.status(200).send({
+                  message:'xóa thành công',
+                })
+              })
+            } catch (err) { 
+              res.status(500).send({                   
+                error: 'xãy ra lỗi trong quá trình tao dữ liệu thuốc '+err
+              })
+            }
+          }
+
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình xóa dữ liệu '+err
+          })
+        }
+      }
+      else{
+        res.status(500).send({                   
+          error: 'Bạn không có quyền truy cập vào tài nguyên này !'
+        })
+      }
+    } catch (err) {
+      res.status(500).send({
+        error: 'xãy ra lỗi trong quá trình xóa dữ liệu'+err
+      })
+    }
+  },
+    async SendRequestModifyDrug (req, res) {
+      const {id, id_hospital, tenThuoc, hoatChat, baoChe, nongDo, tuoiTho, congTySx} = req.body
+      if(req.user.roles == 2){
+        const check_owner = await Drugbank.findAll({
+          where: {
+            id_hospital :req.user.id,
+            id:id
+          }
+        })
+
+      if(!check_owner){
+        res.status(500).send({                   
+          error: 'bạn không có quyền truy cập vào tài nguyên này '
+        })
+      }else{
+        try {
+         await Drugbank.update({
+            tenThuoc:tenThuoc,
+            hoatChat:hoatChat,
+            baoChe:baoChe,
+            nongDo:nongDo,
+            tuoiTho:tuoiTho,
+            congtySx:congTySx
+          },
+            {
+              where: {
+                id:id
+              }
+            }
+          ).then(function (record){
+            res.status(200).send({
+              message:'cập nhật thành công',
+            })
+          })
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình tao dữ liệu thuốc '+err
+          })
+        }
+      }
+      }else{
+        res.status(500).send({
+          error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+        })
+      }
+    },
+    async getListDrugBank (req, res) {
+      if(req.user.roles == 2){
+        try {
+          const record = await Drugbank.findAll({
+              where: {
+                id_hospital: req.user.id
+              }
+          }).map(el => el.get({ plain: true }))
+          res.send(record)
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình tao dữ liệu thuốc '+ err
+          })
+        }
+      }else if(req.user.roles == 3){
+        try {
+          const doctor = await Doctor.findAll({
+            where: {
+              id_account : req.user.id
+            }
+          }).map(el => el.get({ plain: true }))
+          const record = await Drugbank.findAll({
+              where: {
+                id_hospital: doctor[0].id_hospital
+              }
+          }).map(el => el.get({ plain: true }))
+          res.send(record)
+        } catch (err) { 
+          res.status(500).send({                   
+            error: 'xãy ra lỗi trong quá trình tao dữ liệu thuốc '+ err
+          })
+        }
+      }
+      else{
+        res.status(500).send({
+          error: 'bạn không có quyền truy cập vào tài nguyên này !!!'
+        })
+      }
+    },
 }
 

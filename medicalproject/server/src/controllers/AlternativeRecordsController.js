@@ -12,8 +12,7 @@ module.exports = {
             })
         }
         res.status(200).send('success ');
-
-      } catch (err) { 
+      } catch (err) {
         res.status(500).send({                   
           error: 'xãy ra lỗi trong quá trình tao dữ liệu bản ghi bệnh nhân '+err
         })

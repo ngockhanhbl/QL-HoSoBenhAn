@@ -70,7 +70,7 @@
                             <div class="agree_label">
                                 <div class="block">Chọn hình ảnh CMND / sổ hộ khẩu</div>
                                 <div class=" Custominput pr2"    >
-                                        <input type="file" @change="onFileChange" />
+                                    <input type="file" @change="onFileChange" />
                                 </div>
                                 <div class=" Custominput pl2" >
                                     <img v-if="url" :src="url" />
@@ -144,7 +144,7 @@ export default {
     methods: {
         onFileChange(e) {
             const file = e.target.files[0];
-            state.url = URL.createObjectURL(file);
+            this.url = URL.createObjectURL(file);
         },
         async updatedInforUser(){
             const userCONST = JSON.parse(localStorage.getItem('user'));

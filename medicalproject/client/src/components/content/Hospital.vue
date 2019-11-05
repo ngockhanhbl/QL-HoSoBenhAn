@@ -7,42 +7,40 @@
             <div class="main_register m-auto ">
               <div class="d-flex pr-5 pt-4 ">
                 <div class="mr-auto pl-5 pt-3">Xin Chào</div>
-                <!-- <div class="p-2">
-                   <button type="button" class="btn btn-warning text-white mr-3" ></button>
-                </div> -->
-                
-                <div class="p-2">
-                     <b-button variant="outline-secondary" v-b-modal.modal-2 >Thay đổi mật khẩu</b-button>
-                      <b-modal id="modal-2" title="Đổi Mật Khẩu">
-                        <b class="my-4">Nhập Mật Khẩu Bạn Muốn Đổi:</b>
-                        <p class="my-4"><input type="password" placeholder="nhập mật khẩu" class="inputStyle" v-model="passwordchangeValue"></p>
-                        <p class="my-4"><input type="password" placeholder="nhập lại mật khẩu" class="inputStyle" v-model="passwordchangeValueAgain"></p>
-                        <template v-slot:modal-footer>
-                          <div class="w-100">
-                            <b-button
-                              variant="warning"
-                              size="sm"
-                              class="float-right ml-3"
-                              @click="validationPasswordChange"
-                            >
-                              Gửi Yêu Cầu Đổi Mật Khẩu
-                            </b-button>
-                            
-                            <b-button
-                              variant="primary"
-                              size="sm"
-                              class="float-right"
-                              @click="closeModal2"
-                            >
-                              Đóng
-                            </b-button>
-                          </div>
-                        </template>
-                      </b-modal>
-                </div>
-                <div class="p-2">
-                   <button type="button" class="btn btn-success text-white" @click="addDoctor">Thêm Bác Sĩ</button>
-                </div>
+
+                    <b-dropdown id="dropdown-1" text="Chọn chức năng quản lý" variant="warning" size="sm">
+                      <b-dropdown-item @click="addDoctor">Thêm bác sĩ</b-dropdown-item>
+                      <b-dropdown-item @click="drugmanagement">Quản lý thuốc</b-dropdown-item>
+                      <b-dropdown-divider></b-dropdown-divider>
+                      <b-dropdown-item v-b-modal.modal-2>Thay đổi mật khẩu</b-dropdown-item>
+                    </b-dropdown>
+         
+                <b-modal id="modal-2" title="Đổi Mật Khẩu">
+                  <b class="my-4">Nhập Mật Khẩu Bạn Muốn Đổi:</b>
+                  <p class="my-4"><input type="password" placeholder="nhập mật khẩu" class="inputStyle" v-model="passwordchangeValue"></p>
+                  <p class="my-4"><input type="password" placeholder="nhập lại mật khẩu" class="inputStyle" v-model="passwordchangeValueAgain"></p>
+                  <template v-slot:modal-footer>
+                    <div class="w-100">
+                      <b-button
+                        variant="warning"
+                        size="sm"
+                        class="float-right ml-3"
+                        @click="validationPasswordChange"
+                      >
+                        Gửi Yêu Cầu Đổi Mật Khẩu
+                      </b-button>
+                      
+                      <b-button
+                        variant="primary"
+                        size="sm"
+                        class="float-right"
+                        @click="closeModal2"
+                      >
+                        Đóng
+                      </b-button>
+                    </div>
+                  </template>
+                </b-modal>
 
               </div>
                   <b-row class="px-5">
@@ -519,6 +517,11 @@ import AccountService from '@/services/AccountService'
       async addDoctor(){
           this.$router.push({
             path: `/Hospital/${this.user.id}/addDoctor`
+          })
+      },
+      drugmanagement(){
+          this.$router.push({
+            path: `/Hospital/${this.user.id}/drugmanagement`
           })
       },
       async deleteDoctor(item, index, button){

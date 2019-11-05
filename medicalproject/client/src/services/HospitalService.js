@@ -24,7 +24,18 @@ export default {
   getAllRegisterHospitals (roles) {
     return Api().get(`getAllRegisterHospitals/${roles}`)
   },
-
+  SendRequestCreateDrugbank(payload) {
+    return Api().post(`SendRequestCreateDrugbank/${payload.id_hospital}`,payload)
+  },
+  SendRequestModifyDrug(payload) {
+    return Api().put(`SendRequestModifyDrug/${payload.id_hospital}`,payload)
+  },
+  SendRequestDeleteDrug(payload) {
+    return Api().delete(`SendRequestDeleteDrug/${payload.id}`,payload)
+  },
+  getListDrugBank (id) {
+    return Api().get(`getListDrugBank/${id}`)
+  },
 
   changePassword(hospital) {
     return Api().put(`changePassword/${hospital.id_account}`, hospital)

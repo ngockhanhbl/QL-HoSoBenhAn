@@ -100,7 +100,7 @@
                       size="sm"
                       class="float-right mr-3 SendReqCreateJob text-white"
                   >
-                      Gửi Xác Thuc
+                      Gửi Xác Thực
                   </b-button>
                   </div>
               </template>
@@ -314,26 +314,33 @@ export default {
                   this.$store.dispatch('setUser', response.data.user)
                   this.$store.dispatch('resetlogin')
                   window.scrollTo(0,100)   //trick fix slow react
-               if(response.data.user.roles == 1){
+              console.log(response)
+              if(response.data.user.isUpdateInformation == 0 ){
+                this.$router.push({
+                  name:'UpdateInformationRegister',
+                  // params: {id:this.user.id}
+                })
+               }
+               else if(response.data.user.roles == 1){
                 this.$router.push({
                   name:'patient',
                   params: {id:this.user.id}
                 })
                }
-              if(response.data.user.roles == 2){
+              else if(response.data.user.roles == 2){
                 this.$router.push({
                   name:'hospital',
                   params: {id:this.user.id}
                 })
                }
-              if(response.data.user.roles == 3){
+              else if(response.data.user.roles == 3){
                 this.$router.push({
                   name:'doctor',
                   params: {id:this.user.id}
                 })
                }
 
-              if(response.data.user.roles == 0){
+              else if(response.data.user.roles == 0){
                 this.$router.push({
                   name:'admin',
                   params: {id:this.user.id}

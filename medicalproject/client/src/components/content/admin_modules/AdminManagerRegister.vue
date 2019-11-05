@@ -29,6 +29,7 @@
                         show-empty
                         bordered
                         striped
+                        hover
                         stacked="md"
                         :items="hospitals_register"
                         :fields="fields"

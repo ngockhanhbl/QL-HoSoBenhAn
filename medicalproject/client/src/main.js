@@ -44,6 +44,7 @@ Vue.directive("focus", {
 })
 
 const router = new VueRouter({
+  // mode: 'history',
   routes
 });
 

@@ -157,9 +157,6 @@
               EHR MedicalBlock còn có thể giúp truy xuất nguồn gốc dược phẩm
               một cách hiệu quả nhất. Giúp tránh được các vấn đề thuốc giả,
               thuốc kém chất lượng… trong lĩnh vực y tế.
-                        <router-link to='/UpdateInformationRegister'>
-            <div> Click me</div>
-          </router-link>
             </samp>
           </div>
 

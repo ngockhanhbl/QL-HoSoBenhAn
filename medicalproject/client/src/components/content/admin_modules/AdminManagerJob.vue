@@ -34,6 +34,7 @@
                         show-empty
                         bordered
                         striped
+                        hover
                         outlined
                         :items="jobs"
                         :fields="fields"
@@ -42,15 +43,35 @@
                         :filter="filter"
                         @filtered="onFiltered"
                       >
-                        <template slot="actions" slot-scope="row" >
-                          <b-button size="sm" @click="JobDetails(row.item, row.index, $event.target)" >
-                            <img src="@/assets/images/contract.svg" /> 
-                          </b-button> 
-                          <b-button size="sm" @click="JobDetails(row.item, row.index, $event.target)">
-                            <img src="@/assets/images/browser.svg" /> 
+                        <template slot="status" slot-scope="row" >
+                          <b-button size='sm' variant="success text-white" v-if="row.item.status == 0">
+                            Đang tuyển
+                          </b-button>
+                          <b-button size='sm' v-else>
+                            Tạm Dừng
                           </b-button> 
                         </template>
 
+                        <template slot="updatedAt" slot-scope="row" >
+                         {{row.item.updatedAt| moment }}
+                        </template>
+                        <template slot="action_details" slot-scope="row" >
+                          <b-button class="ml-3 mr-2" size="sm" @click="JobDetails(row.item, row.index, $event.target)" >
+                            <img src="@/assets/images/contract.svg" />
+                          </b-button> 
+                          <b-button size="sm" @click="JobCV(row.item, row.index, $event.target)">
+                            <img src="@/assets/images/browser.svg" /> 
+                          </b-button> 
+                        </template>
+                        
+                        <template slot="actions" slot-scope="row" >
+                          <b-button size="sm" class="ml-3 mr-2" @click="PauseJob(row.item, row.index, $event.target)" >
+                            <img src="@/assets/images/pause.svg" /> 
+                          </b-button> 
+                          <b-button size="sm" @click="DeleteJob(row.item, row.index, $event.target)">
+                            <img src="@/assets/images/delete.svg" /> 
+                          </b-button> 
+                        </template>
                       </b-table>
 
                       <b-row>
@@ -146,39 +167,37 @@
           <div class="my-2 d-flex">
 
             <p class="col-sm-3 title_editor">Loại Công Việc</p>
-            <div class="d-flex " v-if="!showModifyType">
-              <input type="text" class="ml-3 style_input" :value="infoModal.type" disabled>
-              <span class="align-self-center modify_symbol ml-3" @click="showModifyType = true">&#x270D;</span>
-            </div>
-            <span class="col-sm-9 d-flex" v-else>
-              <select v-model="selected">
-                <option disabled value="">Chọn loại công việc</option>
-                <option>Product</option>
-                <option>Engneering</option>
-                <option>Finance</option>
-                <option>Other</option>
+            <span class="col-sm-9 d-flex" >
+              <select v-model="infoModal.type">
+                <option value="" hidden disabled>{{infoModal.type}}</option>
+                <option value="Product">Product</option>
+                <option value="Engneering">Engneering</option>
+                <option value="Finance">Finance</option>
+                <option value="Other">Other</option>
               </select>
-                <b-button size='sm' class="text-white mx-3" variant="info">Thay Đổi</b-button>
-                <b-button size='sm' class="text-white" @click="showModifyType = false" variant="secondary">Hủy</b-button>
             </span>
           </div>
 
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Tên Công Việc</p>
-            <span class="col-sm-9"><input type="text" v-model="name" class="width-100 style_input"></span>
+
+            <span class="col-sm-9">
+              <input type="text" v-model="infoModal.name" class="width-100 style_input">
+              <!-- <span class="align-self-center modify_symbol ml-3" @click="showModifyName = true">&#x270D;</span> -->
+            </span>
           </div> 
 
 
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Vị Trí</p>
-            <span class="col-sm-9"><input type="text" v-model="location" class="width-100 style_input"></span>
+            <span class="col-sm-9"><input type="text" v-model="infoModal.location" class="width-100 style_input"></span>
           </div>
 
 
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Mô Tả</p>
             <span class="col-sm-9">
-                  <vue-editor v-model="description"></vue-editor>
+                  <vue-editor v-model="infoModal.description"></vue-editor>
               </span>
           </div>
 
@@ -186,14 +205,14 @@
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Yêu Cầu</p>
             <span class="col-sm-9">
-              <vue-editor v-model="requirement"></vue-editor>
+              <vue-editor v-model="infoModal.requirement"></vue-editor>
             </span>
           </div>
 
           <div class="my-2 d-flex">
             <p class="col-sm-3 title_editor">Lợi Ích</p>
             <span class="col-sm-9">
-              <vue-editor v-model="benefit"></vue-editor>
+              <vue-editor v-model="infoModal.benefit"></vue-editor>
             </span>
           </div>
 
@@ -212,32 +231,58 @@
                 variant="warning"
                 size="sm"
                 class="float-right SendReqCreateJob text-white"
-                @click="SendRequestCreateJob"
+                @click="SendRequestUpdateJob"
             >
                 <img src="@/assets/images/send.svg" /> Gửi Yêu Cầu Tạo Tin
             </b-button>
             </div>
         </template>
       </b-modal>
+      <!-- CV -->
+      <b-modal id="modal-jobcv" size='xl' :title="modalCV.name">
+        <template>
+          <div>
+            <b-table striped hover :fields='fields_cv' :items="cv">
+              <template slot="stt" slot-scope="row">
+                 {{row.index+1}}
+              </template>
+              <template slot="updatedAt" slot-scope="row">
+                  <a target="_blank" class="ellipsis" rel="error" :href="row.item.updatedAt">{{row.item.updatedAt}}</a>
+              </template>
+            </b-table>
+          </div>
+        </template>  
+      </b-modal>
     </div>
 </template>
 
 <script>
-import AdminService from '@/services/AdminService'
+import AdminService from '@/services/AdminService';
 import { VueEditor } from "vue2-editor";
+import moment from 'moment';
+import firebase from 'firebase';
+import {db, storage} from '../../firebaseInit'
 
   export default {
     data() {
       return {
         fields: [
           { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
-          {key: 'type', label: 'Loại Công Việc'},
-          {key: 'name', label: 'Tên Công Việc', sortable: true, class: 'text-center'},
-          { key: 'location', label: 'Nơi Làm Việc'},
-          { key: 'createdAt', label: 'Thời Gian',formatter: value => {
-              return value.slice(0, 10)
-            }},
-          { key: 'actions', label: 'Hành động', class: 'action d-flex justify-content-around ' }
+          { key: 'type', label: 'Loại Công Việc'},
+          { key: 'name', label: 'Tên Công Việc', sortable: true, class: 'text-center'},
+          { key: 'status', label: 'Trạng Thái',class:'text-center'},
+          { key: 'updatedAt', label: 'Thời Gian'},//,formatter: value => value.moment().format('MMMM Do YYYY, h:mm:ss a')
+          { key: 'action_details', label: 'Chi Tiết', class: 'action d-flex ' },
+          { key: 'actions', label: 'Hành động', class: 'action ' },
+        ],
+        fields_cv: [
+          { key: 'stt', label: 'STT', sortable: true, sortDirection: 'desc' },
+          { key: 'name', label: 'Họ Và Tên', sortable: true, class: 'text-center'},
+          { key: 'phone', label: 'Điện Thoại'},
+          { key: 'comments', label: 'Lời Nhắn'},
+          { key: 'email', label: 'Email'},
+          { key: 'updatedAt', label: 'File CV'},
+          { key: 'createdAt', label: 'Thời Gian',formatter: value => moment(value).format('L')},
         ],
         totalRows: 1,
         currentPage: 1,
@@ -246,6 +291,7 @@ import { VueEditor } from "vue2-editor";
         filter: null,
         jobs:null,
         jobdetails:null,
+        cv:null,
         infoModal: {
           description: '',
           benefit: '',
@@ -254,26 +300,99 @@ import { VueEditor } from "vue2-editor";
           type:'',
           location:''
         },
+        modalCV:{
+          name:''
+        },
         selected:'',
         name:'',
         location:'',
         description:'',
         benefit:'',
         requirement:'',
-        showModifyType:false,
-        showModifyName:false,
-        showModifyLocation:false,
-        showModifyRequirement:false,
-        showModifyBenefit:false,
-        showModifyDescription:false
+        selected_modify:'',
+        name_modify:'',
+        location_modify:'',
+        description_modify:'',
+        benefit_modify:'',
+        requirement_modify:'',
+        currentIndex:''
       }
     },
     async mounted() {
       this.jobs = (await AdminService.getAllJobs()).data
       this.totalRows = this.jobs.length
       this.jobdetails = (await AdminService.getAllJobDetails()).data
+
     },
     methods: {
+      async SendRequestUpdateJob(){
+        if(!this.infoModal.type){
+          this.$toasted.show(`Vui lòng chọn loại công việc !!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }else if(!this.infoModal.name){
+          this.$toasted.show(`Vui lòng không bỏ trống tên công việc !!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }else if(!this.infoModal.location){
+          this.$toasted.show(`Vui lòng không bỏ trống vị trí làm việc !!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }else if(!this.infoModal.description){
+          this.$toasted.show(`Vui lòng không bỏ trống mô tả công việc !!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }else if(!this.infoModal.benefit){
+          this.$toasted.show(`Vui lòng không bỏ trống quyền lợi!!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }
+        else if(!this.infoModal.requirement){
+          this.$toasted.show(`Vui lòng không bỏ trống yêu cầu!!`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+        }else{
+          await AdminService.SendRequestUpdateJob({
+            id:this.infoModal.id,
+            type:this.infoModal.type,
+            name:this.infoModal.name,
+            location:this.infoModal.location,
+            description:this.infoModal.description,
+            benefit:this.infoModal.benefit,
+            requirement:this.infoModal.requirement
+          })
+            this.$toasted.show(`Đã cập nhật tin tuyển dụng thành công !!`, { 
+              theme: "bubble", 
+              position: "bottom-right", 
+              duration : 3500
+          });
+          this.jobs[this.currentIndex].name = this.infoModal.name;
+          this.jobs[this.currentIndex].type = this.infoModal.type;
+          this.jobs[this.currentIndex].location = this.infoModal.location;
+          this.jobs[this.currentIndex].updateddAt = Date.now();
+
+          // this.jobdetails.filter(x=>x.IdJob == this.infoModal.id).then(function(record){
+          //   record.description = this.infoModal.description;
+          //   record.benefit = this.infoModal.benefit;
+          //   record.requirement = this.infoModal.requirement;
+          // })
+        
+
+          this.resetModal()
+        }
+      },
       async SendRequestCreateJob(){
         if(!this.selected){
           this.$toasted.show(`Vui lòng chọn loại công việc !!`, { 
@@ -313,7 +432,7 @@ import { VueEditor } from "vue2-editor";
               duration : 2000
           });
         }else{
-          await AdminService.SendRequestCreateJob({
+          const response = await AdminService.SendRequestCreateJob({
             type:this.selected,
             name:this.name,
             location:this.location,
@@ -327,11 +446,91 @@ import { VueEditor } from "vue2-editor";
               position: "bottom-right", 
               duration : 3500
           });
+          this.jobs = (await AdminService.getAllJobs()).data
+          this.jobdetails = (await AdminService.getAllJobDetails()).data
           this.resetForm()
+        }
+      },
+      async DeleteJob(item,index,button){
+        console.log(item.id)
+        try{
+          const response = await AdminService.DeleteJob({
+            id:item.id
+          })
+          if(response.status === 200){
+            this.$toasted.show(`đã xóa tin tuyển dụng thành công !!`, { 
+                theme: "bubble", 
+                position: "bottom-right", 
+                duration : 2500
+            });
+            if (~index)
+              this.jobs.splice(index, 1)
+          }
+        }catch(err){
+          this.$toasted.show(`${err}`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2500
+          });
+        }
+      },
+      async PauseJob(item,index,button){
+        try{
+          const response = await AdminService.SwitchJobStatus({
+            id:item.id
+          })
+        if(response.status === 200){
+          this.$toasted.show(`cập nhật trạng thái thành công !!`, { 
+              theme: "bubble", 
+              position: "bottom-right", 
+              duration : 2000
+          });
+          item.status = !item.status
+        }
+        }catch(err){
+          this.$toasted.show(`${err}`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2500
+          });
+        }
+      },
+      async RetrieveFile(element){
+        const temp = `JOBCV/${element.IdJob}/${element.id}/`
+        const file_temp = firebase.storage().ref(temp);
+        let url = await file_temp.getDownloadURL();
+        return url;
+      },
+      async JobCV(item,index,button){
+        this.modalCV.name = item.name;
+        try{
+          var response = await AdminService.getJobCVbyID({
+            id:item.id
+          })
+          response = response.data.jobcv
+          if(response.length){
+            response.forEach(async (element,index) => {
+              var url = await this.RetrieveFile(element);
+              response[0].updatedAt = url;
+            });
+            this.cv = response;
+            this.$root.$emit('bv::show::modal', 'modal-jobcv', '#btnShow')
+          }else{
+            this.cv = null;
+            this.$root.$emit('bv::show::modal', 'modal-jobcv', '#btnShow')
+          }
+        }catch(err){
+          this.$toasted.show(`${err.response.data.error}`, { 
+              theme: "toasted-primary", 
+              position: "bottom-right", 
+              duration : 2500
+          });
         }
       },
       JobDetails(item,index,button){
         const temp = this.jobdetails.filter(x=> x.IdJob == item.id);
+        this.currentIndex = index
+        this.infoModal.id =  item.id;
         this.infoModal.description = temp[0].description;
         this.infoModal.benefit = temp[0].benefit;
         this.infoModal.requirement = temp[0].requirement;
@@ -344,6 +543,9 @@ import { VueEditor } from "vue2-editor";
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
+      moment: function () {
+        return moment();
+      },
       resetForm(){
         this.selected = '';
         this.name = '';
@@ -354,11 +556,16 @@ import { VueEditor } from "vue2-editor";
         this.$root.$emit('bv::hide::modal', 'modal-job', '#btnShow')
       },
       resetModal(){
-        
+        this.$root.$emit('bv::hide::modal', 'modal-jobdetails', '#btnShow')
       }
     },
     components: {
         VueEditor
+    },
+    filters: {
+      moment: function (date) {
+        return moment(date).format('L');
+      }
     },
   }
 </script>
@@ -459,5 +666,12 @@ import { VueEditor } from "vue2-editor";
   background: aliceblue;
   cursor: pointer;
 }
+    .ellipsis{
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 150px;
+    }
 </style>
  

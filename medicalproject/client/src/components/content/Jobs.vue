@@ -5,52 +5,61 @@
             <div class="title d-flex">
                 <strong>Tuyển Dụng</strong>         
             </div>
-            <div class="careers">
-                <span  v-if="jobsDev.length >= 0">
-                    <p class="icon"><img src="@/assets/images/gear.svg" /> <span class="pl-1">Engineering</span></p>
-                    <div v-for="job in jobsDev " :key="job.id"  class="lists">
-                        <div class="item d-flex justify-content-between">
+            <div> 
+                <div class="careers" v-if="isExistEngineeringType">
+                    <p class="icon"><img src="@/assets/images/gear.svg" /> <span class="pl-1">Engneering</span></p>
+                    <div v-for="(job,index) in jobs " :key="index"  class="lists">
+                        <div class="item d-flex justify-content-between" v-if="job.type === 'Engneering' ">
                             <div>
                                 <h5 class="namejob">{{job.name}}</h5>
                                 <h6 class="positionjob">{{job.location}}</h6>
                             </div>
-                        <router-link to="#"><div class="applynow"> Apply now </div></router-link>
+                        <div @click="SeeDetailsJob(job)" class="applynow"> Apply now </div>
                         </div>
                     </div>  
-                </span>         
-            </div>
+                </div>
 
 
-            <div class="careers">
-                <span  v-if="jobsPro.length >= 0">
-                    <p class="icon"><img src="@/assets/images/diamond.svg" /> <span class="pl-1"> Product</span></p>
-                    <div v-for="job in jobsPro " :key="job.id"  class="lists">
-                        <div class="item d-flex justify-content-between">
-                            <div>
-                                <h5 class="namejob">{{job.name}}</h5>
-                                <h6 class="positionjob">{{job.location}}</h6>
+                <div class="careers" v-if="isExistProductType">
+                        <p class="icon"><img src="@/assets/images/diamond.svg" /> <span class="pl-1"> Product</span></p>
+                        <div v-for="(job,index) in jobs " :key="index"  class="lists">
+                            <div class="item d-flex justify-content-between" v-if="job.type === 'Product' ">
+                                <div>
+                                    <h5 class="namejob">{{job.name}}</h5>
+                                    <h6 class="positionjob">{{job.location}}</h6>
+                                </div>
+                            <div @click="SeeDetailsJob(job)" class="applynow"> Apply now </div>
                             </div>
-                        <router-link to="#"><div class="applynow"> Apply now </div></router-link>
-                        </div>
-                    </div>  
-                </span>         
-            </div>
+                        </div>  
+                </div>
 
 
 
-            <div class="careers">
-                <span  v-if="jobsFin.length >= 0">
-                    <p class="icon"><img src="@/assets/images/coin.svg" /> <span class="pl-1"> Financial</span></p>
-                    <div v-for="job in jobsFin " :key="job.id"  class="lists">
-                        <div class="item d-flex justify-content-between">
-                            <div>
-                                <h5 class="namejob">{{job.name}}</h5>
-                                <h6 class="positionjob">{{job.location}}</h6>
+                <div class="careers" v-if="isExistFinanceType">
+                        <p class="icon"><img src="@/assets/images/coin.svg" /> <span class="pl-1">Finance</span></p>
+                        <div v-for="(job,index) in jobs " :key="index"  class="lists">
+                            <div class="item d-flex justify-content-between" v-if="job.type === 'Finance' ">
+                                <div>
+                                    <h5 class="namejob">{{job.name}}</h5>
+                                    <h6 class="positionjob">{{job.location}}</h6>
+                                </div>
+                            <div @click="SeeDetailsJob(job)" class="applynow"> Apply now </div>
                             </div>
-                        <router-link to="#"><div class="applynow"> Apply now </div></router-link>
-                        </div>
-                    </div>  
-                </span>         
+                        </div>  
+                </div>
+
+                <div class="careers" v-if="isExistOtherType">
+                        <p class="icon"><img src="@/assets/images/other.svg" /> <span class="pl-1"> Other</span></p>
+                        <div v-for="(job,index) in jobs " :key="index" class="lists">
+                            <div class="item d-flex justify-content-between" v-if="job.type === 'Other'">
+                                <div>
+                                    <h5 class="namejob">{{job.name}}</h5>
+                                    <h6 class="positionjob">{{job.location}}</h6>
+                                </div>
+                           <div @click="SeeDetailsJob(job)" class="applynow"> Apply now </div>
+                            </div>
+                        </div>  
+                </div>
             </div>
         </div>
     </div>
@@ -59,10 +68,47 @@
 
 <script>
 import { mapGetters} from "vuex";
+import AdminService from '@/services/AdminService'
 export default {
-computed: {
-        ...mapGetters(["jobsDev","jobsPro","jobsFin"])
-    }
+    data(){
+        return {
+            jobs:[]
+        }
+    },
+    methods:{
+        SeeDetailsJob(item){
+            this.$router.push({
+                path: `/JobDetails/${item.id}`
+            })
+        },
+    },
+    computed: {
+        isExistOtherType(){
+            return this.jobs.some(function(t){
+                return t.type === 'Other'
+            })
+        },
+        isExistFinanceType(){
+            return this.jobs.some(function(t){
+                return t.type === 'Finance'
+            })
+        },
+        isExistProductType(){
+            return this.jobs.some(function(t){
+                return t.type === 'Product'
+            })
+        },
+        isExistEngineeringType(){
+            return this.jobs.some(function(t){
+                return t.type === 'Engneering'
+            })
+        },
+    },
+    async mounted(){
+      this.jobs = (await AdminService.getAllJobs()
+        .then(response => (this.jobs = response.data)))
+    },
+
 }
 </script>
 
@@ -125,7 +171,7 @@ h2,h3{
     border-radius: 300px;
     color: #40c4ff;
     transition: all 150ms cubic-bezier(.55,.085,.68,.53);
-    padding: 0.4rem 2rem 0.55rem;
+    padding: 0.7rem 2rem 0.55rem;
 }
 .applynow:hover{
     color:white;

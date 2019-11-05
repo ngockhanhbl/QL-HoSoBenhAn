@@ -21,6 +21,9 @@ export default {
   get_AlternativeRecord (id_patient) {
     return Api().get(`get_AlternativeRecord/${id_patient}`)
   },
+  getInfoGeneralPatient(id_patient) {
+    return Api().get(`getInfoGeneralPatient/${id_patient}`)
+  },
 
 
   updatePasswordPatient (patient) {

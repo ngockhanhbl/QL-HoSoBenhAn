@@ -6,9 +6,14 @@ const {sequelize} = require('./models')
 const config = require('./config/config')
 
 const app = express()
+
+var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
+var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoded' })
 app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(bodyParser({limit: '5mb'}));
+app.use(jsonParser);
+  app.use(urlencodedParser);
+// app.use(bodyParser.json())
+// app.use(bodyParser({limit: '50mb'}))
 
 app.use(cors())
 require('./passport')

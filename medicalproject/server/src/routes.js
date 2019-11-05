@@ -66,14 +66,20 @@ module.exports = (app) => {
     AuthenticationController.login),
 
     app.get(`/patient_records/:id_patient`,
+    isAuthenticated,
     PatientsController.show),
 
     app.post('/patient_records',
+    isAuthenticated,
     PatientsController.post),
 
     app.get('/getInfoPatient/:id_patient',
+    isAuthenticated,
     PatientsController.getInfoPatient),
 
+    app.get('/getInfoGeneralPatient/:id_patient',
+    isAuthenticated,
+    PatientsController.getInfoGeneralPatient),
 
 
     app.put('/changePassword/:id',
@@ -81,6 +87,10 @@ module.exports = (app) => {
     isAuthenticated,
     AdminController.updatePasswordHospital)
 
+
+    app.get(`/getListDrugBank/:id`,
+    isAuthenticated,
+    HospitalsController.getListDrugBank)
 
     app.get('/doctor_records/:id_hospital',
     HospitalsController.show),
@@ -222,6 +232,17 @@ module.exports = (app) => {
    AuthenticationControllerPolicy.updatePasswordDoctor,
    HospitalsController.updatePasswordDoctor)
 
+   app.post('/SendRequestCreateDrugbank/:id_hospital',
+   isAuthenticated,
+   HospitalsController.SendRequestCreateDrugbank)
+
+   app.put('/SendRequestModifyDrug/:id_hospital',
+   isAuthenticated,
+   HospitalsController.SendRequestModifyDrug)
+
+   app.delete('/SendRequestDeleteDrug/:id',
+   isAuthenticated,
+   HospitalsController.SendRequestDeleteDrug)
    
 
    app.put('/updateDepartmentDoctor/:id_account',
@@ -253,14 +274,15 @@ module.exports = (app) => {
    isAuthenticated,
    HospitalsController.updateBirthdayDoctor)
 
-
-
    app.post('/sendRequestSupport',
    AuthenticationControllerPolicy.sendRequestSupport,
    GeneralController.sendRequestSupport)
    
    app.post('/sendRequestSubcriber',
    GeneralController.sendRequestSubcriber)
+
+   app.post(`/applyjob/:id`,
+   GeneralController.applyjob)
 
    app.get('/getAllFeedback',
    isAuthenticated,
@@ -274,14 +296,33 @@ module.exports = (app) => {
    app.post(`/SendRequestCreateJob/`,
    isAuthenticated,
    AdminController.SendRequestCreateJob)
+   
+   app.put(`/SendRequestUpdateJob/`,
+   isAuthenticated,
+   AdminController.SendRequestUpdateJob)
 
+   app.put(`/SwitchJobStatus/:id`,
+   isAuthenticated,
+   AdminController.SwitchJobStatus)
+
+   app.delete(`/DeleteJob/:id`,
+   isAuthenticated,
+   AdminController.DeleteJob)
+   
    app.get(`/getAllJobs/`,
    AdminController.getAllJobs)
+
+   app.get(`/getJobById/:id`,
+   AdminController.getJobById)
+
+   app.get(`/getJobCVbyID/:id`,
+   isAuthenticated,
+   AdminController.getJobCVbyID)
+   
 
    app.get(`/getAllJobDetails/`,
    AdminController.getAllJobDetails)
    
-
    app.post('/AuthenticationEmail',
    email.sendEmail)
 

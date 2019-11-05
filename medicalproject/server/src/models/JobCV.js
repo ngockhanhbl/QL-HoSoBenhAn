@@ -4,8 +4,19 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.INTEGER,
             allowNull: false
         },
+        name:{
+            type:DataTypes.STRING,
+            allowNull: false
+        },
         comments:DataTypes.TEXT,
-        file:DataTypes.BLOB,
+        phone:{
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+        email:{
+            type:DataTypes.STRING,
+            allowNull: false
+        },
     })
     return JobCV
 }
